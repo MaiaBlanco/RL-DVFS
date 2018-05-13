@@ -4,3 +4,5 @@
 *.mod*
 *.o
 *.cmd
+*.out
+*.pyc
