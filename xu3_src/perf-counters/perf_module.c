@@ -48,7 +48,7 @@ unsigned int read_datamemaccess_count()
 }
 
 
-unsigned int read_L2refill_count()
+unsigned int read_l2refill_count()
 {
 	return read_p15_count(4);
 }
@@ -67,7 +67,7 @@ void get_perf_counters(unsigned int* res, unsigned int millis_period)
 	old_instructions = read_inst_count();
 	old_bmiss = read_mispred_count();
 	old_dmemaccess = read_datamemaccess_count();
-	old_l2refill = read_L2refill_count();
+	old_l2refill = read_l2refill_count();
 	gettimeofday(&stop, NULL);
 	
 	// Wait for sample period:
@@ -81,7 +81,7 @@ void get_perf_counters(unsigned int* res, unsigned int millis_period)
 	res[1] = read_inst_count() - old_instructions;
 	res[2] = read_mispred_count() - old_bmiss;
 	res[3] = read_datamemaccess_count() - old_dmemaccess;
-	res[4] = read_L2refill_count() - old_l2refill;
+	res[4] = read_l2refill_count() - old_l2refill;
 }
 
 
@@ -172,7 +172,7 @@ static PyObject* perf_w_period(PyObject* self, PyObject* args)
 	PyObject *l = PyList_New(5);
 	for (int i = 0; i < 5; i++)
 	{
-		PyList_SET_ITEM(l, i, results[i]);
+		PyList_SET_ITEM(l, i, Py_BuildValue("i", results[i]));
 	}
 	return Py_BuildValue("o", l);
 }
