@@ -135,7 +135,7 @@ static PyObject* cycle_count(PyObject* self, PyObject* args)
 	count = read_cycle_count();
 
 	// Construct output and return:
-	return Py_BuildValue("i", count);
+	return Py_BuildValue("I", count);
 }
 
 static PyObject* inst_count(PyObject* self, PyObject* args)
@@ -146,7 +146,7 @@ static PyObject* inst_count(PyObject* self, PyObject* args)
 	count = read_inst_count();
 
 	// Construct output and return:
-	return Py_BuildValue("i", count);
+	return Py_BuildValue("I", count);
 }
 
 static PyObject* bmiss_count(PyObject* self, PyObject* args)
@@ -157,7 +157,7 @@ static PyObject* bmiss_count(PyObject* self, PyObject* args)
 	count = read_mispred_count();
 
 	// Construct output and return:
-	return Py_BuildValue("i", count);
+	return Py_BuildValue("I", count);
 }
 
 static PyObject* dmemaccess_count(PyObject* self, PyObject* args)
@@ -168,7 +168,7 @@ static PyObject* dmemaccess_count(PyObject* self, PyObject* args)
 	count = read_datamemaccess_count();
 
 	// Construct output and return:
-	return Py_BuildValue("i", count);
+	return Py_BuildValue("I", count);
 }
 
 static PyObject* l2refill_count(PyObject* self, PyObject* args)
@@ -179,7 +179,7 @@ static PyObject* l2refill_count(PyObject* self, PyObject* args)
 	count = read_l2refill_count();
 
 	// Construct output and return:
-	return Py_BuildValue("i", count);
+	return Py_BuildValue("I", count);
 }
 
 static PyObject* perf_w_period(PyObject* self, PyObject* args)
@@ -187,7 +187,7 @@ static PyObject* perf_w_period(PyObject* self, PyObject* args)
 	unsigned int results[5];
 	unsigned int millis_period;
 	// Parse args:
-	if (!PyArg_ParseTuple(args, "i", &millis_period))
+	if (!PyArg_ParseTuple(args, "I", &millis_period))
 		return NULL;
 
 	// Call function:
@@ -197,15 +197,15 @@ static PyObject* perf_w_period(PyObject* self, PyObject* args)
 	PyObject *l = PyList_New(5);
 	for (int i = 0; i < 5; i++)
 	{
-		PyList_SET_ITEM(l, i, Py_BuildValue("i", results[i]));
+		PyList_SET_ITEM(l, i, Py_BuildValue("I", results[i]));
 	}
-	return Py_BuildValue("o", l);
+	return l;
 }
 
 static PyObject* reset_counters(PyObject* self, PyObject* args)
 {
 	reset_counters_c();
-	return NULL;
+	return Py_BuildValue("");
 }
 
 
