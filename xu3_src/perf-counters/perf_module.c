@@ -10,11 +10,25 @@
 
 #define MILLIS_WAIT 100
 
-// Function prototypes:
-
+// C Function prototypes:
+unsigned int read_cycle_count();
+unsigned int read_p15_count(unsigned int reg_num);
+void reset_counters_c();
+unsigned int read_inst_count();
+unsigned int read_mispred_count();
+unsigned int read_datamemaccess_count();
+unsigned int read_l2refill_count();
+void get_perf_counters(unsigned int* res, unsigned int millis_period);
+// Python wrapper function prototypes:
+static PyObject* cycle_count(PyObject* self, PyObject* args);
+static PyObject* inst_count(PyObject* self, PyObject* args);
+static PyObject* bmiss_count(PyObject* self, PyObject* args);
+static PyObject* dmemaccess_count(PyObject* self, PyObject* args);
+static PyObject* l2refill_count(PyObject* self, PyObject* args);
+static PyObject* perf_w_period(PyObject* self, PyObject* args);
+static PyObject* reset_counters(PyObject* self, PyObject* args);
 
 // Function definitions:
-
 unsigned int read_cycle_count()
 {
 	unsigned int c;
