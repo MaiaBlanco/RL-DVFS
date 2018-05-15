@@ -1,3 +1,4 @@
+#include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
 
@@ -60,7 +61,7 @@ int init_module(void)
 	pr_info("Performance counter kmod for XU3.\n");
 	// Setup here:
 	on_each_cpu(enable_cpu_counters, NULL, 1);
-	printk(KERN_INFO, "[ RL_PERF ] initialized");
+	printk(KERN_INFO "[ RL_PERF ] initialized");
 	return 0;
 }
 
@@ -68,6 +69,6 @@ void cleanup_module(void)
 {
 	//on_each_cpu(disable_cpu_counters, NULL, 1);
 	pr_info("Cleaning up perf counter kmod for XU3.\n");
-	printk(KERN_INFO, "[ RL_PERF ] unloaded.");
+	printk(KERN_INFO "[ RL_PERF ] unloaded.");
 }
 
