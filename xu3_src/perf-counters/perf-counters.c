@@ -69,6 +69,7 @@ void cleanup_module(void)
 {
 	//on_each_cpu(disable_cpu_counters, NULL, 1);
 	pr_info("Cleaning up perf counter kmod for XU3.\n");
+	on_each_cpu(disable_cpu_counters, NULL, 1);
 	printk(KERN_INFO "[ RL_PERF ] unloaded.");
 }
 
