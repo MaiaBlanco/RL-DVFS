@@ -10,16 +10,10 @@
 
 #define MILLIS_WAIT 100
 
-// C Function prototypes:
-unsigned int read_cycle_count();
-unsigned int read_p15_count(unsigned int reg_num);
-void reset_counters_c();
-unsigned int read_inst_count();
-unsigned int read_mispred_count();
-unsigned int read_datamemaccess_count();
-unsigned int read_l2refill_count();
+// C Function prototypes (note, inline functions not included):
 void get_perf_counters(unsigned int* res, unsigned int millis_period);
 // Python wrapper function prototypes:
+#ifndef DEBUG
 static PyObject* cycle_count(PyObject* self, PyObject* args);
 static PyObject* inst_count(PyObject* self, PyObject* args);
 static PyObject* bmiss_count(PyObject* self, PyObject* args);
@@ -27,9 +21,11 @@ static PyObject* dmemaccess_count(PyObject* self, PyObject* args);
 static PyObject* l2refill_count(PyObject* self, PyObject* args);
 static PyObject* perf_w_period(PyObject* self, PyObject* args);
 static PyObject* reset_counters(PyObject* self, PyObject* args);
+#endif
 
 // Function definitions:
-unsigned int read_cycle_count()
+static inline 
+unsigned int read_cycle_count(void)
 {
 	unsigned int c;
 	// Read cycle count register:
@@ -51,29 +47,34 @@ unsigned int read_p15_count(unsigned int reg_num)
 	return c;
 }
 
-void reset_counters_c()
+static inline 
+void reset_counters_c(void)
 {
 	// Reset the performance counters
 	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"(2 | 4));
 }
 
-unsigned int read_inst_count()
+static inline 
+unsigned int read_inst_count(void)
 {
 	return read_p15_count(1);
 }
 
-unsigned int read_mispred_count()
+static inline 
+unsigned int read_mispred_count(void)
 {
 	return read_p15_count(2);
 }
 
-unsigned int read_datamemaccess_count()
+static inline 
+unsigned int read_datamemaccess_count(void)
 {
 	return read_p15_count(3);
 }
 
 
-unsigned int read_l2refill_count()
+static inline 
+unsigned int read_l2refill_count(void)
 {
 	return read_p15_count(4);
 }
@@ -111,7 +112,7 @@ void get_perf_counters(unsigned int* res, unsigned int millis_period)
 
 #ifdef DEBUG
 // tester main function. Else this is being compiled as python API.
-int main()
+int main(void)
 {
 	int res[5];
 	for ( int i = 0; i < 100; i++ )
