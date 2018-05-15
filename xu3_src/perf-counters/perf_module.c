@@ -10,6 +10,11 @@
 
 #define MILLIS_WAIT 100
 
+// Function prototypes:
+
+
+// Function definitions:
+
 unsigned int read_cycle_count()
 {
 	unsigned int c;
@@ -30,6 +35,12 @@ unsigned int read_p15_count(unsigned int reg_num)
 	// Read that register:
 	asm volatile("mrc p15, 0, %0, c9, c13, 2" : "=r"(c));
 	return c;
+}
+
+void reset_counters_c()
+{
+	// Reset the performance counters
+	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"(2 | 4));
 }
 
 unsigned int read_inst_count()
@@ -56,7 +67,6 @@ unsigned int read_l2refill_count()
 void get_perf_counters(unsigned int* res, unsigned int millis_period)
 {
 
-	unsigned int cycles, instructions, bmiss, dmemaccess, l2refill;
 	unsigned int old_cycles, old_instructions, old_bmiss, 
 					old_dmemaccess, old_l2refill;
 	struct timeval stop, start;
@@ -177,6 +187,12 @@ static PyObject* perf_w_period(PyObject* self, PyObject* args)
 	return Py_BuildValue("o", l);
 }
 
+static PyObject* reset_counters(PyObject* self, PyObject* args)
+{
+	reset_counters_c();
+	return NULL;
+}
+
 
 
 
@@ -191,6 +207,7 @@ static PyMethodDef PerfMethods[] =
 	{"l2refill_count", l2refill_count, METH_VARARGS, "get number of l2 data cache refills."},
 	// Get all values over n millisecond period:
 	{"perf_w_period", perf_w_period, METH_VARARGS, "get change in all counters over period in milliseconds."},
+	{"reset_counters", reset_counters, METH_VARARGS, "reset all performance counters to 0."},
 	{NULL, NULL, 0, NULL}
 };
 
