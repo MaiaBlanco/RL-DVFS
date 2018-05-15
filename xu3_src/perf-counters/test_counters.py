@@ -2,9 +2,10 @@ import perf_module as perf
 import time
 
 perf.reset_counters()
+print('Cycles\t\tInstructions')
 for i in range(100):
-	print(perf.cycle_count())
-	print(perf.inst_count())
+	print(perf.cycle_count(), perf.inst_count())
+	time.sleep(0.1)
 
 print("\n\nTesting getting counters over time:")
 
