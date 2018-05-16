@@ -50,8 +50,11 @@ unsigned int read_p15_count(unsigned int reg_num)
 static inline 
 void reset_counters_c(void)
 {
-	// Reset the performance counters
-	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"(2 | 4));
+	unsigned int v;
+	// Read the original value to preserve settings:
+	asm volatile("mrc p15, 0, %0, c9, c12, 0" : "=r"(v));
+	// Reset the performance counters by setting bits 1 and 2:
+	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"(v | 2 | 4));
 }
 
 static inline 
