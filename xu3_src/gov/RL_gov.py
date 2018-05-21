@@ -28,29 +28,28 @@ When barr is asserted from the master process, the counter thread should
 read performance counter values over period perf_period, update vals, and 
 deassert barr to indicate that the values have been updated.
 '''
-def perf_counter_proc(core_num, perf_period, barr, vals):
+def perf_counter_proc(core_num, perf_period, vals):
 	# Set core affinity:
 	pid = os.getpid()
 	p = subprocess.Popen(["taskset", "-pc", str(core_num), str(pid)],\
 											stdout=subprocess.PIPE)
 	output, err = p.communicate()
 	print(output)
-	# Reset counters on core:
-	pm.reset_counters()
-	# Periodically read perf counters and update vals:
-	while True:
-		while not barr.value:
-			time.sleep(0.01)	
-		# Note conversion of perf_period from float seconds to int milliseconds.
-		v = pm.perf_w_period(int(perf_period*1000))
-		# Branch misses:
-		vals[0] = float(v[2])
-		# IPC:
-		vals[1] = float(v[1]) / float(v[0])
-		#l2 misses per instruction:
-		vals[2] = float(v[4]) / float(v[1])
-		with barr.get_lock():
-			barr.value = False
+	p = subprocess.Popen(["taskset", "-pc", str(pid)], stdout=subprocess.PIPE)
+	output, err = p.communicate()
+	print(output)
+	# wait for go-ahead by main process:
+	#while not barr.value:
+	#	time.sleep(0.01)	
+	# Note conversion of perf_period from float seconds to int milliseconds.
+	v = pm.perf_w_period(int(perf_period*1000))
+	# Branch misses:
+	vals[0] = float(v[2])
+	# IPC:
+	vals[1] = float(v[1]) / float(v[0])
+	#l2 misses per instruction:
+	vals[2] = float(v[4]) / float(v[1])
+	return vals
 
 # XU3 has built-in sensors, so use them:
 def get_power():
@@ -77,24 +76,24 @@ def init_RL():
 		output, err = process.communicate()
 	 
 	# Start perf-counter threads:
-	barrs = [mp.Value(ctypes.c_bool, False, lock=True)]*4
-	vals  = [mp.Array(ctypes.c_double, 5, lock=False)]*4
+	barr = mp.Value(ctypes.c_bool, False, lock=False)
+	vals = [mp.Array(ctypes.c_double, 3, lock=False)]*4
 	perf_procs = []
-	for pid in range(4):
-		cpu_id = pid+4
-		p = mp.Process(target=perf_counter_proc, args=(cpu_id, PERIOD, \
-													barrs[pid], vals[pid]))
-		p.start()
-		perf_procs.append(p)
-	
+
 	for i in range(10000):
-		with barrs[0].get_lock():
-			print("got lock")
-			barrs[0].value = True
-		while barrs[0].value:
-			time.sleep(0.0001)
-		print("Vals ready:")
-		print("IPC: ", vals[0][1])
+		perf_procs = [None]*4
+		for pid in range(4):
+			cpu_id = pid+4
+			p = mp.Process(target=perf_counter_proc, args=(cpu_id, PERIOD, vals[pid]))
+			perf_procs[pid] = p
+		for p in perf_procs:
+			p.start()
+
+		for i, p in enumerate(perf_procs):
+			p.join()
+			perf_procs = None
+			print("IPC {}: {}".format(i, vals[i][1]))
+
 	print("FINISHED")
 	return
 
