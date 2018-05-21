@@ -24,32 +24,32 @@ def load_statespace():
 This function should run in a subprocess pinned to the particular CPU core
 it should be reading performance counter data.
 Upon initialization the process binds to its assigned CPU core.
-When barr is asserted from the master process, the counter thread should
-read performance counter values over period perf_period, update vals, and 
-deassert barr to indicate that the values have been updated.
 '''
-def perf_counter_proc(core_num, perf_period, vals):
+def perf_counter_proc(core_num, vals):
 	# Set core affinity:
 	pid = os.getpid()
 	p = subprocess.Popen(["taskset", "-pc", str(core_num), str(pid)],\
 											stdout=subprocess.PIPE)
 	output, err = p.communicate()
-	print(output)
-	p = subprocess.Popen(["taskset", "-pc", str(pid)], stdout=subprocess.PIPE)
-	output, err = p.communicate()
-	print(output)
-	# wait for go-ahead by main process:
-	#while not barr.value:
-	#	time.sleep(0.01)	
-	# Note conversion of perf_period from float seconds to int milliseconds.
-	v = pm.perf_w_period(int(perf_period*1000))
+#	print(output)
+#	p = subprocess.Popen(["taskset", "-pc", str(pid)], stdout=subprocess.PIPE)
+#	output, err = p.communicate()
+#	print(output)
+
+	# Get perf counters for pinned core:
+	b_miss = float(pm.bmiss_count())
+	cycles = float(pm.cycle_count())
+	instrs = float(pm.inst_count())
+	l2_miss = float(pm.l2refill_count())
+	
 	# Branch misses:
-	vals[0] = float(v[2])
-	# IPC:
-	vals[1] = float(v[1]) / float(v[0])
-	#l2 misses per instruction:
-	vals[2] = float(v[4]) / float(v[1])
-	return vals
+	vals[0] = float(b_miss)
+	# cycles:
+	vals[1] = float(cycles)
+	# Instructions:
+	vals[2] = float(instrs)
+	# L2 misses per instruction:
+	vals[3] = float(l2_miss)
 
 # XU3 has built-in sensors, so use them:
 def get_power():
@@ -74,28 +74,94 @@ def init_RL():
 		print("WARNING: perf-counters module not loaded. Loading...")
 		process = subprocess.Popen(['sudo', 'insmod', 'perf-counters.ko'])
 		output, err = process.communicate()
-	 
-	# Start perf-counter threads:
-	barr = mp.Value(ctypes.c_bool, False, lock=False)
-	vals = [mp.Array(ctypes.c_double, 3, lock=False)]*4
-	perf_procs = []
-
-	for i in range(10000):
-		perf_procs = [None]*4
-		for pid in range(4):
-			cpu_id = pid+4
-			p = mp.Process(target=perf_counter_proc, args=(cpu_id, PERIOD, vals[pid]))
-			perf_procs[pid] = p
-		for p in perf_procs:
-			p.start()
-
-		for i, p in enumerate(perf_procs):
-			p.join()
-			perf_procs = None
-			print("IPC {}: {}".format(i, vals[i][1]))
+	profile_statespace() 
 
 	print("FINISHED")
 	return
+
+'''
+Returns state figures, non-quantized.
+Includes branch misses, IPC, and L2 misses per instruction for each core, plus big cluster power.
+TODO: add leakage power
+'''
+def get_raw_state(period):	
+	# Start perf-counter threads:
+	vals1 = [mp.Array(ctypes.c_double, 5, lock=False)]*4
+	vals2 = [mp.Array(ctypes.c_double, 5, lock=False)]*4
+	vals = [vals1, vals2]
+	perf_procs = [None]*4
+	# Get initial perf counter values:
+	toggle = 0
+	for pid in range(4):
+		cpu_id = pid+4
+		p = mp.Process(target=perf_counter_proc, args=(cpu_id, vals[toggle][pid]))
+		perf_procs[pid] = p
+		p.start()
+	for i, p in enumerate(perf_procs):
+		p.join()
+		del p
+	while True:
+		toggle = toggle ^ 1
+		start = time.time()
+		# Get other stats here:
+		T = dvfs.getTemps()[0:4]
+		P = get_power()
+		elapsed = time.time() - start
+		#print("Sleeping for {} seconds.".format(period-elapsed))
+		time.sleep(max(0, period-elapsed))
+		# Get new perf counter vals:
+		for pid in range(4):
+			cpu_id = pid+4
+			p = mp.Process(target=perf_counter_proc, args=(cpu_id, vals[toggle][pid]))
+			perf_procs[pid] = p
+			p.start()
+		for i, p in enumerate(perf_procs):
+			p.join()
+			del p
+		# Compute the change in values:
+		diffs = np.abs(np.matrix(vals[0]) - np.matrix(vals[1]))
+		# Compute state params from that:
+		raw_state = [diffs[0,0]/diffs[0,2], diffs[0,2]/diffs[0,1], diffs[0,3]/diffs[0,2], T[0],\
+				 diffs[1,0]/diffs[1,2], diffs[1,2]/diffs[1,1], diffs[1,3]/diffs[1,2], T[1],\
+				 diffs[2,0]/diffs[2,2], diffs[2,2]/diffs[2,1], diffs[2,3]/diffs[2,2], T[2],\
+				 diffs[3,0]/diffs[3,2], diffs[3,2]/diffs[3,1], diffs[3,3]/diffs[3,2], T[3],\
+				 P]
+		yield [float(x) for x in raw_state]
+
+
+'''
+Place state in 'bucket' given min/max values and number of buckets for each value
+'''
+def bucket_state(raw):
+	# Use bucket width to determine index of each raw state value:
+	all_mins = np.array([bmiss_MIN, ipc_MIN, mpi_MIN, temp_MIN]*4 + [pwr_MIN])
+	all_widths = np.array([bmiss_width, ipc_width, mpi_width, temp_width]*4 + [pwr_width])
+	raw_floored = np.array(raw) - all_mins
+	state = np.divide(raw_floored, all_widths)
+	return state
+
+
+def profile_statespace():
+	state_machine = get_raw_state(PERIOD)
+	try:
+		max_state = np.load('max_state.npy')
+		min_state = np.load('min_state.npy')
+	except:
+		max_state = state_machine.next()
+		min_state = state_machine.next()
+	i = 0
+	while True:
+		raw = state_machine.next()
+		max_state = np.maximum.reduce([max_state, raw])
+		min_state = np.minimum.reduce([min_state, raw])
+		i += 1
+		if i % 1000 == 0:
+			np.save('max_state.npy', max_state)
+			np.save('min_state.npy', min_state)
+			print("{}: Checkpointed raw state max and min.".format(i))
+		elif i % 100 == 0:
+			print(i)
+
 
 def Q_learning(states):
 	return
