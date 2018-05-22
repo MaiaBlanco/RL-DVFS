@@ -20,37 +20,6 @@ def checkpoint_statespace():
 def load_statespace():
 	return None
 
-''' 
-This function should run in a subprocess pinned to the particular CPU core
-it should be reading performance counter data.
-Upon initialization the process binds to its assigned CPU core.
-'''
-def perf_counter_proc(core_num, vals):
-	# Set core affinity:
-	pid = os.getpid()
-	p = subprocess.Popen(["taskset", "-pc", str(core_num), str(pid)],\
-											stdout=subprocess.PIPE)
-	output, err = p.communicate()
-#	print(output)
-#	p = subprocess.Popen(["taskset", "-pc", str(pid)], stdout=subprocess.PIPE)
-#	output, err = p.communicate()
-#	print(output)
-
-	# Get perf counters for pinned core:
-	b_miss = float(pm.bmiss_count())
-	cycles = float(pm.cycle_count())
-	instrs = float(pm.inst_count())
-	l2_miss = float(pm.l2refill_count())
-	
-	# Branch misses:
-	vals[0] = float(b_miss)
-	# cycles:
-	vals[1] = float(cycles)
-	# Instructions:
-	vals[2] = float(instrs)
-	# L2 misses per instruction:
-	vals[3] = float(l2_miss)
-
 # XU3 has built-in sensors, so use them:
 def get_power():
 	# Just return big cluster power:
@@ -79,54 +48,48 @@ def init_RL():
 	print("FINISHED")
 	return
 
+def get_counter_value(cpu_num, attr_name):
+	with open("/sys/kernel/performance_counters/cpu{}/{}".format(cpu_num, attr_name), 
+				'r') as f:
+		val = float(f.readline().strip())
+	return val
+
+def set_period(p):
+	for cpu_num in range(4,8):
+		with open("/sys/kernel/performance_counters/cpu{}/sample_period_ms".format(cpu_num), 
+				'w') as f:
+			f.write("{}\n".format(p))
+
+
 '''
 Returns state figures, non-quantized.
 Includes branch misses, IPC, and L2 misses per instruction for each core, plus big cluster power.
 TODO: add leakage power
 '''
-def get_raw_state(period):	
-	# Start perf-counter threads:
-	vals1 = [mp.Array(ctypes.c_double, 5, lock=False)]*4
-	vals2 = [mp.Array(ctypes.c_double, 5, lock=False)]*4
-	vals = [vals1, vals2]
-	perf_procs = [None]*4
-	# Get initial perf counter values:
-	toggle = 0
-	for pid in range(4):
-		cpu_id = pid+4
-		p = mp.Process(target=perf_counter_proc, args=(cpu_id, vals[toggle][pid]))
-		perf_procs[pid] = p
-		p.start()
-	for i, p in enumerate(perf_procs):
-		p.join()
-		del p
-	while True:
-		toggle = toggle ^ 1
-		start = time.time()
-		# Get other stats here:
-		T = dvfs.getTemps()[0:4]
-		P = get_power()
-		elapsed = time.time() - start
-		#print("Sleeping for {} seconds.".format(period-elapsed))
-		time.sleep(max(0, period-elapsed))
-		# Get new perf counter vals:
-		for pid in range(4):
-			cpu_id = pid+4
-			p = mp.Process(target=perf_counter_proc, args=(cpu_id, vals[toggle][pid]))
-			perf_procs[pid] = p
-			p.start()
-		for i, p in enumerate(perf_procs):
-			p.join()
-			del p
-		# Compute the change in values:
-		diffs = np.abs(np.matrix(vals[0]) - np.matrix(vals[1]))
-		# Compute state params from that:
-		raw_state = [diffs[0,0]/diffs[0,2], diffs[0,2]/diffs[0,1], diffs[0,3]/diffs[0,2], T[0],\
+def get_raw_state():	
+	# Get the change in counter values:
+	diffs = np.zeros((4,4))
+	P = get_power()
+
+	for cpu in range(4,8):
+		diffs[cpu-4, 0] = get_counter_value(cpu, "branch_mispredictions")
+		diffs[cpu-4, 1] = get_counter_value(cpu, "cycles")
+		diffs[cpu-4, 2] = get_counter_value(cpu, "instructions_retired")
+		diffs[cpu-4, 3] = get_counter_value(cpu, "data_memory_accesses")
+
+	T = [float(x) for x in dvfs.getTemps()]
+
+	# Multiply instructions by factor of 1000:
+	diffs[:,2] *= 1000.0
+	# Multiply cycles by factor of on million:
+	diffs[:,1] *= 1000000.0
+	# Compute state params from that:
+	raw_state = [diffs[0,0]/diffs[0,2], diffs[0,2]/diffs[0,1], diffs[0,3]/diffs[0,2], T[0],\
 				 diffs[1,0]/diffs[1,2], diffs[1,2]/diffs[1,1], diffs[1,3]/diffs[1,2], T[1],\
 				 diffs[2,0]/diffs[2,2], diffs[2,2]/diffs[2,1], diffs[2,3]/diffs[2,2], T[2],\
 				 diffs[3,0]/diffs[3,2], diffs[3,2]/diffs[3,1], diffs[3,3]/diffs[3,2], T[3],\
 				 P]
-		yield [float(x) for x in raw_state]
+	return raw_state
 
 
 '''
@@ -142,25 +105,28 @@ def bucket_state(raw):
 
 
 def profile_statespace():
-	state_machine = get_raw_state(PERIOD)
+	ms_period = int(PERIOD*1000)
+	set_period(ms_period)
 	try:
-		max_state = np.load('max_state.npy')
-		min_state = np.load('min_state.npy')
+		max_state = np.load('max_state_{}ms.npy'.format(ms_period))
+		min_state = np.load('min_state_{}ms.npy'.format(ms_period))
 	except:
-		max_state = state_machine.next()
-		min_state = state_machine.next()
+		max_state = get_raw_state()
+		min_state = max_state
 	i = 0
 	while True:
-		raw = state_machine.next()
+		start = time.time()
+		raw = get_raw_state()
 		max_state = np.maximum.reduce([max_state, raw])
 		min_state = np.minimum.reduce([min_state, raw])
 		i += 1
-		if i % 1000 == 0:
-			np.save('max_state.npy', max_state)
-			np.save('min_state.npy', min_state)
+		if i % 100 == 0:
+			np.save('max_state_{}ms.npy'.format(ms_period), max_state)
+			np.save('min_state_{}ms.npy'.format(ms_period), min_state)
 			print("{}: Checkpointed raw state max and min.".format(i))
-		elif i % 100 == 0:
-			print(i)
+			print(raw)
+		end = time.time()
+		time.sleep((float(ms_period)/1000) - (end-start))
 
 
 def Q_learning(states):

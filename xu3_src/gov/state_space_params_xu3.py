@@ -27,7 +27,7 @@ FREQS = 19
 # Epsilon
 E = 0.01
 # Update period in seconds
-PERIOD = 0.200
+PERIOD = 0.050
 # Limit in celsius
 THERMAL_LIMIT = 68
 RHO = 0.0
@@ -54,7 +54,7 @@ lkpwr = 17
 
 # Estimated ranges for each value type:
 bmiss_MIN = 0.0
-bmiss_MAX = 1.0
+bmiss_MAX = 2.0 
 ipc_MIN = 0.0
 ipc_MAX = 3.0
 mpi_MIN = 0.0
