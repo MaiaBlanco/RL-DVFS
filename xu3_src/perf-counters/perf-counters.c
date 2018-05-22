@@ -156,8 +156,10 @@ static ssize_t cntr_show(struct cpu_counter_obj* obj,
 		var = obj->instructions_retired;
 	else if (strcmp(attr->attr.name, "branch_mispredictions") == 0)
 		var = obj->branch_mispredictions;
-	else 
+	else if (strcmp(attr->attr.name, "data_memory_accesses") == 0)
 		var = obj->data_memory_accesses; 
+	else
+		var = 0;
 
 	return sprintf(buf, "%u\n", var);
 }
@@ -181,8 +183,10 @@ static ssize_t cntr_store(struct cpu_counter_obj* obj, struct cntr_attribute* at
 		obj->instructions_retired = var;
 	else if (strcmp(attr->attr.name, "branch_mispredictions") == 0)
 		obj->branch_mispredictions = var;
-	else 
-		obj->data_memory_accesses = var; 
+	else if (strcmp(attr->attr.name, "data_memory_accesses") == 0)
+		var = obj->data_memory_accesses; 
+	else
+		var = 0;
 
 	return len;
 }
@@ -193,11 +197,11 @@ static struct cntr_attribute sample_period_attribute =
 static struct cntr_attribute cycles_attribute = 
 	__ATTR(cycles, 0664, cntr_show, cntr_store);
 static struct cntr_attribute instructions_attribute = 
-	__ATTR(instructions, 0664, cntr_show, cntr_store);
+	__ATTR(instructions_retired, 0664, cntr_show, cntr_store);
 static struct cntr_attribute branch_miss_attribute = 
-	__ATTR(branch_miss, 0664, cntr_show, cntr_store);
+	__ATTR(branch_mispredictions, 0664, cntr_show, cntr_store);
 static struct cntr_attribute dmem_access_attribute = 
-	__ATTR(dmem_access, 0664, cntr_show, cntr_store);
+	__ATTR(data_memory_accesses, 0664, cntr_show, cntr_store);
 
 // Create a group of attributes so they can be created and destroyed all at once:
 static struct attribute* cntr_default_attrs[] = {
