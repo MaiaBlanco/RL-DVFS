@@ -416,6 +416,7 @@ int perf_thread(void * data)
 	unsigned int sample_period_ms;
 
 	struct my_perf_data_struct* my_perf_data_local;
+
 	struct cpu_counter_obj* my_cpu_counter_obj_local;
 
 	if (cpu_id < 4)
@@ -477,6 +478,13 @@ int perf_thread(void * data)
 		my_cpu_counter_obj_local->branch_mispredictions = my_perf_data_local->bmiss_diff;
 		my_cpu_counter_obj_local->data_memory_accesses = my_perf_data_local->dmema_diff;
 		
+		
+#ifdef DEBUG
+		printk(KERN_INFO "[perf] CPU %d: %u cycles\n", cpu_id, my_perf_data_local->cycles_diff );
+#endif
+		// Release reference to perf data, thereby ending the atomic section. VERY IMPORTANT!
+		put_cpu_var(my_perf_data);
+
 		// Check time elapsed and wait for remainder
 		do_gettimeofday(&tm2);
 		elapsed = 1000 * (tm2.tv_sec - tm1.tv_sec) + (tm2.tv_usec - tm1.tv_usec) / 1000;
@@ -516,7 +524,7 @@ int init_module(void)
 		{
 			task[cpu] = kthread_create(perf_thread, (void*) data, "perf_counter_thread");
 			kthread_bind(task[cpu], cpu);
-			printk(KERN_INFO "active perf monitoring on CPU %d\n", cpu);
+			printk(KERN_INFO "activated perf monitoring on CPU %d\n", cpu);
 		}
 	}
 	put_online_cpus();
