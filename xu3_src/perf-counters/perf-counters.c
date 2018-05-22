@@ -79,6 +79,7 @@ struct cpu_counter_obj {
 	unsigned long instructions_retired;
 	unsigned long branch_mispredictions;
 	unsigned long data_memory_accesses;
+	unsigned long l2_data_refills;
 };
 #define to_cntr_obj(x) container_of(x, struct cpu_counter_obj, kobj)
 
@@ -158,6 +159,8 @@ static ssize_t cntr_show(struct cpu_counter_obj* obj,
 		var = obj->branch_mispredictions;
 	else if (strcmp(attr->attr.name, "data_memory_accesses") == 0)
 		var = obj->data_memory_accesses; 
+	else if (strcmp(attr->attr.name, "l2_data_refills") == 0)
+		var = obj->l2_data_refills;
 	else
 		var = 0;
 
@@ -177,15 +180,8 @@ static ssize_t cntr_store(struct cpu_counter_obj* obj, struct cntr_attribute* at
 
 	if (strcmp(attr->attr.name, "sample_period_ms") == 0)
 		obj->sample_period_ms = var;
-	else if (strcmp(attr->attr.name, "cycles") == 0)
-		obj->cycles = var;
-	else if (strcmp(attr->attr.name, "instructions_retired") == 0)
-		obj->instructions_retired = var;
-	else if (strcmp(attr->attr.name, "branch_mispredictions") == 0)
-		obj->branch_mispredictions = var;
-	else if (strcmp(attr->attr.name, "data_memory_accesses") == 0)
-		var = obj->data_memory_accesses; 
 	else
+		// No reason to take a counter value from userspace.
 		var = 0;
 
 	return len;
@@ -202,6 +198,8 @@ static struct cntr_attribute branch_miss_attribute =
 	__ATTR(branch_mispredictions, 0664, cntr_show, cntr_store);
 static struct cntr_attribute dmem_access_attribute = 
 	__ATTR(data_memory_accesses, 0664, cntr_show, cntr_store);
+static struct cntr_attribute l2_refill_attribute = 
+	__ATTR(l2_data_refills, 0664, cntr_show, cntr_store);
 
 // Create a group of attributes so they can be created and destroyed all at once:
 static struct attribute* cntr_default_attrs[] = {
@@ -210,6 +208,7 @@ static struct attribute* cntr_default_attrs[] = {
 	&instructions_attribute.attr,
 	&branch_miss_attribute.attr,
 	&dmem_access_attribute.attr,
+	&l2_refill_attribute.attr,
 	NULL,		// MUST BE NULL TERMINATED!
 };
 
@@ -481,6 +480,7 @@ int perf_thread(void * data)
 		my_cpu_counter_obj_local->instructions_retired = my_perf_data_local->instr_diff;
 		my_cpu_counter_obj_local->branch_mispredictions = my_perf_data_local->bmiss_diff;
 		my_cpu_counter_obj_local->data_memory_accesses = my_perf_data_local->dmema_diff;
+		my_cpu_counter_obj_local->l2_data_refills = my_perf_data_local->l2r_diff;
 		
 		
 #ifdef DEBUG
