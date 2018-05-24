@@ -1,216 +1,1000 @@
-[13636.604096] cpu=0	jifd=27	cycled=8135548	insd=214339	cml2=639	bmd=5434
-[13636.712107] cpu=0	jifd=27	cycled=8647111	insd=266735	cml2=822	bmd=6540
-[13636.820094] cpu=0	jifd=27	cycled=8162784	insd=206305	cml2=601	bmd=5233
-[13636.928107] cpu=0	jifd=27	cycled=8841178	insd=283490	cml2=852	bmd=7568
-[13637.036085] cpu=0	jifd=27	cycled=8642075	insd=258754	cml2=823	bmd=7396
-[13637.144111] cpu=0	jifd=27	cycled=8643757	insd=251235	cml2=802	bmd=6246
-[13637.252098] cpu=0	jifd=27	cycled=8103498	insd=202475	cml2=549	bmd=5066
-[13637.360111] cpu=0	jifd=27	cycled=8822373	insd=281085	cml2=730	bmd=7439
-[13637.468101] cpu=0	jifd=27	cycled=8104203	insd=198630	cml2=587	bmd=4878
-[13637.576107] cpu=0	jifd=27	cycled=8527965	insd=234387	cml2=707	bmd=5497
-[13637.684098] cpu=0	jifd=27	cycled=8072032	insd=198695	cml2=602	bmd=4749
-[13637.792110] cpu=0	jifd=27	cycled=8619754	insd=253028	cml2=763	bmd=6203
-[13637.900082] cpu=0	jifd=27	cycled=8402631	insd=228006	cml2=666	bmd=6180
-[13638.008137] cpu=0	jifd=27	cycled=8767736	insd=266493	cml2=790	bmd=6897
-[13638.116105] cpu=0	jifd=27	cycled=8648878	insd=264731	cml2=715	bmd=7565
-[13638.224091] cpu=0	jifd=27	cycled=8042347	insd=198143	cml2=595	bmd=4984
-[13638.332088] cpu=0	jifd=27	cycled=8976197	insd=309578	cml2=830	bmd=8685
-[13638.440094] cpu=0	jifd=27	cycled=8125628	insd=218994	cml2=599	bmd=5853
-[13638.548105] cpu=0	jifd=27	cycled=8540939	insd=251568	cml2=715	bmd=6445
-[13638.656094] cpu=0	jifd=27	cycled=8257862	insd=210391	cml2=595	bmd=5577
-[13638.764109] cpu=0	jifd=27	cycled=8677555	insd=255861	cml2=757	bmd=6421
-[13638.872094] cpu=0	jifd=27	cycled=8181063	insd=210889	cml2=607	bmd=5450
-[13638.980081] cpu=0	jifd=27	cycled=8394344	insd=243183	cml2=682	bmd=6857
-[13639.088088] cpu=0	jifd=27	cycled=8297605	insd=226053	cml2=587	bmd=6183
-[13639.196111] cpu=0	jifd=27	cycled=8775995	insd=265135	cml2=848	bmd=6934
-[13639.304125] cpu=0	jifd=27	cycled=8075448	insd=203874	cml2=541	bmd=5379
-[13639.412090] cpu=0	jifd=27	cycled=8335452	insd=236313	cml2=640	bmd=6603
-[13639.520090] cpu=0	jifd=27	cycled=7898215	insd=181428	cml2=485	bmd=4399
-[13639.628089] cpu=0	jifd=27	cycled=8067818	insd=201385	cml2=615	bmd=5002
-[13639.736140] cpu=0	jifd=27	cycled=8624157	insd=253349	cml2=778	bmd=6479
-[13639.844099] cpu=0	jifd=27	cycled=8129401	insd=207522	cml2=634	bmd=5415
-[13639.952099] cpu=0	jifd=27	cycled=9647192	insd=354228	cml2=1097	bmd=10374
-[13640.060121] cpu=0	jifd=27	cycled=8408100	insd=214198	cml2=594	bmd=5648
-[13640.168106] cpu=0	jifd=27	cycled=8155715	insd=215669	cml2=531	bmd=5774
-[13640.276098] cpu=0	jifd=27	cycled=8136505	insd=205064	cml2=630	bmd=5351
-[13640.384091] cpu=0	jifd=27	cycled=9255926	insd=347892	cml2=1497	bmd=9991
-[13640.492111] cpu=0	jifd=27	cycled=9781831	insd=368882	cml2=1224	bmd=11611
-[13640.600095] cpu=0	jifd=27	cycled=9457327	insd=347736	cml2=857	bmd=10912
-[13640.708101] cpu=0	jifd=27	cycled=8228758	insd=179406	cml2=625	bmd=3845
-[13640.816091] cpu=0	jifd=27	cycled=8253385	insd=214210	cml2=647	bmd=5501
-[13640.924102] cpu=0	jifd=27	cycled=8751486	insd=265954	cml2=857	bmd=6765
-[13641.032108] cpu=0	jifd=27	cycled=9875440	insd=400137	cml2=1179	bmd=12653
-[13641.140088] cpu=0	jifd=27	cycled=9079175	insd=279810	cml2=754	bmd=7400
-[13641.248091] cpu=0	jifd=27	cycled=8147311	insd=204053	cml2=621	bmd=5197
-[13641.356073] cpu=0	jifd=27	cycled=8756347	insd=264327	cml2=738	bmd=6638
-[13641.464084] cpu=0	jifd=27	cycled=8275478	insd=222587	cml2=608	bmd=5895
-[13641.572089] cpu=0	jifd=27	cycled=8107626	insd=194372	cml2=549	bmd=4876
-[13641.680134] cpu=0	jifd=27	cycled=8633473	insd=254383	cml2=751	bmd=6352
-[13641.788101] cpu=0	jifd=27	cycled=8056200	insd=193695	cml2=540	bmd=4686
-[13641.896105] cpu=0	jifd=27	cycled=8525056	insd=229911	cml2=682	bmd=5287
-[13642.004094] cpu=0	jifd=27	cycled=8505982	insd=248642	cml2=717	bmd=6930
-[13642.112096] cpu=0	jifd=27	cycled=8641615	insd=248141	cml2=783	bmd=6320
-[13642.220097] cpu=0	jifd=27	cycled=8324860	insd=235091	cml2=661	bmd=6455
-[13642.328084] cpu=0	jifd=27	cycled=8108421	insd=207261	cml2=645	bmd=5350
-[13642.436083] cpu=0	jifd=27	cycled=8899336	insd=295556	cml2=803	bmd=8130
-[13642.544095] cpu=0	jifd=27	cycled=8078808	insd=200177	cml2=563	bmd=5092
-[13642.652080] cpu=0	jifd=27	cycled=8056149	insd=199087	cml2=570	bmd=5076
-[13642.760099] cpu=0	jifd=27	cycled=8570948	insd=254381	cml2=731	bmd=6298
-[13642.868083] cpu=0	jifd=27	cycled=8205667	insd=207936	cml2=712	bmd=5348
-[13642.976080] cpu=0	jifd=27	cycled=8131253	insd=208614	cml2=547	bmd=5397
-[13643.084083] cpu=0	jifd=27	cycled=8855836	insd=284697	cml2=729	bmd=8252
-[13643.192071] cpu=0	jifd=27	cycled=8369087	insd=240740	cml2=680	bmd=6674
-[13643.300082] cpu=0	jifd=27	cycled=8255860	insd=217662	cml2=632	bmd=5909
-[13643.408084] cpu=0	jifd=27	cycled=8980358	insd=295059	cml2=853	bmd=8072
-[13643.516083] cpu=0	jifd=27	cycled=8267428	insd=227265	cml2=632	bmd=6156
-[13643.624104] cpu=0	jifd=27	cycled=8038864	insd=191935	cml2=543	bmd=4854
-[13643.732084] cpu=0	jifd=27	cycled=8193995	insd=212939	cml2=669	bmd=5458
-[13643.840087] cpu=0	jifd=27	cycled=8667628	insd=265035	cml2=801	bmd=6506
-[13643.948089] cpu=0	jifd=27	cycled=8110284	insd=201772	cml2=602	bmd=5026
-[13644.056081] cpu=0	jifd=27	cycled=8359539	insd=244123	cml2=640	bmd=6825
-[13644.164078] cpu=0	jifd=27	cycled=7993382	insd=193849	cml2=552	bmd=4896
-[13644.272097] cpu=0	jifd=27	cycled=8414749	insd=243342	cml2=670	bmd=6972
-[13644.380095] cpu=0	jifd=27	cycled=8452082	insd=222545	cml2=632	bmd=5340
-[13644.488083] cpu=0	jifd=27	cycled=8408502	insd=251402	cml2=642	bmd=7190
-[13644.596098] cpu=0	jifd=27	cycled=8325002	insd=222744	cml2=542	bmd=6058
-[13644.704093] cpu=0	jifd=27	cycled=8527409	insd=232919	cml2=692	bmd=5765
-[13644.812098] cpu=0	jifd=27	cycled=8195432	insd=213545	cml2=641	bmd=5549
-[13644.920079] cpu=0	jifd=27	cycled=8060453	insd=195759	cml2=593	bmd=4893
-[13645.028129] cpu=0	jifd=27	cycled=9284844	insd=319468	cml2=1013	bmd=9642
-[13645.136145] cpu=0	jifd=27	cycled=9016640	insd=276284	cml2=811	bmd=7515
-[13645.244076] cpu=0	jifd=27	cycled=8057673	insd=199728	cml2=516	bmd=5250
-[13645.352092] cpu=0	jifd=27	cycled=8782464	insd=277292	cml2=807	bmd=7141
-[13645.460091] cpu=0	jifd=27	cycled=8183765	insd=209892	cml2=529	bmd=5588
-[13645.568080] cpu=0	jifd=27	cycled=8828610	insd=275755	cml2=821	bmd=7376
-[13645.676080] cpu=0	jifd=27	cycled=8144563	insd=210348	cml2=649	bmd=5458
-[13645.784076] cpu=0	jifd=27	cycled=8868960	insd=286008	cml2=786	bmd=7703
-[13645.892080] cpu=0	jifd=27	cycled=8319760	insd=224814	cml2=517	bmd=6009
-[13646.000097] cpu=0	jifd=27	cycled=8273850	insd=228535	cml2=674	bmd=6138
-[13646.108093] cpu=0	jifd=27	cycled=8399304	insd=247079	cml2=587	bmd=6955
-[13646.216094] cpu=0	jifd=27	cycled=9066900	insd=297952	cml2=829	bmd=8064
-[13646.324077] cpu=0	jifd=27	cycled=8343016	insd=228047	cml2=643	bmd=6182
-[13646.432075] cpu=0	jifd=27	cycled=8081537	insd=206381	cml2=582	bmd=5345
-[13646.540097] cpu=0	jifd=27	cycled=9005521	insd=306028	cml2=804	bmd=8481
-[13646.648076] cpu=0	jifd=27	cycled=8131376	insd=202516	cml2=610	bmd=5205
-[13646.756080] cpu=0	jifd=27	cycled=8085687	insd=200853	cml2=587	bmd=5136
-[13646.864080] cpu=0	jifd=27	cycled=9020543	insd=293934	cml2=796	bmd=7711
-[13646.972083] cpu=0	jifd=27	cycled=8156837	insd=204958	cml2=533	bmd=5222
-[13647.080095] cpu=0	jifd=27	cycled=8285595	insd=238375	cml2=730	bmd=6472
-[13647.188074] cpu=0	jifd=27	cycled=8152286	insd=210957	cml2=518	bmd=5562
-[13647.296091] cpu=0	jifd=27	cycled=8751510	insd=258231	cml2=676	bmd=6560
-[13647.404078] cpu=0	jifd=27	cycled=7945176	insd=179911	cml2=500	bmd=4282
-[13647.512074] cpu=0	jifd=27	cycled=8305275	insd=222869	cml2=568	bmd=6080
-[13647.620083] cpu=0	jifd=27	cycled=8740788	insd=271265	cml2=726	bmd=7028
-[13647.728078] cpu=0	jifd=27	cycled=8047826	insd=195922	cml2=537	bmd=4881
-[13647.836074] cpu=0	jifd=27	cycled=8102014	insd=200567	cml2=591	bmd=4847
-[13647.944089] cpu=0	jifd=27	cycled=8025028	insd=190292	cml2=545	bmd=4429
-[13648.052113] cpu=0	jifd=27	cycled=8772486	insd=266271	cml2=863	bmd=6862
-[13648.160097] cpu=0	jifd=27	cycled=8441149	insd=244876	cml2=811	bmd=7003
-[13648.268079] cpu=0	jifd=27	cycled=8034918	insd=193037	cml2=601	bmd=4786
-[13648.376106] cpu=0	jifd=27	cycled=8811243	insd=273908	cml2=795	bmd=7184
-[13648.484079] cpu=0	jifd=27	cycled=8044306	insd=197130	cml2=587	bmd=4895
-[13648.592074] cpu=0	jifd=27	cycled=8955584	insd=297629	cml2=771	bmd=8018
-[13648.700077] cpu=0	jifd=27	cycled=8126948	insd=202951	cml2=624	bmd=5174
-[13648.808085] cpu=0	jifd=27	cycled=8613728	insd=252484	cml2=670	bmd=7123
-[13648.916076] cpu=0	jifd=27	cycled=8103520	insd=200312	cml2=615	bmd=4993
-[13649.024126] cpu=0	jifd=27	cycled=9554872	insd=331778	cml2=1168	bmd=9283
-[13649.132079] cpu=0	jifd=27	cycled=8154732	insd=193554	cml2=548	bmd=4938
-[13649.240081] cpu=0	jifd=27	cycled=8626346	insd=247658	cml2=651	bmd=6288
-[13649.348070] cpu=0	jifd=27	cycled=8388876	insd=246867	cml2=703	bmd=6945
-[13649.456074] cpu=0	jifd=27	cycled=8032847	insd=196174	cml2=635	bmd=4849
-[13649.564071] cpu=0	jifd=27	cycled=8777859	insd=280688	cml2=821	bmd=7532
-[13649.672069] cpu=0	jifd=27	cycled=8359522	insd=249814	cml2=726	bmd=6866
-[13649.780123] cpu=0	jifd=27	cycled=8534497	insd=236670	cml2=715	bmd=5735
-[13649.888074] cpu=0	jifd=27	cycled=8144961	insd=210399	cml2=624	bmd=5298
-[13649.996120] cpu=0	jifd=27	cycled=8733455	insd=259712	cml2=761	bmd=6706
-[13650.104068] cpu=0	jifd=27	cycled=8113303	insd=207583	cml2=599	bmd=5405
-[13650.212071] cpu=0	jifd=27	cycled=8752638	insd=274255	cml2=729	bmd=8072
-[13650.320096] cpu=0	jifd=27	cycled=8676878	insd=255521	cml2=788	bmd=6581
-[13650.428079] cpu=0	jifd=27	cycled=8461296	insd=245251	cml2=661	bmd=6959
-[13650.536066] cpu=0	jifd=27	cycled=8295774	insd=223530	cml2=666	bmd=5976
-[13650.644066] cpu=0	jifd=27	cycled=8942586	insd=287188	cml2=694	bmd=7866
-[13650.752089] cpu=0	jifd=27	cycled=8210682	insd=212015	cml2=629	bmd=5632
-[13650.860068] cpu=0	jifd=27	cycled=7942683	insd=182262	cml2=509	bmd=4516
-[13650.968080] cpu=0	jifd=27	cycled=8959396	insd=287615	cml2=853	bmd=7814
-[13651.076105] cpu=0	jifd=27	cycled=8270674	insd=225982	cml2=730	bmd=6113
-[13651.184069] cpu=0	jifd=27	cycled=8116697	insd=201681	cml2=609	bmd=5165
-[13651.292082] cpu=0	jifd=27	cycled=8794093	insd=268702	cml2=720	bmd=6999
-[13651.400079] cpu=0	jifd=27	cycled=8330643	insd=245116	cml2=650	bmd=6630
-[13651.508082] cpu=0	jifd=27	cycled=8557590	insd=235849	cml2=739	bmd=5798
-[13651.616065] cpu=0	jifd=27	cycled=8272576	insd=231980	cml2=617	bmd=6348
-[13651.724064] cpu=0	jifd=27	cycled=8292274	insd=221166	cml2=590	bmd=5933
-[13651.832066] cpu=0	jifd=27	cycled=7998640	insd=189643	cml2=531	bmd=4691
-[13651.940067] cpu=0	jifd=27	cycled=8054385	insd=197526	cml2=576	bmd=4934
-[13652.048109] cpu=0	jifd=27	cycled=8279698	insd=226174	cml2=672	bmd=6003
-[13652.156109] cpu=0	jifd=27	cycled=8239451	insd=212168	cml2=678	bmd=5573
-[13652.264065] cpu=0	jifd=27	cycled=8775730	insd=274368	cml2=778	bmd=7249
-[13652.372070] cpu=0	jifd=27	cycled=7966741	insd=181935	cml2=487	bmd=4282
-[13652.480067] cpu=0	jifd=27	cycled=8247531	insd=224203	cml2=580	bmd=6019
-[13652.588068] cpu=0	jifd=27	cycled=8190129	insd=207589	cml2=553	bmd=5293
-[13652.696078] cpu=0	jifd=27	cycled=8975224	insd=303056	cml2=781	bmd=8367
-[13652.804070] cpu=0	jifd=27	cycled=7924940	insd=176424	cml2=436	bmd=4209
-[13652.912086] cpu=0	jifd=27	cycled=8595926	insd=244677	cml2=714	bmd=5843
-[13653.020066] cpu=0	jifd=27	cycled=9688676	insd=372746	cml2=1078	bmd=11657
-[13653.128083] cpu=0	jifd=27	cycled=8919860	insd=257803	cml2=781	bmd=6465
-[13653.236077] cpu=0	jifd=27	cycled=8157643	insd=201552	cml2=736	bmd=5280
-[13653.344074] cpu=0	jifd=27	cycled=8821258	insd=269908	cml2=724	bmd=7189
-[13653.452065] cpu=0	jifd=27	cycled=8204850	insd=228884	cml2=538	bmd=6208
-[13653.560081] cpu=0	jifd=27	cycled=8668003	insd=255326	cml2=814	bmd=6643
-[13653.668065] cpu=0	jifd=27	cycled=8256396	insd=228907	cml2=536	bmd=6410
-[13653.776064] cpu=0	jifd=27	cycled=8250956	insd=224047	cml2=567	bmd=5974
-[13653.884084] cpu=0	jifd=27	cycled=8568343	insd=239272	cml2=661	bmd=5765
-[13653.992092] cpu=0	jifd=27	cycled=8320201	insd=242892	cml2=656	bmd=6599
-[13654.100066] cpu=0	jifd=27	cycled=8265854	insd=224823	cml2=726	bmd=6071
-[13654.208071] cpu=0	jifd=27	cycled=8643839	insd=264132	cml2=811	bmd=6845
-[13654.316063] cpu=0	jifd=27	cycled=8371512	insd=234054	cml2=626	bmd=6562
-[13654.424072] cpu=0	jifd=27	cycled=8632981	insd=251732	cml2=768	bmd=6367
-[13654.532077] cpu=0	jifd=27	cycled=9696696	insd=408872	cml2=1552	bmd=12029
-[13654.640119] cpu=0	jifd=27	cycled=8768152	insd=239329	cml2=702	bmd=5884
-[13654.748059] cpu=0	jifd=27	cycled=8440867	insd=253000	cml2=556	bmd=7304
-[13654.856074] cpu=0	jifd=27	cycled=8561169	insd=256798	cml2=676	bmd=6644
-[13654.964076] cpu=0	jifd=27	cycled=8455176	insd=229931	cml2=875	bmd=6512
-[13655.072088] cpu=0	jifd=27	cycled=8899281	insd=291047	cml2=910	bmd=8123
-[13655.180064] cpu=0	jifd=27	cycled=8174420	insd=207462	cml2=638	bmd=5330
-[13655.288051] cpu=0	jifd=27	cycled=8160548	insd=211512	cml2=665	bmd=5646
-[13655.396069] cpu=0	jifd=27	cycled=8844156	insd=271187	cml2=826	bmd=7275
-[13655.504059] cpu=0	jifd=27	cycled=8449104	insd=291817	cml2=697	bmd=7967
-[13655.612073] cpu=0	jifd=27	cycled=8661159	insd=252734	cml2=802	bmd=6378
-[13655.720093] cpu=0	jifd=27	cycled=8392958	insd=256498	cml2=669	bmd=7112
-[13655.828072] cpu=0	jifd=27	cycled=8836741	insd=280607	cml2=792	bmd=7497
-[13655.936079] cpu=0	jifd=27	cycled=8087898	insd=196380	cml2=552	bmd=5066
-[13656.044080] cpu=0	jifd=27	cycled=8239052	insd=222045	cml2=694	bmd=6000
-[13656.152063] cpu=0	jifd=27	cycled=7869523	insd=173519	cml2=438	bmd=4107
-[13656.260067] cpu=0	jifd=27	cycled=8094276	insd=199260	cml2=587	bmd=5044
-[13656.368060] cpu=0	jifd=27	cycled=8194713	insd=217919	cml2=587	bmd=5825
-[13656.476074] cpu=0	jifd=27	cycled=8218796	insd=238510	cml2=638	bmd=6130
-[13656.584070] cpu=0	jifd=27	cycled=8724292	insd=258636	cml2=763	bmd=6700
-[13656.692062] cpu=0	jifd=27	cycled=8093480	insd=200698	cml2=576	bmd=5290
-[13656.800074] cpu=0	jifd=27	cycled=8964704	insd=293413	cml2=769	bmd=7916
-[13656.908060] cpu=0	jifd=27	cycled=8058792	insd=194632	cml2=568	bmd=4772
-[13657.016042] cpu=0	jifd=27	cycled=9841660	insd=388479	cml2=1169	bmd=11767
-[13657.124061] cpu=0	jifd=27	cycled=8521510	insd=228208	cml2=695	bmd=5984
-[13657.232077] cpu=0	jifd=27	cycled=7936333	insd=178098	cml2=452	bmd=4229
-[13657.340066] cpu=0	jifd=27	cycled=8588806	insd=246571	cml2=786	bmd=6147
-[13657.448075] cpu=0	jifd=27	cycled=8229550	insd=227993	cml2=680	bmd=6230
-[13657.556053] cpu=0	jifd=27	cycled=8826001	insd=273215	cml2=659	bmd=7796
-[13657.664089] cpu=0	jifd=27	cycled=8728248	insd=249284	cml2=746	bmd=6499
-[13657.772049] cpu=0	jifd=27	cycled=8417153	insd=250779	cml2=636	bmd=7072
-[13657.880068] cpu=0	jifd=27	cycled=8529966	insd=245249	cml2=753	bmd=6075
-[13657.988052] cpu=0	jifd=27	cycled=8188491	insd=218563	cml2=598	bmd=5985
-[13658.096093] cpu=0	jifd=27	cycled=8698003	insd=259663	cml2=808	bmd=6701
-[13658.204062] cpu=0	jifd=27	cycled=8275531	insd=233314	cml2=691	bmd=6094
-[13658.312071] cpu=0	jifd=27	cycled=8584601	insd=261375	cml2=780	bmd=6554
-[13658.420057] cpu=0	jifd=27	cycled=8572208	insd=275157	cml2=1454	bmd=7791
-[13658.528054] cpu=0	jifd=27	cycled=8665406	insd=242762	cml2=761	bmd=5983
-[13658.636069] cpu=0	jifd=27	cycled=8351139	insd=225835	cml2=692	bmd=6082
-[13658.744078] cpu=0	jifd=27	cycled=8634296	insd=246892	cml2=755	bmd=6176
-[13658.852051] cpu=0	jifd=27	cycled=8460182	insd=245230	cml2=582	bmd=6905
-[13658.960095] cpu=0	jifd=27	cycled=8849779	insd=276115	cml2=864	bmd=7506
-[13659.068076] cpu=0	jifd=27	cycled=8188303	insd=217725	cml2=618	bmd=6142
-[13659.176048] cpu=0	jifd=27	cycled=8118856	insd=203084	cml2=597	bmd=5084
-[13659.284051] cpu=0	jifd=27	cycled=9439193	insd=377917	cml2=1280	bmd=11874
-[13659.392053] cpu=0	jifd=27	cycled=10277868	insd=406466	cml2=1231	bmd=11395
-[13659.500053] cpu=0	jifd=27	cycled=7936695	insd=140912	cml2=131	bmd=2832
-[13659.608059] cpu=0	jifd=27	cycled=17851849	insd=1397591	cml2=7309	bmd=45904
-[13659.716069] cpu=0	jifd=27	cycled=9220328	insd=273023	cml2=1245	bmd=6808
-[13659.824052] cpu=0	jifd=27	cycled=8278623	insd=215328	cml2=514	bmd=5614
+May 24 15:55:06 ncps-mc1-12 kernel: [15016.981455] cpu=0	jifd=27	cycled=3478271	insd=461702	cml2=1810	bmd=17379
+May 24 15:55:06 ncps-mc1-12 kernel: [15017.089492] cpu=0	jifd=27	cycled=2675357	insd=331185	cml2=2077	bmd=13004
+May 24 15:55:06 ncps-mc1-12 kernel: [15017.197454] cpu=0	jifd=27	cycled=208602	insd=22648	cml2=8	bmd=967
+May 24 15:55:06 ncps-mc1-12 kernel: [15017.305447] cpu=0	jifd=27	cycled=1128825	insd=135924	cml2=638	bmd=5172
+May 24 15:55:06 ncps-mc1-12 kernel: [15017.413429] cpu=0	jifd=27	cycled=1264553	insd=149308	cml2=535	bmd=5541
+May 24 15:55:06 ncps-mc1-12 kernel: [15017.521433] cpu=0	jifd=27	cycled=1167331	insd=149859	cml2=645	bmd=5469
+May 24 15:55:07 ncps-mc1-12 kernel: [15017.629448] cpu=0	jifd=27	cycled=1118803	insd=161943	cml2=665	bmd=5718
+May 24 15:55:07 ncps-mc1-12 kernel: [15017.737454] cpu=0	jifd=27	cycled=988826	insd=113896	cml2=566	bmd=4302
+May 24 15:55:07 ncps-mc1-12 kernel: [15017.845436] cpu=0	jifd=27	cycled=968212	insd=115267	cml2=574	bmd=4328
+May 24 15:55:07 ncps-mc1-12 kernel: [15017.953428] cpu=0	jifd=27	cycled=1605154	insd=217875	cml2=730	bmd=8473
+May 24 15:55:07 ncps-mc1-12 kernel: [15018.061452] cpu=0	jifd=27	cycled=2352960	insd=266090	cml2=1029	bmd=9800
+May 24 15:55:07 ncps-mc1-12 kernel: [15018.169437] cpu=0	jifd=27	cycled=971053	insd=118926	cml2=600	bmd=4440
+May 24 15:55:07 ncps-mc1-12 kernel: [15018.277430] cpu=0	jifd=27	cycled=891997	insd=112638	cml2=565	bmd=4235
+May 24 15:55:07 ncps-mc1-12 kernel: [15018.385427] cpu=0	jifd=27	cycled=983296	insd=122638	cml2=612	bmd=4585
+May 24 15:55:07 ncps-mc1-12 kernel: [15018.493431] cpu=0	jifd=27	cycled=985599	insd=131585	cml2=619	bmd=4746
+May 24 15:55:08 ncps-mc1-12 kernel: [15018.601429] cpu=0	jifd=27	cycled=874078	insd=110575	cml2=569	bmd=3958
+May 24 15:55:08 ncps-mc1-12 kernel: [15018.709428] cpu=0	jifd=27	cycled=873046	insd=106084	cml2=523	bmd=3891
+May 24 15:55:08 ncps-mc1-12 kernel: [15018.817454] cpu=0	jifd=27	cycled=1026368	insd=116888	cml2=601	bmd=4443
+May 24 15:55:08 ncps-mc1-12 kernel: [15018.925433] cpu=0	jifd=27	cycled=1533357	insd=207609	cml2=790	bmd=7986
+May 24 15:55:08 ncps-mc1-12 kernel: [15019.033473] cpu=0	jifd=27	cycled=1463174	insd=183331	cml2=730	bmd=7149
+May 24 15:55:08 ncps-mc1-12 kernel: [15019.141432] cpu=0	jifd=27	cycled=990581	insd=126767	cml2=501	bmd=5129
+May 24 15:55:08 ncps-mc1-12 kernel: [15019.249459] cpu=0	jifd=27	cycled=1029643	insd=118488	cml2=569	bmd=4515
+May 24 15:55:08 ncps-mc1-12 kernel: [15019.357430] cpu=0	jifd=27	cycled=877952	insd=107073	cml2=501	bmd=4094
+May 24 15:55:08 ncps-mc1-12 kernel: [15019.465435] cpu=0	jifd=27	cycled=1015714	insd=127045	cml2=625	bmd=4864
+May 24 15:55:09 ncps-mc1-12 kernel: [15019.573432] cpu=0	jifd=27	cycled=1459887	insd=172180	cml2=563	bmd=6443
+May 24 15:55:09 ncps-mc1-12 kernel: [15019.681445] cpu=0	jifd=27	cycled=987556	insd=116441	cml2=563	bmd=4354
+May 24 15:55:09 ncps-mc1-12 kernel: [15019.789427] cpu=0	jifd=27	cycled=1081152	insd=141791	cml2=610	bmd=5394
+May 24 15:55:09 ncps-mc1-12 kernel: [15019.897421] cpu=0	jifd=27	cycled=1063961	insd=140254	cml2=668	bmd=5153
+May 24 15:55:09 ncps-mc1-12 kernel: [15020.005466] cpu=0	jifd=27	cycled=1541246	insd=202138	cml2=593	bmd=7909
+May 24 15:55:09 ncps-mc1-12 kernel: [15020.113457] cpu=0	jifd=27	cycled=1390785	insd=209758	cml2=680	bmd=7808
+May 24 15:55:09 ncps-mc1-12 kernel: [15020.221438] cpu=0	jifd=27	cycled=1290793	insd=143326	cml2=592	bmd=5382
+May 24 15:55:09 ncps-mc1-12 kernel: [15020.329429] cpu=0	jifd=27	cycled=1122514	insd=129734	cml2=595	bmd=5042
+May 24 15:55:09 ncps-mc1-12 kernel: [15020.437454] cpu=0	jifd=27	cycled=1368997	insd=164996	cml2=619	bmd=6237
+May 24 15:55:10 ncps-mc1-12 kernel: [15020.545426] cpu=0	jifd=27	cycled=971022	insd=129362	cml2=567	bmd=5214
+May 24 15:55:10 ncps-mc1-12 kernel: [15020.653425] cpu=0	jifd=27	cycled=908377	insd=111372	cml2=555	bmd=4235
+May 24 15:55:10 ncps-mc1-12 kernel: [15020.761422] cpu=0	jifd=27	cycled=1002509	insd=121324	cml2=544	bmd=4608
+May 24 15:55:10 ncps-mc1-12 kernel: [15020.869450] cpu=0	jifd=27	cycled=1726298	insd=242994	cml2=755	bmd=9774
+May 24 15:55:10 ncps-mc1-12 kernel: [15020.977431] cpu=0	jifd=27	cycled=2031877	insd=293399	cml2=767	bmd=11564
+May 24 15:55:10 ncps-mc1-12 kernel: [15021.085453] cpu=0	jifd=27	cycled=1202449	insd=143406	cml2=692	bmd=5417
+May 24 15:55:10 ncps-mc1-12 kernel: [15021.193445] cpu=0	jifd=27	cycled=1880809	insd=251886	cml2=1350	bmd=9549
+May 24 15:55:10 ncps-mc1-12 kernel: [15021.301445] cpu=0	jifd=27	cycled=1121987	insd=143685	cml2=674	bmd=5637
+May 24 15:55:10 ncps-mc1-12 kernel: [15021.409426] cpu=0	jifd=27	cycled=915064	insd=113981	cml2=666	bmd=4424
+May 24 15:55:10 ncps-mc1-12 kernel: [15021.517443] cpu=0	jifd=27	cycled=1419479	insd=152359	cml2=605	bmd=5698
+May 24 15:55:11 ncps-mc1-12 kernel: [15021.625426] cpu=0	jifd=27	cycled=1070476	insd=135452	cml2=618	bmd=5140
+May 24 15:55:11 ncps-mc1-12 kernel: [15021.733470] cpu=0	jifd=27	cycled=1331389	insd=176359	cml2=710	bmd=6921
+May 24 15:55:11 ncps-mc1-12 kernel: [15021.841423] cpu=0	jifd=27	cycled=1345476	insd=186077	cml2=744	bmd=7084
+May 24 15:55:11 ncps-mc1-12 kernel: [15021.949445] cpu=0	jifd=27	cycled=1440398	insd=154591	cml2=510	bmd=6066
+May 24 15:55:11 ncps-mc1-12 kernel: [15022.057443] cpu=0	jifd=27	cycled=2569015	insd=285335	cml2=908	bmd=10786
+May 24 15:55:11 ncps-mc1-12 kernel: [15022.165436] cpu=0	jifd=27	cycled=1802074	insd=221297	cml2=714	bmd=8632
+May 24 15:55:11 ncps-mc1-12 kernel: [15022.273424] cpu=0	jifd=27	cycled=1047349	insd=135655	cml2=618	bmd=5008
+May 24 15:55:11 ncps-mc1-12 kernel: [15022.381429] cpu=0	jifd=27	cycled=1007313	insd=138683	cml2=587	bmd=5028
+May 24 15:55:11 ncps-mc1-12 kernel: [15022.489420] cpu=0	jifd=27	cycled=944488	insd=139401	cml2=625	bmd=4984
+May 24 15:55:12 ncps-mc1-12 kernel: [15022.597420] cpu=0	jifd=27	cycled=874932	insd=109571	cml2=576	bmd=4049
+May 24 15:55:12 ncps-mc1-12 kernel: [15022.705429] cpu=0	jifd=27	cycled=1070206	insd=136072	cml2=587	bmd=5253
+May 24 15:55:12 ncps-mc1-12 kernel: [15022.813420] cpu=0	jifd=27	cycled=932533	insd=110151	cml2=559	bmd=4072
+May 24 15:55:12 ncps-mc1-12 kernel: [15022.921414] cpu=0	jifd=27	cycled=1079993	insd=140866	cml2=554	bmd=5353
+May 24 15:55:12 ncps-mc1-12 kernel: [15023.029432] cpu=0	jifd=27	cycled=1496831	insd=192797	cml2=642	bmd=7368
+May 24 15:55:12 ncps-mc1-12 kernel: [15023.137424] cpu=0	jifd=27	cycled=1117199	insd=134130	cml2=681	bmd=5047
+May 24 15:55:12 ncps-mc1-12 kernel: [15023.245421] cpu=0	jifd=27	cycled=970334	insd=122028	cml2=601	bmd=4626
+May 24 15:55:12 ncps-mc1-12 kernel: [15023.353422] cpu=0	jifd=27	cycled=983881	insd=120377	cml2=575	bmd=4680
+May 24 15:55:12 ncps-mc1-12 kernel: [15023.461422] cpu=0	jifd=27	cycled=920506	insd=115036	cml2=585	bmd=4247
+May 24 15:55:13 ncps-mc1-12 kernel: [15023.569425] cpu=0	jifd=27	cycled=1378250	insd=209504	cml2=713	bmd=7611
+May 24 15:55:13 ncps-mc1-12 kernel: [15023.677419] cpu=0	jifd=27	cycled=1080076	insd=152368	cml2=610	bmd=5825
+May 24 15:55:13 ncps-mc1-12 kernel: [15023.785418] cpu=0	jifd=27	cycled=1486379	insd=204987	cml2=818	bmd=7841
+May 24 15:55:13 ncps-mc1-12 kernel: [15023.893423] cpu=0	jifd=27	cycled=1089103	insd=157433	cml2=650	bmd=5602
+May 24 15:55:13 ncps-mc1-12 kernel: [15024.001447] cpu=0	jifd=27	cycled=1452476	insd=209196	cml2=720	bmd=7876
+May 24 15:55:13 ncps-mc1-12 kernel: [15024.109412] cpu=0	jifd=27	cycled=1403717	insd=175821	cml2=497	bmd=6587
+May 24 15:55:13 ncps-mc1-12 kernel: [15024.217432] cpu=0	jifd=27	cycled=1330199	insd=183396	cml2=794	bmd=6622
+May 24 15:55:13 ncps-mc1-12 kernel: [15024.325479] cpu=0	jifd=27	cycled=1391245	insd=172700	cml2=979	bmd=6768
+May 24 15:55:13 ncps-mc1-12 kernel: [15024.433445] cpu=0	jifd=27	cycled=73068480	insd=9600192	cml2=48543	bmd=315429
+May 24 15:55:14 ncps-mc1-12 kernel: [15024.541441] cpu=0	jifd=27	cycled=9691484	insd=1033418	cml2=5100	bmd=34908
+May 24 15:55:14 ncps-mc1-12 kernel: [15024.649420] cpu=0	jifd=27	cycled=1470472	insd=212173	cml2=812	bmd=8376
+May 24 15:55:14 ncps-mc1-12 kernel: [15024.757421] cpu=0	jifd=27	cycled=983459	insd=122686	cml2=582	bmd=4526
+May 24 15:55:14 ncps-mc1-12 kernel: [15024.865416] cpu=0	jifd=27	cycled=719448	insd=87908	cml2=413	bmd=3350
+May 24 15:55:14 ncps-mc1-12 kernel: [15024.973460] cpu=0	jifd=27	cycled=1540976	insd=176915	cml2=705	bmd=6877
+May 24 15:55:14 ncps-mc1-12 kernel: [15025.081419] cpu=0	jifd=27	cycled=1534738	insd=213511	cml2=733	bmd=8193
+May 24 15:55:14 ncps-mc1-12 kernel: [15025.189425] cpu=0	jifd=27	cycled=1065939	insd=131174	cml2=646	bmd=5028
+May 24 15:55:14 ncps-mc1-12 kernel: [15025.297435] cpu=0	jifd=27	cycled=866320	insd=104147	cml2=546	bmd=4000
+May 24 15:55:14 ncps-mc1-12 kernel: [15025.405416] cpu=0	jifd=27	cycled=926741	insd=116649	cml2=581	bmd=4435
+May 24 15:55:14 ncps-mc1-12 kernel: [15025.513446] cpu=0	jifd=27	cycled=1017544	insd=122029	cml2=582	bmd=4750
+May 24 15:55:15 ncps-mc1-12 kernel: [15025.621417] cpu=0	jifd=27	cycled=821738	insd=98323	cml2=462	bmd=3780
+May 24 15:55:15 ncps-mc1-12 kernel: [15025.729419] cpu=0	jifd=27	cycled=1369769	insd=175469	cml2=730	bmd=6589
+May 24 15:55:15 ncps-mc1-12 kernel: [15025.837410] cpu=0	jifd=27	cycled=981747	insd=130320	cml2=619	bmd=4838
+May 24 15:55:15 ncps-mc1-12 kernel: [15025.945412] cpu=0	jifd=27	cycled=919819	insd=113878	cml2=545	bmd=4338
+May 24 15:55:15 ncps-mc1-12 kernel: [15026.053468] cpu=0	jifd=27	cycled=2046478	insd=261381	cml2=911	bmd=9827
+May 24 15:55:15 ncps-mc1-12 kernel: [15026.161415] cpu=0	jifd=27	cycled=1539827	insd=197115	cml2=719	bmd=7601
+May 24 15:55:15 ncps-mc1-12 kernel: [15026.269435] cpu=0	jifd=27	cycled=1334636	insd=156820	cml2=640	bmd=6029
+May 24 15:55:15 ncps-mc1-12 kernel: [15026.377412] cpu=0	jifd=27	cycled=764374	insd=98399	cml2=460	bmd=3799
+May 24 15:55:15 ncps-mc1-12 kernel: [15026.485418] cpu=0	jifd=27	cycled=903848	insd=121462	cml2=524	bmd=4640
+May 24 15:55:16 ncps-mc1-12 kernel: [15026.593415] cpu=0	jifd=27	cycled=851268	insd=106331	cml2=526	bmd=4136
+May 24 15:55:16 ncps-mc1-12 kernel: [15026.701416] cpu=0	jifd=27	cycled=1173248	insd=148054	cml2=613	bmd=5675
+May 24 15:55:16 ncps-mc1-12 kernel: [15026.809429] cpu=0	jifd=27	cycled=946441	insd=123551	cml2=518	bmd=4672
+May 24 15:55:16 ncps-mc1-12 kernel: [15026.917413] cpu=0	jifd=27	cycled=952335	insd=117112	cml2=587	bmd=4424
+May 24 15:55:16 ncps-mc1-12 kernel: [15027.025401] cpu=0	jifd=27	cycled=1503422	insd=184193	cml2=801	bmd=7113
+May 24 15:55:16 ncps-mc1-12 kernel: [15027.133402] cpu=0	jifd=27	cycled=1555562	insd=205036	cml2=579	bmd=7936
+May 24 15:55:16 ncps-mc1-12 kernel: [15027.241430] cpu=0	jifd=27	cycled=785777	insd=92935	cml2=417	bmd=3646
+May 24 15:55:16 ncps-mc1-12 kernel: [15027.349413] cpu=0	jifd=27	cycled=993721	insd=137133	cml2=592	bmd=5200
+May 24 15:55:16 ncps-mc1-12 kernel: [15027.457417] cpu=0	jifd=27	cycled=851872	insd=107235	cml2=495	bmd=4092
+May 24 15:55:17 ncps-mc1-12 kernel: [15027.565412] cpu=0	jifd=27	cycled=1068017	insd=130277	cml2=645	bmd=4994
+May 24 15:55:17 ncps-mc1-12 kernel: [15027.673465] cpu=0	jifd=27	cycled=1277094	insd=156618	cml2=884	bmd=6150
+May 24 15:55:17 ncps-mc1-12 kernel: [15027.781412] cpu=0	jifd=27	cycled=1162076	insd=146247	cml2=623	bmd=5555
+May 24 15:55:17 ncps-mc1-12 kernel: [15027.889429] cpu=0	jifd=27	cycled=1459663	insd=164464	cml2=618	bmd=6151
+May 24 15:55:17 ncps-mc1-12 kernel: [15027.997419] cpu=0	jifd=27	cycled=1623277	insd=185421	cml2=720	bmd=7286
+May 24 15:55:17 ncps-mc1-12 kernel: [15028.105397] cpu=0	jifd=27	cycled=1095487	insd=138542	cml2=601	bmd=5284
+May 24 15:55:17 ncps-mc1-12 kernel: [15028.213418] cpu=0	jifd=27	cycled=1583038	insd=199861	cml2=688	bmd=7638
+May 24 15:55:17 ncps-mc1-12 kernel: [15028.321438] cpu=0	jifd=27	cycled=1010933	insd=134190	cml2=598	bmd=4969
+May 24 15:55:17 ncps-mc1-12 kernel: [15028.429414] cpu=0	jifd=27	cycled=922428	insd=118923	cml2=586	bmd=4481
+May 24 15:55:18 ncps-mc1-12 kernel: [15028.537415] cpu=0	jifd=27	cycled=980512	insd=145372	cml2=558	bmd=5158
+May 24 15:55:18 ncps-mc1-12 kernel: [15028.645536] cpu=0	jifd=27	cycled=1344303	insd=153224	cml2=685	bmd=5985
+May 24 15:55:18 ncps-mc1-12 kernel: [15028.753412] cpu=0	jifd=27	cycled=1233293	insd=163254	cml2=652	bmd=6387
+May 24 15:55:18 ncps-mc1-12 kernel: [15028.861417] cpu=0	jifd=27	cycled=1292403	insd=157868	cml2=584	bmd=6038
+May 24 15:55:18 ncps-mc1-12 kernel: [15028.969414] cpu=0	jifd=27	cycled=1391337	insd=171529	cml2=731	bmd=6616
+May 24 15:55:18 ncps-mc1-12 kernel: [15029.077477] cpu=0	jifd=27	cycled=1143437	insd=133156	cml2=638	bmd=5203
+May 24 15:55:18 ncps-mc1-12 kernel: [15029.185431] cpu=0	jifd=27	cycled=1358069	insd=183512	cml2=662	bmd=7162
+May 24 15:55:18 ncps-mc1-12 kernel: [15029.293432] cpu=0	jifd=27	cycled=1001341	insd=133729	cml2=582	bmd=4971
+May 24 15:55:18 ncps-mc1-12 kernel: [15029.401423] cpu=0	jifd=27	cycled=850191	insd=102341	cml2=485	bmd=3935
+May 24 15:55:18 ncps-mc1-12 kernel: [15029.509413] cpu=0	jifd=27	cycled=2100812	insd=265844	cml2=1267	bmd=9002
+May 24 15:55:19 ncps-mc1-12 kernel: [15029.617412] cpu=0	jifd=27	cycled=928578	insd=114990	cml2=563	bmd=4379
+May 24 15:55:19 ncps-mc1-12 kernel: [15029.725429] cpu=0	jifd=27	cycled=1284578	insd=157758	cml2=687	bmd=5904
+May 24 15:55:19 ncps-mc1-12 kernel: [15029.833406] cpu=0	jifd=27	cycled=1125459	insd=136708	cml2=566	bmd=5193
+May 24 15:55:19 ncps-mc1-12 kernel: [15029.941426] cpu=0	jifd=27	cycled=954218	insd=115824	cml2=555	bmd=4379
+May 24 15:55:19 ncps-mc1-12 kernel: [15030.049400] cpu=0	jifd=27	cycled=2384688	insd=310366	cml2=1188	bmd=11654
+May 24 15:55:19 ncps-mc1-12 kernel: [15030.157400] cpu=0	jifd=27	cycled=1184020	insd=150244	cml2=680	bmd=5780
+May 24 15:55:19 ncps-mc1-12 kernel: [15030.265410] cpu=0	jifd=27	cycled=1239636	insd=162269	cml2=613	bmd=6168
+May 24 15:55:19 ncps-mc1-12 kernel: [15030.373428] cpu=0	jifd=27	cycled=979538	insd=125908	cml2=580	bmd=4681
+May 24 15:55:19 ncps-mc1-12 kernel: [15030.481409] cpu=0	jifd=27	cycled=845911	insd=102509	cml2=500	bmd=3974
+May 24 15:55:20 ncps-mc1-12 kernel: [15030.589397] cpu=0	jifd=27	cycled=1006375	insd=119920	cml2=640	bmd=4605
+May 24 15:55:20 ncps-mc1-12 kernel: [15030.697390] cpu=0	jifd=27	cycled=1157228	insd=139727	cml2=641	bmd=5296
+May 24 15:55:20 ncps-mc1-12 kernel: [15030.805407] cpu=0	jifd=27	cycled=944331	insd=132640	cml2=437	bmd=5155
+May 24 15:55:20 ncps-mc1-12 kernel: [15030.913401] cpu=0	jifd=27	cycled=913071	insd=108505	cml2=554	bmd=4109
+May 24 15:55:20 ncps-mc1-12 kernel: [15031.021425] cpu=0	jifd=27	cycled=1121547	insd=135251	cml2=561	bmd=5423
+May 24 15:55:20 ncps-mc1-12 kernel: [15031.129408] cpu=0	jifd=27	cycled=741011	insd=101507	cml2=429	bmd=3766
+May 24 15:55:20 ncps-mc1-12 kernel: [15031.237400] cpu=0	jifd=27	cycled=1137167	insd=154045	cml2=548	bmd=5961
+May 24 15:55:20 ncps-mc1-12 kernel: [15031.345407] cpu=0	jifd=27	cycled=896773	insd=116566	cml2=515	bmd=4352
+May 24 15:55:20 ncps-mc1-12 kernel: [15031.453408] cpu=0	jifd=27	cycled=808751	insd=98997	cml2=498	bmd=3696
+May 24 15:55:21 ncps-mc1-12 kernel: [15031.561406] cpu=0	jifd=27	cycled=1045434	insd=150224	cml2=619	bmd=5288
+May 24 15:55:21 ncps-mc1-12 kernel: [15031.669413] cpu=0	jifd=27	cycled=1141306	insd=159055	cml2=588	bmd=5764
+May 24 15:55:21 ncps-mc1-12 kernel: [15031.777403] cpu=0	jifd=27	cycled=1201406	insd=164693	cml2=576	bmd=6200
+May 24 15:55:21 ncps-mc1-12 kernel: [15031.885422] cpu=0	jifd=27	cycled=1164225	insd=137692	cml2=543	bmd=5320
+May 24 15:55:21 ncps-mc1-12 kernel: [15031.993403] cpu=0	jifd=27	cycled=1146554	insd=161865	cml2=540	bmd=5899
+May 24 15:55:21 ncps-mc1-12 kernel: [15032.101463] cpu=0	jifd=27	cycled=1150918	insd=144691	cml2=734	bmd=5558
+May 24 15:55:21 ncps-mc1-12 kernel: [15032.209396] cpu=0	jifd=27	cycled=904439	insd=116774	cml2=483	bmd=4632
+May 24 15:55:21 ncps-mc1-12 kernel: [15032.317401] cpu=0	jifd=27	cycled=1133638	insd=142847	cml2=580	bmd=5501
+May 24 15:55:21 ncps-mc1-12 kernel: [15032.425405] cpu=0	jifd=27	cycled=872014	insd=135481	cml2=515	bmd=4821
+May 24 15:55:21 ncps-mc1-12 kernel: [15032.533404] cpu=0	jifd=27	cycled=899739	insd=108876	cml2=540	bmd=4100
+May 24 15:55:22 ncps-mc1-12 kernel: [15032.641406] cpu=0	jifd=27	cycled=1122419	insd=139098	cml2=728	bmd=5495
+May 24 15:55:22 ncps-mc1-12 kernel: [15032.749398] cpu=0	jifd=27	cycled=888709	insd=137293	cml2=493	bmd=4844
+May 24 15:55:22 ncps-mc1-12 kernel: [15032.857399] cpu=0	jifd=27	cycled=1077329	insd=138264	cml2=591	bmd=5306
+May 24 15:55:22 ncps-mc1-12 kernel: [15032.965405] cpu=0	jifd=27	cycled=1191933	insd=140449	cml2=653	bmd=5326
+May 24 15:55:22 ncps-mc1-12 kernel: [15033.073442] cpu=0	jifd=27	cycled=1270428	insd=155192	cml2=679	bmd=5900
+May 24 15:55:22 ncps-mc1-12 kernel: [15033.181404] cpu=0	jifd=27	cycled=898797	insd=109936	cml2=528	bmd=4290
+May 24 15:55:22 ncps-mc1-12 kernel: [15033.289407] cpu=0	jifd=27	cycled=1149995	insd=157616	cml2=556	bmd=6051
+May 24 15:55:22 ncps-mc1-12 kernel: [15033.397440] cpu=0	jifd=27	cycled=942073	insd=111341	cml2=542	bmd=4165
+May 24 15:55:22 ncps-mc1-12 kernel: [15033.505407] cpu=0	jifd=27	cycled=981418	insd=116592	cml2=618	bmd=4231
+May 24 15:55:23 ncps-mc1-12 kernel: [15033.613402] cpu=0	jifd=27	cycled=1087372	insd=137557	cml2=594	bmd=5137
+May 24 15:55:23 ncps-mc1-12 kernel: [15033.721397] cpu=0	jifd=27	cycled=1011912	insd=121275	cml2=654	bmd=4390
+May 24 15:55:23 ncps-mc1-12 kernel: [15033.829519] cpu=0	jifd=27	cycled=1203639	insd=165738	cml2=652	bmd=5672
+May 24 15:55:23 ncps-mc1-12 kernel: [15033.937404] cpu=0	jifd=27	cycled=1117292	insd=140950	cml2=714	bmd=5341
+May 24 15:55:23 ncps-mc1-12 kernel: [15034.045454] cpu=0	jifd=27	cycled=2030825	insd=257399	cml2=935	bmd=9392
+May 24 15:55:23 ncps-mc1-12 kernel: [15034.153402] cpu=0	jifd=27	cycled=974269	insd=121345	cml2=633	bmd=4616
+May 24 15:55:23 ncps-mc1-12 kernel: [15034.261407] cpu=0	jifd=27	cycled=1480340	insd=179446	cml2=643	bmd=6976
+May 24 15:55:23 ncps-mc1-12 kernel: [15034.369402] cpu=0	jifd=27	cycled=1162126	insd=158367	cml2=604	bmd=5971
+May 24 15:55:23 ncps-mc1-12 kernel: [15034.477401] cpu=0	jifd=27	cycled=1407116	insd=187232	cml2=1280	bmd=7013
+May 24 15:55:24 ncps-mc1-12 kernel: [15034.585399] cpu=0	jifd=27	cycled=1432314	insd=196712	cml2=845	bmd=7672
+May 24 15:55:24 ncps-mc1-12 kernel: [15034.693428] cpu=0	jifd=27	cycled=2035427	insd=282181	cml2=806	bmd=10947
+May 24 15:55:24 ncps-mc1-12 kernel: [15034.801431] cpu=0	jifd=27	cycled=1738205	insd=252424	cml2=792	bmd=10050
+May 24 15:55:24 ncps-mc1-12 kernel: [15034.909401] cpu=0	jifd=27	cycled=1784001	insd=245852	cml2=868	bmd=9481
+May 24 15:55:24 ncps-mc1-12 kernel: [15035.017505] cpu=0	jifd=27	cycled=1489680	insd=185067	cml2=813	bmd=7257
+May 24 15:55:24 ncps-mc1-12 kernel: [15035.125422] cpu=0	jifd=27	cycled=1490978	insd=180659	cml2=772	bmd=7257
+May 24 15:55:24 ncps-mc1-12 kernel: [15035.233417] cpu=0	jifd=27	cycled=2613054	insd=345253	cml2=1156	bmd=14032
+May 24 15:55:24 ncps-mc1-12 kernel: [15035.341399] cpu=0	jifd=27	cycled=1970420	insd=285263	cml2=860	bmd=11645
+May 24 15:55:24 ncps-mc1-12 kernel: [15035.449395] cpu=0	jifd=27	cycled=1587290	insd=193803	cml2=690	bmd=7359
+May 24 15:55:25 ncps-mc1-12 kernel: [15035.557396] cpu=0	jifd=27	cycled=880641	insd=110834	cml2=531	bmd=4289
+May 24 15:55:25 ncps-mc1-12 kernel: [15035.665400] cpu=0	jifd=27	cycled=1035681	insd=123302	cml2=624	bmd=4607
+May 24 15:55:25 ncps-mc1-12 kernel: [15035.773390] cpu=0	jifd=27	cycled=921825	insd=115048	cml2=564	bmd=4378
+May 24 15:55:25 ncps-mc1-12 kernel: [15035.881468] cpu=0	jifd=27	cycled=1042467	insd=144893	cml2=562	bmd=5078
+May 24 15:55:25 ncps-mc1-12 kernel: [15035.989399] cpu=0	jifd=27	cycled=1837435	insd=210494	cml2=1075	bmd=8300
+May 24 15:55:25 ncps-mc1-12 kernel: [15036.097426] cpu=0	jifd=27	cycled=1246777	insd=160584	cml2=795	bmd=6314
+May 24 15:55:25 ncps-mc1-12 kernel: [15036.205413] cpu=0	jifd=27	cycled=1101564	insd=142558	cml2=620	bmd=5452
+May 24 15:55:25 ncps-mc1-12 kernel: [15036.313432] cpu=0	jifd=27	cycled=1209774	insd=151518	cml2=723	bmd=6086
+May 24 15:55:25 ncps-mc1-12 kernel: [15036.421409] cpu=0	jifd=27	cycled=1267017	insd=166750	cml2=641	bmd=6404
+May 24 15:55:25 ncps-mc1-12 kernel: [15036.529397] cpu=0	jifd=27	cycled=897525	insd=109451	cml2=510	bmd=4143
+May 24 15:55:26 ncps-mc1-12 kernel: [15036.637391] cpu=0	jifd=27	cycled=1007288	insd=121510	cml2=575	bmd=4591
+May 24 15:55:26 ncps-mc1-12 kernel: [15036.745393] cpu=0	jifd=27	cycled=938686	insd=117592	cml2=538	bmd=4441
+May 24 15:55:26 ncps-mc1-12 kernel: [15036.853414] cpu=0	jifd=27	cycled=459865	insd=61350	cml2=195	bmd=2463
+May 24 15:55:26 ncps-mc1-12 kernel: [15036.961414] cpu=0	jifd=27	cycled=1280545	insd=159753	cml2=753	bmd=6055
+May 24 15:55:26 ncps-mc1-12 kernel: [15037.069427] cpu=0	jifd=27	cycled=1497003	insd=209196	cml2=892	bmd=8271
+May 24 15:55:26 ncps-mc1-12 kernel: [15037.177397] cpu=0	jifd=27	cycled=1128874	insd=145606	cml2=634	bmd=5794
+May 24 15:55:26 ncps-mc1-12 kernel: [15037.285419] cpu=0	jifd=27	cycled=966779	insd=116957	cml2=613	bmd=4467
+May 24 15:55:26 ncps-mc1-12 kernel: [15037.393398] cpu=0	jifd=27	cycled=1484236	insd=197643	cml2=626	bmd=7585
+May 24 15:55:26 ncps-mc1-12 kernel: [15037.501394] cpu=0	jifd=27	cycled=1007525	insd=129929	cml2=492	bmd=5115
+May 24 15:55:27 ncps-mc1-12 kernel: [15037.609398] cpu=0	jifd=27	cycled=1098244	insd=130633	cml2=686	bmd=4798
+May 24 15:55:27 ncps-mc1-12 kernel: [15037.717389] cpu=0	jifd=27	cycled=1262089	insd=189208	cml2=676	bmd=6941
+May 24 15:55:27 ncps-mc1-12 kernel: [15037.825387] cpu=0	jifd=27	cycled=997094	insd=135558	cml2=615	bmd=5024
+May 24 15:55:27 ncps-mc1-12 kernel: [15037.933418] cpu=0	jifd=27	cycled=2171142	insd=242248	cml2=1033	bmd=8966
+May 24 15:55:27 ncps-mc1-12 kernel: [15038.041466] cpu=0	jifd=27	cycled=1163007	insd=137574	cml2=601	bmd=5172
+May 24 15:55:27 ncps-mc1-12 kernel: [15038.149457] cpu=0	jifd=27	cycled=1181515	insd=135907	cml2=1001	bmd=5261
+May 24 15:55:27 ncps-mc1-12 kernel: [15038.257388] cpu=0	jifd=27	cycled=786845	insd=98261	cml2=515	bmd=3676
+May 24 15:55:27 ncps-mc1-12 kernel: [15038.365385] cpu=0	jifd=27	cycled=1213949	insd=159599	cml2=852	bmd=6200
+May 24 15:55:27 ncps-mc1-12 kernel: [15038.473413] cpu=0	jifd=27	cycled=1362570	insd=164636	cml2=588	bmd=6091
+May 24 15:55:28 ncps-mc1-12 kernel: [15038.581392] cpu=0	jifd=27	cycled=833624	insd=97040	cml2=488	bmd=3675
+May 24 15:55:28 ncps-mc1-12 kernel: [15038.689395] cpu=0	jifd=27	cycled=852828	insd=110590	cml2=423	bmd=4297
+May 24 15:55:28 ncps-mc1-12 kernel: [15038.797390] cpu=0	jifd=27	cycled=1046991	insd=123979	cml2=622	bmd=4494
+May 24 15:55:28 ncps-mc1-12 kernel: [15038.905395] cpu=0	jifd=27	cycled=1161691	insd=133800	cml2=684	bmd=4855
+May 24 15:55:28 ncps-mc1-12 kernel: [15039.013439] cpu=0	jifd=27	cycled=1109663	insd=138448	cml2=645	bmd=5317
+May 24 15:55:28 ncps-mc1-12 kernel: [15039.121408] cpu=0	jifd=27	cycled=905529	insd=107747	cml2=520	bmd=3998
+May 24 15:55:28 ncps-mc1-12 kernel: [15039.229420] cpu=0	jifd=27	cycled=1239073	insd=157026	cml2=700	bmd=6013
+May 24 15:55:28 ncps-mc1-12 kernel: [15039.337392] cpu=0	jifd=27	cycled=853645	insd=103996	cml2=539	bmd=4083
+May 24 15:55:28 ncps-mc1-12 kernel: [15039.445391] cpu=0	jifd=27	cycled=1640518	insd=215769	cml2=617	bmd=8203
+May 24 15:55:29 ncps-mc1-12 kernel: [15039.553409] cpu=0	jifd=27	cycled=1447704	insd=199176	cml2=983	bmd=7282
+May 24 15:55:29 ncps-mc1-12 kernel: [15039.661387] cpu=0	jifd=27	cycled=887930	insd=110492	cml2=488	bmd=4312
+May 24 15:55:29 ncps-mc1-12 kernel: [15039.769389] cpu=0	jifd=27	cycled=972326	insd=128348	cml2=605	bmd=4793
+May 24 15:55:29 ncps-mc1-12 kernel: [15039.877389] cpu=0	jifd=27	cycled=1013185	insd=126696	cml2=616	bmd=4844
+May 24 15:55:29 ncps-mc1-12 kernel: [15039.985393] cpu=0	jifd=27	cycled=1125886	insd=140761	cml2=622	bmd=5490
+May 24 15:55:29 ncps-mc1-12 kernel: [15040.093407] cpu=0	jifd=27	cycled=1026567	insd=137345	cml2=637	bmd=5170
+May 24 15:55:29 ncps-mc1-12 kernel: [15040.201387] cpu=0	jifd=27	cycled=1185743	insd=158021	cml2=867	bmd=6159
+May 24 15:55:29 ncps-mc1-12 kernel: [15040.309395] cpu=0	jifd=27	cycled=924038	insd=119425	cml2=565	bmd=4555
+May 24 15:55:29 ncps-mc1-12 kernel: [15040.417388] cpu=0	jifd=27	cycled=1206508	insd=173551	cml2=627	bmd=6376
+May 24 15:55:29 ncps-mc1-12 kernel: [15040.525387] cpu=0	jifd=27	cycled=1322483	insd=165368	cml2=631	bmd=6405
+May 24 15:55:30 ncps-mc1-12 kernel: [15040.633390] cpu=0	jifd=27	cycled=1336865	insd=184573	cml2=696	bmd=6748
+May 24 15:55:30 ncps-mc1-12 kernel: [15040.741388] cpu=0	jifd=27	cycled=927223	insd=113420	cml2=557	bmd=4348
+May 24 15:55:30 ncps-mc1-12 kernel: [15040.849408] cpu=0	jifd=27	cycled=1152405	insd=144744	cml2=644	bmd=5726
+May 24 15:55:30 ncps-mc1-12 kernel: [15040.957391] cpu=0	jifd=27	cycled=1209253	insd=145807	cml2=680	bmd=5564
+May 24 15:55:30 ncps-mc1-12 kernel: [15041.065404] cpu=0	jifd=27	cycled=724140	insd=97868	cml2=422	bmd=3937
+May 24 15:55:30 ncps-mc1-12 kernel: [15041.173390] cpu=0	jifd=27	cycled=1042401	insd=129271	cml2=660	bmd=4782
+May 24 15:55:30 ncps-mc1-12 kernel: [15041.281386] cpu=0	jifd=27	cycled=1207147	insd=185344	cml2=638	bmd=6535
+May 24 15:55:30 ncps-mc1-12 kernel: [15041.389382] cpu=0	jifd=27	cycled=1006111	insd=122636	cml2=626	bmd=4633
+May 24 15:55:30 ncps-mc1-12 kernel: [15041.497386] cpu=0	jifd=27	cycled=1453287	insd=204077	cml2=568	bmd=7940
+May 24 15:55:31 ncps-mc1-12 kernel: [15041.605384] cpu=0	jifd=27	cycled=1006157	insd=120837	cml2=594	bmd=4582
+May 24 15:55:31 ncps-mc1-12 kernel: [15041.713388] cpu=0	jifd=27	cycled=926396	insd=114995	cml2=568	bmd=4346
+May 24 15:55:31 ncps-mc1-12 kernel: [15041.821380] cpu=0	jifd=27	cycled=743934	insd=87279	cml2=399	bmd=3423
+May 24 15:55:31 ncps-mc1-12 kernel: [15041.929393] cpu=0	jifd=27	cycled=1130764	insd=143052	cml2=572	bmd=5578
+May 24 15:55:31 ncps-mc1-12 kernel: [15042.037407] cpu=0	jifd=27	cycled=1790052	insd=233761	cml2=990	bmd=9163
+May 24 15:55:31 ncps-mc1-12 kernel: [15042.145397] cpu=0	jifd=27	cycled=888797	insd=108882	cml2=555	bmd=4284
+May 24 15:55:31 ncps-mc1-12 kernel: [15042.253391] cpu=0	jifd=27	cycled=916048	insd=115423	cml2=578	bmd=4351
+May 24 15:55:31 ncps-mc1-12 kernel: [15042.361379] cpu=0	jifd=27	cycled=1551191	insd=176244	cml2=743	bmd=6898
+May 24 15:55:31 ncps-mc1-12 kernel: [15042.469453] cpu=0	jifd=27	cycled=1321373	insd=166911	cml2=644	bmd=6497
+May 24 15:55:32 ncps-mc1-12 kernel: [15042.577384] cpu=0	jifd=27	cycled=1227272	insd=176404	cml2=613	bmd=6424
+May 24 15:55:32 ncps-mc1-12 kernel: [15042.685378] cpu=0	jifd=27	cycled=1151627	insd=165832	cml2=647	bmd=5953
+May 24 15:55:32 ncps-mc1-12 kernel: [15042.793378] cpu=0	jifd=27	cycled=1253295	insd=175860	cml2=695	bmd=6203
+May 24 15:55:32 ncps-mc1-12 kernel: [15042.901374] cpu=0	jifd=27	cycled=1307105	insd=176436	cml2=736	bmd=7060
+May 24 15:55:32 ncps-mc1-12 kernel: [15043.009414] cpu=0	jifd=27	cycled=1861359	insd=219211	cml2=767	bmd=8687
+May 24 15:55:32 ncps-mc1-12 kernel: [15043.117385] cpu=0	jifd=27	cycled=1115044	insd=142675	cml2=701	bmd=5660
+May 24 15:55:32 ncps-mc1-12 kernel: [15043.225385] cpu=0	jifd=27	cycled=744004	insd=92160	cml2=467	bmd=3611
+May 24 15:55:32 ncps-mc1-12 kernel: [15043.333382] cpu=0	jifd=27	cycled=1313178	insd=198770	cml2=762	bmd=7275
+May 24 15:55:32 ncps-mc1-12 kernel: [15043.441380] cpu=0	jifd=27	cycled=1006683	insd=124328	cml2=573	bmd=4948
+May 24 15:55:33 ncps-mc1-12 kernel: [15043.549381] cpu=0	jifd=27	cycled=1478099	insd=180645	cml2=1358	bmd=7251
+May 24 15:55:33 ncps-mc1-12 kernel: [15043.657401] cpu=0	jifd=27	cycled=3054926	insd=166506	cml2=1256	bmd=6323
+May 24 15:55:33 ncps-mc1-12 kernel: [15043.765413] cpu=0	jifd=27	cycled=1175750	insd=146620	cml2=965	bmd=5735
+May 24 15:55:33 ncps-mc1-12 kernel: [15043.873383] cpu=0	jifd=27	cycled=1571896	insd=218778	cml2=1080	bmd=8829
+May 24 15:55:33 ncps-mc1-12 kernel: [15043.981397] cpu=0	jifd=27	cycled=1333924	insd=164107	cml2=670	bmd=6399
+May 24 15:55:33 ncps-mc1-12 kernel: [15044.089436] cpu=0	jifd=27	cycled=1017157	insd=123364	cml2=619	bmd=4735
+May 24 15:55:33 ncps-mc1-12 kernel: [15044.197382] cpu=0	jifd=27	cycled=1025763	insd=130231	cml2=664	bmd=5114
+May 24 15:55:33 ncps-mc1-12 kernel: [15044.305377] cpu=0	jifd=27	cycled=784146	insd=97379	cml2=446	bmd=3827
+May 24 15:55:33 ncps-mc1-12 kernel: [15044.413396] cpu=0	jifd=27	cycled=1291979	insd=166774	cml2=708	bmd=6613
+May 24 15:55:33 ncps-mc1-12 kernel: [15044.521357] cpu=0	jifd=27	cycled=1426849	insd=191755	cml2=693	bmd=7301
+May 24 15:55:34 ncps-mc1-12 kernel: [15044.629379] cpu=0	jifd=27	cycled=998814	insd=148327	cml2=603	bmd=5222
+May 24 15:55:34 ncps-mc1-12 kernel: [15044.737380] cpu=0	jifd=27	cycled=1079132	insd=128859	cml2=638	bmd=4866
+May 24 15:55:34 ncps-mc1-12 kernel: [15044.845378] cpu=0	jifd=27	cycled=1121429	insd=135051	cml2=660	bmd=4954
+May 24 15:55:34 ncps-mc1-12 kernel: [15044.953377] cpu=0	jifd=27	cycled=1197903	insd=152119	cml2=627	bmd=5993
+May 24 15:55:34 ncps-mc1-12 kernel: [15045.061434] cpu=0	jifd=27	cycled=1061828	insd=128442	cml2=633	bmd=4955
+May 24 15:55:34 ncps-mc1-12 kernel: [15045.169379] cpu=0	jifd=27	cycled=940314	insd=116808	cml2=580	bmd=4481
+May 24 15:55:34 ncps-mc1-12 kernel: [15045.277377] cpu=0	jifd=27	cycled=988716	insd=123389	cml2=601	bmd=4670
+May 24 15:55:34 ncps-mc1-12 kernel: [15045.385377] cpu=0	jifd=27	cycled=1103527	insd=153749	cml2=704	bmd=5638
+May 24 15:55:34 ncps-mc1-12 kernel: [15045.493380] cpu=0	jifd=27	cycled=1308008	insd=165052	cml2=663	bmd=6260
+May 24 15:55:35 ncps-mc1-12 kernel: [15045.601377] cpu=0	jifd=27	cycled=1208224	insd=161349	cml2=576	bmd=6222
+May 24 15:55:35 ncps-mc1-12 kernel: [15045.709379] cpu=0	jifd=27	cycled=1185170	insd=153736	cml2=1219	bmd=5581
+May 24 15:55:35 ncps-mc1-12 kernel: [15045.817426] cpu=0	jifd=27	cycled=1070143	insd=130478	cml2=617	bmd=4916
+May 24 15:55:35 ncps-mc1-12 kernel: [15045.925384] cpu=0	jifd=27	cycled=1159860	insd=140316	cml2=652	bmd=5342
+May 24 15:55:35 ncps-mc1-12 kernel: [15046.033398] cpu=0	jifd=27	cycled=1986173	insd=227441	cml2=903	bmd=8594
+May 24 15:55:35 ncps-mc1-12 kernel: [15046.141373] cpu=0	jifd=27	cycled=912502	insd=115569	cml2=594	bmd=4283
+May 24 15:55:35 ncps-mc1-12 kernel: [15046.249387] cpu=0	jifd=27	cycled=898733	insd=109968	cml2=556	bmd=4074
+May 24 15:55:35 ncps-mc1-12 kernel: [15046.357372] cpu=0	jifd=27	cycled=1213443	insd=156124	cml2=978	bmd=6113
+May 24 15:55:35 ncps-mc1-12 kernel: [15046.465381] cpu=0	jifd=27	cycled=1126552	insd=133798	cml2=665	bmd=5166
+May 24 15:55:36 ncps-mc1-12 kernel: [15046.573385] cpu=0	jifd=27	cycled=1350488	insd=166340	cml2=606	bmd=6316
+May 24 15:55:36 ncps-mc1-12 kernel: [15046.681406] cpu=0	jifd=27	cycled=1068446	insd=130654	cml2=659	bmd=4858
+May 24 15:55:36 ncps-mc1-12 kernel: [15046.789406] cpu=0	jifd=27	cycled=1035057	insd=118261	cml2=595	bmd=4334
+May 24 15:55:36 ncps-mc1-12 kernel: [15046.897372] cpu=0	jifd=27	cycled=954384	insd=115199	cml2=618	bmd=4272
+May 24 15:55:36 ncps-mc1-12 kernel: [15047.005376] cpu=0	jifd=27	cycled=1350818	insd=183835	cml2=676	bmd=6980
+May 24 15:55:36 ncps-mc1-12 kernel: [15047.113374] cpu=0	jifd=27	cycled=885320	insd=109081	cml2=488	bmd=4321
+May 24 15:55:36 ncps-mc1-12 kernel: [15047.221377] cpu=0	jifd=27	cycled=1158838	insd=139494	cml2=485	bmd=5648
+May 24 15:55:36 ncps-mc1-12 kernel: [15047.329401] cpu=0	jifd=27	cycled=896200	insd=105123	cml2=484	bmd=4035
+May 24 15:55:36 ncps-mc1-12 kernel: [15047.437430] cpu=0	jifd=27	cycled=1217071	insd=143960	cml2=652	bmd=5540
+May 24 15:55:37 ncps-mc1-12 kernel: [15047.545387] cpu=0	jifd=27	cycled=1566873	insd=165723	cml2=624	bmd=6497
+May 24 15:55:37 ncps-mc1-12 kernel: [15047.653412] cpu=0	jifd=27	cycled=1339896	insd=164544	cml2=620	bmd=6393
+May 24 15:55:37 ncps-mc1-12 kernel: [15047.761375] cpu=0	jifd=27	cycled=973293	insd=119900	cml2=574	bmd=4487
+May 24 15:55:37 ncps-mc1-12 kernel: [15047.869388] cpu=0	jifd=27	cycled=990700	insd=119765	cml2=604	bmd=4487
+May 24 15:55:37 ncps-mc1-12 kernel: [15047.977373] cpu=0	jifd=27	cycled=1790169	insd=237760	cml2=983	bmd=9075
+May 24 15:55:37 ncps-mc1-12 kernel: [15048.085375] cpu=0	jifd=27	cycled=1189383	insd=151781	cml2=641	bmd=5815
+May 24 15:55:37 ncps-mc1-12 kernel: [15048.193399] cpu=0	jifd=27	cycled=1116326	insd=133018	cml2=575	bmd=5100
+May 24 15:55:37 ncps-mc1-12 kernel: [15048.301374] cpu=0	jifd=27	cycled=1077464	insd=126043	cml2=533	bmd=4845
+May 24 15:55:37 ncps-mc1-12 kernel: [15048.409377] cpu=0	jifd=27	cycled=1258989	insd=165724	cml2=640	bmd=6284
+May 24 15:55:37 ncps-mc1-12 kernel: [15048.517370] cpu=0	jifd=27	cycled=951497	insd=113605	cml2=561	bmd=4318
+May 24 15:55:38 ncps-mc1-12 kernel: [15048.625386] cpu=0	jifd=27	cycled=1493170	insd=198553	cml2=699	bmd=7830
+May 24 15:55:38 ncps-mc1-12 kernel: [15048.733405] cpu=0	jifd=27	cycled=1178824	insd=136092	cml2=651	bmd=5185
+May 24 15:55:38 ncps-mc1-12 kernel: [15048.841369] cpu=0	jifd=27	cycled=1206205	insd=157052	cml2=737	bmd=5774
+May 24 15:55:38 ncps-mc1-12 kernel: [15048.949362] cpu=0	jifd=27	cycled=1263375	insd=174758	cml2=725	bmd=6842
+May 24 15:55:38 ncps-mc1-12 kernel: [15049.057372] cpu=0	jifd=27	cycled=1480506	insd=219074	cml2=838	bmd=8523
+May 24 15:55:38 ncps-mc1-12 kernel: [15049.165364] cpu=0	jifd=27	cycled=1387327	insd=178497	cml2=671	bmd=6995
+May 24 15:55:38 ncps-mc1-12 kernel: [15049.273347] cpu=0	jifd=27	cycled=1143285	insd=178002	cml2=774	bmd=6505
+May 24 15:55:38 ncps-mc1-12 kernel: [15049.381354] cpu=0	jifd=27	cycled=1479654	insd=240102	cml2=1126	bmd=9155
+May 24 15:55:38 ncps-mc1-12 kernel: [15049.489352] cpu=0	jifd=27	cycled=1853619	insd=287344	cml2=2131	bmd=10686
+May 24 15:55:39 ncps-mc1-12 kernel: [15049.597350] cpu=0	jifd=27	cycled=1218741	insd=187380	cml2=764	bmd=7430
+May 24 15:55:39 ncps-mc1-12 kernel: [15049.705352] cpu=0	jifd=27	cycled=2637996	insd=385007	cml2=1271	bmd=14820
+May 24 15:55:39 ncps-mc1-12 kernel: [15049.813367] cpu=0	jifd=27	cycled=1789234	insd=254839	cml2=1137	bmd=9413
+May 24 15:55:39 ncps-mc1-12 kernel: [15049.921356] cpu=0	jifd=27	cycled=2119106	insd=296184	cml2=838	bmd=11509
+May 24 15:55:39 ncps-mc1-12 kernel: [15050.029388] cpu=0	jifd=27	cycled=2211469	insd=316819	cml2=1134	bmd=12423
+May 24 15:55:39 ncps-mc1-12 kernel: [15050.137367] cpu=0	jifd=27	cycled=1799948	insd=267143	cml2=992	bmd=9547
+May 24 15:55:39 ncps-mc1-12 kernel: [15050.245362] cpu=0	jifd=27	cycled=1973942	insd=292862	cml2=1016	bmd=10936
+May 24 15:55:39 ncps-mc1-12 kernel: [15050.353345] cpu=0	jifd=27	cycled=1285069	insd=224379	cml2=725	bmd=8364
+May 24 15:55:39 ncps-mc1-12 kernel: [15050.461357] cpu=0	jifd=27	cycled=1265659	insd=207264	cml2=805	bmd=7258
+May 24 15:55:40 ncps-mc1-12 kernel: [15050.569358] cpu=0	jifd=27	cycled=1449467	insd=228120	cml2=906	bmd=7771
+May 24 15:55:40 ncps-mc1-12 kernel: [15050.677366] cpu=0	jifd=27	cycled=1724267	insd=262355	cml2=854	bmd=10320
+May 24 15:55:40 ncps-mc1-12 kernel: [15050.785368] cpu=0	jifd=27	cycled=1168158	insd=163881	cml2=729	bmd=6223
+May 24 15:55:40 ncps-mc1-12 kernel: [15050.893368] cpu=0	jifd=27	cycled=1350551	insd=193974	cml2=843	bmd=6620
+May 24 15:55:40 ncps-mc1-12 kernel: [15051.001373] cpu=0	jifd=27	cycled=1765046	insd=257266	cml2=1178	bmd=9990
+May 24 15:55:40 ncps-mc1-12 kernel: [15051.109348] cpu=0	jifd=27	cycled=1385550	insd=234195	cml2=806	bmd=8468
+May 24 15:55:40 ncps-mc1-12 kernel: [15051.217360] cpu=0	jifd=27	cycled=1108187	insd=181455	cml2=635	bmd=6511
+May 24 15:55:40 ncps-mc1-12 kernel: [15051.325334] cpu=0	jifd=27	cycled=1189173	insd=192273	cml2=755	bmd=7395
+May 24 15:55:40 ncps-mc1-12 kernel: [15051.433360] cpu=0	jifd=27	cycled=1441886	insd=205080	cml2=910	bmd=7091
+May 24 15:55:41 ncps-mc1-12 kernel: [15051.541355] cpu=0	jifd=27	cycled=1236797	insd=201103	cml2=751	bmd=7442
+May 24 15:55:41 ncps-mc1-12 kernel: [15051.649368] cpu=0	jifd=27	cycled=1050473	insd=147259	cml2=616	bmd=5817
+May 24 15:55:41 ncps-mc1-12 kernel: [15051.757388] cpu=0	jifd=27	cycled=1659854	insd=228904	cml2=644	bmd=8845
+May 24 15:55:41 ncps-mc1-12 kernel: [15051.865385] cpu=0	jifd=27	cycled=1207075	insd=157262	cml2=590	bmd=6357
+May 24 15:55:41 ncps-mc1-12 kernel: [15051.973364] cpu=0	jifd=27	cycled=1253782	insd=157597	cml2=637	bmd=6139
+May 24 15:55:41 ncps-mc1-12 kernel: [15052.081369] cpu=0	jifd=27	cycled=967379	insd=121285	cml2=601	bmd=4659
+May 24 15:55:41 ncps-mc1-12 kernel: [15052.189368] cpu=0	jifd=27	cycled=1035421	insd=140323	cml2=560	bmd=5533
+May 24 15:55:41 ncps-mc1-12 kernel: [15052.297386] cpu=0	jifd=27	cycled=1544938	insd=195823	cml2=709	bmd=7566
+May 24 15:55:41 ncps-mc1-12 kernel: [15052.405365] cpu=0	jifd=27	cycled=1075571	insd=126940	cml2=627	bmd=4783
+May 24 15:55:41 ncps-mc1-12 kernel: [15052.513364] cpu=0	jifd=27	cycled=1061231	insd=155109	cml2=594	bmd=5436
+May 24 15:55:42 ncps-mc1-12 kernel: [15052.621362] cpu=0	jifd=27	cycled=917212	insd=109852	cml2=533	bmd=4245
+May 24 15:55:42 ncps-mc1-12 kernel: [15052.729363] cpu=0	jifd=27	cycled=1514353	insd=188810	cml2=700	bmd=7254
+May 24 15:55:42 ncps-mc1-12 kernel: [15052.837368] cpu=0	jifd=27	cycled=1131398	insd=146420	cml2=693	bmd=5423
+May 24 15:55:42 ncps-mc1-12 kernel: [15052.945382] cpu=0	jifd=27	cycled=1534203	insd=175953	cml2=708	bmd=6388
+May 24 15:55:42 ncps-mc1-12 kernel: [15053.053376] cpu=0	jifd=27	cycled=983418	insd=127977	cml2=571	bmd=4763
+May 24 15:55:42 ncps-mc1-12 kernel: [15053.161373] cpu=0	jifd=27	cycled=1400013	insd=185637	cml2=735	bmd=7070
+May 24 15:55:42 ncps-mc1-12 kernel: [15053.269370] cpu=0	jifd=27	cycled=1297829	insd=163308	cml2=565	bmd=6171
+May 24 15:55:42 ncps-mc1-12 kernel: [15053.377389] cpu=0	jifd=27	cycled=1150334	insd=140983	cml2=679	bmd=5059
+May 24 15:55:42 ncps-mc1-12 kernel: [15053.485363] cpu=0	jifd=27	cycled=807050	insd=106641	cml2=478	bmd=3928
+May 24 15:55:43 ncps-mc1-12 kernel: [15053.593362] cpu=0	jifd=27	cycled=640052	insd=78786	cml2=351	bmd=3084
+May 24 15:55:43 ncps-mc1-12 kernel: [15053.701374] cpu=0	jifd=27	cycled=887290	insd=106406	cml2=538	bmd=3966
+May 24 15:55:43 ncps-mc1-12 kernel: [15053.809381] cpu=0	jifd=27	cycled=1118050	insd=141500	cml2=540	bmd=5311
+May 24 15:55:43 ncps-mc1-12 kernel: [15053.917353] cpu=0	jifd=27	cycled=944705	insd=117185	cml2=543	bmd=4319
+May 24 15:55:43 ncps-mc1-12 kernel: [15054.025363] cpu=0	jifd=27	cycled=1703308	insd=220310	cml2=939	bmd=8237
+May 24 15:55:43 ncps-mc1-12 kernel: [15054.133362] cpu=0	jifd=27	cycled=1063378	insd=136434	cml2=682	bmd=5400
+May 24 15:55:43 ncps-mc1-12 kernel: [15054.241362] cpu=0	jifd=27	cycled=1179216	insd=142500	cml2=585	bmd=5602
+May 24 15:55:43 ncps-mc1-12 kernel: [15054.349375] cpu=0	jifd=27	cycled=1315651	insd=152869	cml2=643	bmd=5918
+May 24 15:55:43 ncps-mc1-12 kernel: [15054.457358] cpu=0	jifd=27	cycled=973622	insd=118748	cml2=487	bmd=4553
+May 24 15:55:44 ncps-mc1-12 kernel: [15054.565359] cpu=0	jifd=27	cycled=966266	insd=115399	cml2=514	bmd=4377
+May 24 15:55:44 ncps-mc1-12 kernel: [15054.673354] cpu=0	jifd=27	cycled=1214299	insd=142121	cml2=698	bmd=5308
+May 24 15:55:44 ncps-mc1-12 kernel: [15054.781358] cpu=0	jifd=27	cycled=1390042	insd=179117	cml2=651	bmd=6914
+May 24 15:55:44 ncps-mc1-12 kernel: [15054.889376] cpu=0	jifd=27	cycled=958848	insd=115091	cml2=596	bmd=4356
+May 24 15:55:44 ncps-mc1-12 kernel: [15054.997360] cpu=0	jifd=27	cycled=1161542	insd=169604	cml2=659	bmd=6186
+May 24 15:55:44 ncps-mc1-12 kernel: [15055.105431] cpu=0	jifd=27	cycled=41697612	insd=5923253	cml2=30747	bmd=190555
+May 24 15:55:44 ncps-mc1-12 kernel: [15055.213362] cpu=0	jifd=27	cycled=50637194	insd=6484076	cml2=33122	bmd=209772
+May 24 15:55:44 ncps-mc1-12 kernel: [15055.321388] cpu=0	jifd=27	cycled=1304304	insd=168380	cml2=855	bmd=6497
+May 24 15:55:44 ncps-mc1-12 kernel: [15055.429360] cpu=0	jifd=27	cycled=1277842	insd=171352	cml2=691	bmd=6813
+May 24 15:55:45 ncps-mc1-12 kernel: [15055.537361] cpu=0	jifd=27	cycled=985031	insd=129679	cml2=543	bmd=5142
+May 24 15:55:45 ncps-mc1-12 kernel: [15055.645380] cpu=0	jifd=27	cycled=1132866	insd=139295	cml2=599	bmd=5660
+May 24 15:55:45 ncps-mc1-12 kernel: [15055.753339] cpu=0	jifd=27	cycled=1713921	insd=196736	cml2=604	bmd=7467
+May 24 15:55:45 ncps-mc1-12 kernel: [15055.861357] cpu=0	jifd=27	cycled=2003859	insd=258647	cml2=877	bmd=10129
+May 24 15:55:45 ncps-mc1-12 kernel: [15055.969360] cpu=0	jifd=27	cycled=1285179	insd=171009	cml2=702	bmd=6350
+May 24 15:55:45 ncps-mc1-12 kernel: [15056.077393] cpu=0	jifd=27	cycled=1321947	insd=144942	cml2=1054	bmd=5550
+May 24 15:55:45 ncps-mc1-12 kernel: [15056.185363] cpu=0	jifd=27	cycled=933093	insd=113287	cml2=614	bmd=4380
+May 24 15:55:45 ncps-mc1-12 kernel: [15056.293353] cpu=0	jifd=27	cycled=1024671	insd=123743	cml2=509	bmd=4732
+May 24 15:55:45 ncps-mc1-12 kernel: [15056.401361] cpu=0	jifd=27	cycled=944560	insd=111720	cml2=529	bmd=4146
+May 24 15:55:45 ncps-mc1-12 kernel: [15056.509354] cpu=0	jifd=27	cycled=966592	insd=117174	cml2=588	bmd=4328
+May 24 15:55:46 ncps-mc1-12 kernel: [15056.617361] cpu=0	jifd=27	cycled=1436705	insd=178753	cml2=899	bmd=6973
+May 24 15:55:46 ncps-mc1-12 kernel: [15056.725356] cpu=0	jifd=27	cycled=1098017	insd=131509	cml2=667	bmd=4883
+May 24 15:55:46 ncps-mc1-12 kernel: [15056.833354] cpu=0	jifd=27	cycled=1353035	insd=188641	cml2=684	bmd=7123
+May 24 15:55:46 ncps-mc1-12 kernel: [15056.941354] cpu=0	jifd=27	cycled=1419608	insd=165025	cml2=1030	bmd=6251
+May 24 15:55:46 ncps-mc1-12 kernel: [15057.049370] cpu=0	jifd=27	cycled=907340	insd=113766	cml2=530	bmd=4152
+May 24 15:55:46 ncps-mc1-12 kernel: [15057.157348] cpu=0	jifd=27	cycled=846741	insd=107385	cml2=515	bmd=4053
+May 24 15:55:46 ncps-mc1-12 kernel: [15057.265349] cpu=0	jifd=27	cycled=1109262	insd=164916	cml2=580	bmd=5897
+May 24 15:55:46 ncps-mc1-12 kernel: [15057.373354] cpu=0	jifd=27	cycled=1016676	insd=120341	cml2=625	bmd=4328
+May 24 15:55:46 ncps-mc1-12 kernel: [15057.481350] cpu=0	jifd=27	cycled=1105832	insd=139448	cml2=656	bmd=5148
+May 24 15:55:47 ncps-mc1-12 kernel: [15057.589351] cpu=0	jifd=27	cycled=1064938	insd=138823	cml2=584	bmd=5348
+May 24 15:55:47 ncps-mc1-12 kernel: [15057.697352] cpu=0	jifd=27	cycled=1028458	insd=125147	cml2=619	bmd=4793
+May 24 15:55:47 ncps-mc1-12 kernel: [15057.805347] cpu=0	jifd=27	cycled=1223612	insd=147754	cml2=681	bmd=5704
+May 24 15:55:47 ncps-mc1-12 kernel: [15057.913368] cpu=0	jifd=27	cycled=1036870	insd=129132	cml2=538	bmd=4915
+May 24 15:55:47 ncps-mc1-12 kernel: [15058.021365] cpu=0	jifd=27	cycled=1630799	insd=209150	cml2=949	bmd=7859
+May 24 15:55:47 ncps-mc1-12 kernel: [15058.129349] cpu=0	jifd=27	cycled=1005104	insd=128731	cml2=642	bmd=4956
+May 24 15:55:47 ncps-mc1-12 kernel: [15058.237372] cpu=0	jifd=27	cycled=1246168	insd=147352	cml2=524	bmd=5767
+May 24 15:55:47 ncps-mc1-12 kernel: [15058.345353] cpu=0	jifd=27	cycled=1499747	insd=176016	cml2=1026	bmd=6917
+May 24 15:55:47 ncps-mc1-12 kernel: [15058.453365] cpu=0	jifd=27	cycled=932736	insd=111387	cml2=549	bmd=4304
+May 24 15:55:48 ncps-mc1-12 kernel: [15058.561351] cpu=0	jifd=27	cycled=876994	insd=105603	cml2=501	bmd=4141
+May 24 15:55:48 ncps-mc1-12 kernel: [15058.669350] cpu=0	jifd=27	cycled=1356282	insd=164253	cml2=808	bmd=6351
+May 24 15:55:48 ncps-mc1-12 kernel: [15058.777350] cpu=0	jifd=27	cycled=1673483	insd=166023	cml2=658	bmd=6386
+May 24 15:55:48 ncps-mc1-12 kernel: [15058.885360] cpu=0	jifd=27	cycled=1446075	insd=185253	cml2=527	bmd=7264
+May 24 15:55:48 ncps-mc1-12 kernel: [15058.993360] cpu=0	jifd=27	cycled=1241798	insd=151909	cml2=706	bmd=5962
+May 24 15:55:48 ncps-mc1-12 kernel: [15059.101377] cpu=0	jifd=27	cycled=1057160	insd=126672	cml2=650	bmd=4820
+May 24 15:55:48 ncps-mc1-12 kernel: [15059.209367] cpu=0	jifd=27	cycled=1092585	insd=123337	cml2=790	bmd=4880
+May 24 15:55:48 ncps-mc1-12 kernel: [15059.317350] cpu=0	jifd=27	cycled=1268801	insd=158598	cml2=722	bmd=6126
+May 24 15:55:48 ncps-mc1-12 kernel: [15059.425345] cpu=0	jifd=27	cycled=852092	insd=124938	cml2=473	bmd=4441
+May 24 15:55:48 ncps-mc1-12 kernel: [15059.533347] cpu=0	jifd=27	cycled=967029	insd=124442	cml2=561	bmd=4761
+May 24 15:55:49 ncps-mc1-12 kernel: [15059.641347] cpu=0	jifd=27	cycled=1038149	insd=131747	cml2=534	bmd=5149
+May 24 15:55:49 ncps-mc1-12 kernel: [15059.749376] cpu=0	jifd=27	cycled=996780	insd=118311	cml2=510	bmd=4557
+May 24 15:55:49 ncps-mc1-12 kernel: [15059.857362] cpu=0	jifd=27	cycled=1152318	insd=153321	cml2=623	bmd=5934
+May 24 15:55:49 ncps-mc1-12 kernel: [15059.965370] cpu=0	jifd=27	cycled=1529966	insd=192408	cml2=718	bmd=7576
+May 24 15:55:49 ncps-mc1-12 kernel: [15060.073360] cpu=0	jifd=27	cycled=949162	insd=119862	cml2=519	bmd=4726
+May 24 15:55:49 ncps-mc1-12 kernel: [15060.181386] cpu=0	jifd=27	cycled=1984849	insd=210024	cml2=1192	bmd=7382
+May 24 15:55:49 ncps-mc1-12 kernel: [15060.289361] cpu=0	jifd=27	cycled=1585843	insd=171636	cml2=818	bmd=6343
+May 24 15:55:49 ncps-mc1-12 kernel: [15060.397360] cpu=0	jifd=27	cycled=1203558	insd=144290	cml2=607	bmd=5452
+May 24 15:55:49 ncps-mc1-12 kernel: [15060.505392] cpu=0	jifd=27	cycled=1052205	insd=125432	cml2=582	bmd=4787
+May 24 15:55:50 ncps-mc1-12 kernel: [15060.613346] cpu=0	jifd=27	cycled=1272094	insd=146998	cml2=760	bmd=5447
+May 24 15:55:50 ncps-mc1-12 kernel: [15060.721351] cpu=0	jifd=27	cycled=1162079	insd=143375	cml2=596	bmd=5602
+May 24 15:55:50 ncps-mc1-12 kernel: [15060.829341] cpu=0	jifd=27	cycled=1289971	insd=139052	cml2=556	bmd=5422
+May 24 15:55:50 ncps-mc1-12 kernel: [15060.937342] cpu=0	jifd=27	cycled=1286751	insd=168684	cml2=592	bmd=6513
+May 24 15:55:50 ncps-mc1-12 kernel: [15061.045351] cpu=0	jifd=27	cycled=854528	insd=108013	cml2=422	bmd=4236
+May 24 15:55:50 ncps-mc1-12 kernel: [15061.153360] cpu=0	jifd=27	cycled=986284	insd=119642	cml2=621	bmd=4499
+May 24 15:55:50 ncps-mc1-12 kernel: [15061.261345] cpu=0	jifd=27	cycled=1036120	insd=128748	cml2=645	bmd=4849
+May 24 15:55:50 ncps-mc1-12 kernel: [15061.369341] cpu=0	jifd=27	cycled=1692945	insd=189395	cml2=568	bmd=7169
+May 24 15:55:50 ncps-mc1-12 kernel: [15061.477377] cpu=0	jifd=27	cycled=907609	insd=106745	cml2=520	bmd=4051
+May 24 15:55:51 ncps-mc1-12 kernel: [15061.585351] cpu=0	jifd=27	cycled=924225	insd=110122	cml2=563	bmd=4171
+May 24 15:55:51 ncps-mc1-12 kernel: [15061.693341] cpu=0	jifd=27	cycled=1262621	insd=152615	cml2=640	bmd=5995
+May 24 15:55:51 ncps-mc1-12 kernel: [15061.801375] cpu=0	jifd=27	cycled=1063018	insd=132491	cml2=645	bmd=4975
+May 24 15:55:51 ncps-mc1-12 kernel: [15061.909380] cpu=0	jifd=27	cycled=1160324	insd=145906	cml2=599	bmd=5784
+May 24 15:55:51 ncps-mc1-12 kernel: [15062.017362] cpu=0	jifd=27	cycled=1762927	insd=231923	cml2=936	bmd=8937
+May 24 15:55:51 ncps-mc1-12 kernel: [15062.125348] cpu=0	jifd=27	cycled=947569	insd=118755	cml2=566	bmd=4536
+May 24 15:55:51 ncps-mc1-12 kernel: [15062.233344] cpu=0	jifd=27	cycled=995856	insd=118259	cml2=536	bmd=4532
+May 24 15:55:51 ncps-mc1-12 kernel: [15062.341389] cpu=0	jifd=27	cycled=1314190	insd=149727	cml2=539	bmd=5670
+May 24 15:55:51 ncps-mc1-12 kernel: [15062.449422] cpu=0	jifd=27	cycled=1418363	insd=163245	cml2=659	bmd=6332
+May 24 15:55:52 ncps-mc1-12 kernel: [15062.557387] cpu=0	jifd=27	cycled=1210582	insd=135954	cml2=656	bmd=5181
+May 24 15:55:52 ncps-mc1-12 kernel: [15062.665331] cpu=0	jifd=27	cycled=1263877	insd=170018	cml2=870	bmd=6442
+May 24 15:55:52 ncps-mc1-12 kernel: [15062.773356] cpu=0	jifd=27	cycled=1223825	insd=138703	cml2=1057	bmd=5437
+May 24 15:55:52 ncps-mc1-12 kernel: [15062.881342] cpu=0	jifd=27	cycled=1003012	insd=133345	cml2=602	bmd=4992
+May 24 15:55:52 ncps-mc1-12 kernel: [15062.989342] cpu=0	jifd=27	cycled=1799673	insd=236177	cml2=792	bmd=9255
+May 24 15:55:52 ncps-mc1-12 kernel: [15063.097342] cpu=0	jifd=27	cycled=944886	insd=116667	cml2=555	bmd=4516
+May 24 15:55:52 ncps-mc1-12 kernel: [15063.205350] cpu=0	jifd=27	cycled=969997	insd=120898	cml2=555	bmd=4729
+May 24 15:55:52 ncps-mc1-12 kernel: [15063.313375] cpu=0	jifd=27	cycled=1455592	insd=160646	cml2=688	bmd=6035
+May 24 15:55:52 ncps-mc1-12 kernel: [15063.421341] cpu=0	jifd=27	cycled=1084497	insd=138368	cml2=580	bmd=5403
+May 24 15:55:52 ncps-mc1-12 kernel: [15063.529345] cpu=0	jifd=27	cycled=981033	insd=119845	cml2=615	bmd=4604
+May 24 15:55:53 ncps-mc1-12 kernel: [15063.637360] cpu=0	jifd=27	cycled=889457	insd=108731	cml2=541	bmd=4079
+May 24 15:55:53 ncps-mc1-12 kernel: [15063.745341] cpu=0	jifd=27	cycled=1137901	insd=148869	cml2=614	bmd=5809
+May 24 15:55:53 ncps-mc1-12 kernel: [15063.853345] cpu=0	jifd=27	cycled=930731	insd=114514	cml2=568	bmd=4329
+May 24 15:55:53 ncps-mc1-12 kernel: [15063.961342] cpu=0	jifd=27	cycled=1188562	insd=156271	cml2=618	bmd=6075
+May 24 15:55:53 ncps-mc1-12 kernel: [15064.069349] cpu=0	jifd=27	cycled=1071083	insd=162655	cml2=538	bmd=5888
+May 24 15:55:53 ncps-mc1-12 kernel: [15064.177372] cpu=0	jifd=27	cycled=1041461	insd=131312	cml2=625	bmd=4957
+May 24 15:55:53 ncps-mc1-12 kernel: [15064.285341] cpu=0	jifd=27	cycled=908340	insd=105824	cml2=539	bmd=3962
+May 24 15:55:53 ncps-mc1-12 kernel: [15064.393355] cpu=0	jifd=27	cycled=1273150	insd=165739	cml2=679	bmd=6112
+May 24 15:55:53 ncps-mc1-12 kernel: [15064.501357] cpu=0	jifd=27	cycled=1249993	insd=137736	cml2=722	bmd=5279
+May 24 15:55:54 ncps-mc1-12 kernel: [15064.609337] cpu=0	jifd=27	cycled=1024379	insd=123973	cml2=601	bmd=4578
+May 24 15:55:54 ncps-mc1-12 kernel: [15064.717336] cpu=0	jifd=27	cycled=1197576	insd=135517	cml2=627	bmd=5079
+May 24 15:55:54 ncps-mc1-12 kernel: [15064.825339] cpu=0	jifd=27	cycled=1407939	insd=159641	cml2=627	bmd=6026
+May 24 15:55:54 ncps-mc1-12 kernel: [15064.933349] cpu=0	jifd=27	cycled=1335897	insd=161295	cml2=628	bmd=6123
+May 24 15:55:54 ncps-mc1-12 kernel: [15065.041334] cpu=0	jifd=27	cycled=1414230	insd=190496	cml2=668	bmd=7142
+May 24 15:55:54 ncps-mc1-12 kernel: [15065.149340] cpu=0	jifd=27	cycled=909797	insd=111619	cml2=567	bmd=4210
+May 24 15:55:54 ncps-mc1-12 kernel: [15065.257344] cpu=0	jifd=27	cycled=1215115	insd=158860	cml2=711	bmd=5891
+May 24 15:55:54 ncps-mc1-12 kernel: [15065.365369] cpu=0	jifd=27	cycled=1022908	insd=115646	cml2=587	bmd=4403
+May 24 15:55:54 ncps-mc1-12 kernel: [15065.473335] cpu=0	jifd=27	cycled=1003006	insd=129136	cml2=557	bmd=5015
+May 24 15:55:55 ncps-mc1-12 kernel: [15065.581358] cpu=0	jifd=27	cycled=1031318	insd=134003	cml2=555	bmd=5077
+May 24 15:55:55 ncps-mc1-12 kernel: [15065.689341] cpu=0	jifd=27	cycled=934479	insd=121594	cml2=548	bmd=4434
+May 24 15:55:55 ncps-mc1-12 kernel: [15065.797380] cpu=0	jifd=27	cycled=1163512	insd=151497	cml2=577	bmd=5731
+May 24 15:55:55 ncps-mc1-12 kernel: [15065.905340] cpu=0	jifd=27	cycled=834540	insd=100915	cml2=495	bmd=3836
+May 24 15:55:55 ncps-mc1-12 kernel: [15066.013329] cpu=0	jifd=27	cycled=1798226	insd=247486	cml2=999	bmd=9378
+May 24 15:55:55 ncps-mc1-12 kernel: [15066.121339] cpu=0	jifd=27	cycled=1236076	insd=159938	cml2=620	bmd=6002
+May 24 15:55:55 ncps-mc1-12 kernel: [15066.229349] cpu=0	jifd=27	cycled=1317339	insd=156511	cml2=625	bmd=5914
+May 24 15:55:55 ncps-mc1-12 kernel: [15066.337367] cpu=0	jifd=27	cycled=1022461	insd=120355	cml2=575	bmd=4638
+May 24 15:55:55 ncps-mc1-12 kernel: [15066.445334] cpu=0	jifd=27	cycled=1203594	insd=155256	cml2=636	bmd=5715
+May 24 15:55:56 ncps-mc1-12 kernel: [15066.553341] cpu=0	jifd=27	cycled=1166095	insd=165114	cml2=666	bmd=5887
+May 24 15:55:56 ncps-mc1-12 kernel: [15066.661340] cpu=0	jifd=27	cycled=1021955	insd=122780	cml2=608	bmd=4652
+May 24 15:55:56 ncps-mc1-12 kernel: [15066.769369] cpu=0	jifd=27	cycled=1079697	insd=127320	cml2=531	bmd=4957
+May 24 15:55:56 ncps-mc1-12 kernel: [15066.877333] cpu=0	jifd=27	cycled=805223	insd=96997	cml2=462	bmd=3722
+May 24 15:55:56 ncps-mc1-12 kernel: [15066.985338] cpu=0	jifd=27	cycled=1095290	insd=139289	cml2=533	bmd=5428
+May 24 15:55:56 ncps-mc1-12 kernel: [15067.093334] cpu=0	jifd=27	cycled=1128627	insd=150094	cml2=450	bmd=5983
+May 24 15:55:56 ncps-mc1-12 kernel: [15067.201373] cpu=0	jifd=27	cycled=1139599	insd=130779	cml2=653	bmd=4889
+May 24 15:55:56 ncps-mc1-12 kernel: [15067.309333] cpu=0	jifd=27	cycled=914051	insd=119513	cml2=524	bmd=4509
+May 24 15:55:56 ncps-mc1-12 kernel: [15067.417335] cpu=0	jifd=27	cycled=884990	insd=110394	cml2=541	bmd=4182
+May 24 15:55:56 ncps-mc1-12 kernel: [15067.525338] cpu=0	jifd=27	cycled=1295319	insd=175633	cml2=680	bmd=6854
+May 24 15:55:57 ncps-mc1-12 kernel: [15067.633333] cpu=0	jifd=27	cycled=1022677	insd=122955	cml2=609	bmd=4639
+May 24 15:55:57 ncps-mc1-12 kernel: [15067.741333] cpu=0	jifd=27	cycled=856124	insd=104054	cml2=509	bmd=3957
+May 24 15:55:57 ncps-mc1-12 kernel: [15067.849348] cpu=0	jifd=27	cycled=1106453	insd=143907	cml2=582	bmd=5530
+May 24 15:55:57 ncps-mc1-12 kernel: [15067.957344] cpu=0	jifd=27	cycled=1028795	insd=128851	cml2=622	bmd=5069
+May 24 15:55:57 ncps-mc1-12 kernel: [15068.065336] cpu=0	jifd=27	cycled=1012711	insd=132980	cml2=542	bmd=5223
+May 24 15:55:57 ncps-mc1-12 kernel: [15068.173370] cpu=0	jifd=27	cycled=2246796	insd=266480	cml2=1682	bmd=11044
+May 24 15:55:57 ncps-mc1-12 kernel: [15068.281331] cpu=0	jifd=27	cycled=1213235	insd=145906	cml2=598	bmd=5723
+May 24 15:55:57 ncps-mc1-12 kernel: [15068.389370] cpu=0	jifd=27	cycled=1010322	insd=116954	cml2=551	bmd=4594
+May 24 15:55:57 ncps-mc1-12 kernel: [15068.497335] cpu=0	jifd=27	cycled=1319431	insd=160419	cml2=744	bmd=6093
+May 24 15:55:58 ncps-mc1-12 kernel: [15068.605334] cpu=0	jifd=27	cycled=944135	insd=113730	cml2=567	bmd=4357
+May 24 15:55:58 ncps-mc1-12 kernel: [15068.713364] cpu=0	jifd=27	cycled=975074	insd=114999	cml2=555	bmd=4427
+May 24 15:55:58 ncps-mc1-12 kernel: [15068.821331] cpu=0	jifd=27	cycled=1359999	insd=159526	cml2=552	bmd=6087
+May 24 15:55:58 ncps-mc1-12 kernel: [15068.929336] cpu=0	jifd=27	cycled=994795	insd=128203	cml2=576	bmd=4836
+May 24 15:55:58 ncps-mc1-12 kernel: [15069.037345] cpu=0	jifd=27	cycled=1099689	insd=131634	cml2=612	bmd=4961
+May 24 15:55:58 ncps-mc1-12 kernel: [15069.145337] cpu=0	jifd=27	cycled=1462802	insd=200656	cml2=682	bmd=7758
+May 24 15:55:58 ncps-mc1-12 kernel: [15069.253334] cpu=0	jifd=27	cycled=1141398	insd=145873	cml2=684	bmd=5525
+May 24 15:55:58 ncps-mc1-12 kernel: [15069.361335] cpu=0	jifd=27	cycled=903917	insd=111726	cml2=532	bmd=4270
+May 24 15:55:58 ncps-mc1-12 kernel: [15069.469332] cpu=0	jifd=27	cycled=878188	insd=108383	cml2=536	bmd=4094
+May 24 15:55:59 ncps-mc1-12 kernel: [15069.577352] cpu=0	jifd=27	cycled=1034856	insd=130337	cml2=556	bmd=4946
+May 24 15:55:59 ncps-mc1-12 kernel: [15069.685345] cpu=0	jifd=27	cycled=921340	insd=107378	cml2=522	bmd=4116
+May 24 15:55:59 ncps-mc1-12 kernel: [15069.793332] cpu=0	jifd=27	cycled=849865	insd=105906	cml2=506	bmd=4099
+May 24 15:55:59 ncps-mc1-12 kernel: [15069.901337] cpu=0	jifd=27	cycled=883408	insd=111366	cml2=546	bmd=4189
+May 24 15:55:59 ncps-mc1-12 kernel: [15070.009366] cpu=0	jifd=27	cycled=2540856	insd=315156	cml2=1169	bmd=11990
+May 24 15:55:59 ncps-mc1-12 kernel: [15070.117337] cpu=0	jifd=27	cycled=1170780	insd=153038	cml2=636	bmd=5983
+May 24 15:55:59 ncps-mc1-12 kernel: [15070.225319] cpu=0	jifd=27	cycled=1608159	insd=194103	cml2=651	bmd=7349
+May 24 15:55:59 ncps-mc1-12 kernel: [15070.333368] cpu=0	jifd=27	cycled=1368667	insd=178451	cml2=817	bmd=7032
+May 24 15:55:59 ncps-mc1-12 kernel: [15070.441354] cpu=0	jifd=27	cycled=1026786	insd=129552	cml2=585	bmd=4805
+May 24 15:56:00 ncps-mc1-12 kernel: [15070.549355] cpu=0	jifd=27	cycled=1175596	insd=140816	cml2=673	bmd=5294
+May 24 15:56:00 ncps-mc1-12 kernel: [15070.657326] cpu=0	jifd=27	cycled=880193	insd=106776	cml2=534	bmd=4118
+May 24 15:56:00 ncps-mc1-12 kernel: [15070.765313] cpu=0	jifd=27	cycled=1552618	insd=221655	cml2=970	bmd=8067
+May 24 15:56:00 ncps-mc1-12 kernel: [15070.873307] cpu=0	jifd=27	cycled=1255577	insd=207019	cml2=716	bmd=7936
+May 24 15:56:00 ncps-mc1-12 kernel: [15070.981323] cpu=0	jifd=27	cycled=1683745	insd=276784	cml2=835	bmd=10482
+May 24 15:56:00 ncps-mc1-12 kernel: [15071.089314] cpu=0	jifd=27	cycled=1683801	insd=262094	cml2=972	bmd=10152
+May 24 15:56:00 ncps-mc1-12 kernel: [15071.197319] cpu=0	jifd=27	cycled=2039319	insd=295405	cml2=1279	bmd=11037
+May 24 15:56:00 ncps-mc1-12 kernel: [15071.305318] cpu=0	jifd=27	cycled=1769806	insd=253553	cml2=974	bmd=10083
+May 24 15:56:00 ncps-mc1-12 kernel: [15071.413310] cpu=0	jifd=27	cycled=1147942	insd=175851	cml2=657	bmd=6967
+May 24 15:56:00 ncps-mc1-12 kernel: [15071.521318] cpu=0	jifd=27	cycled=1520043	insd=231903	cml2=918	bmd=8408
+May 24 15:56:01 ncps-mc1-12 kernel: [15071.629307] cpu=0	jifd=27	cycled=1091841	insd=160527	cml2=664	bmd=6303
+May 24 15:56:01 ncps-mc1-12 kernel: [15071.737314] cpu=0	jifd=27	cycled=1076785	insd=158843	cml2=687	bmd=6083
+May 24 15:56:01 ncps-mc1-12 kernel: [15071.845312] cpu=0	jifd=27	cycled=1280236	insd=207080	cml2=706	bmd=7742
+May 24 15:56:01 ncps-mc1-12 kernel: [15071.953302] cpu=0	jifd=27	cycled=1328162	insd=210835	cml2=907	bmd=7817
+May 24 15:56:01 ncps-mc1-12 kernel: [15072.061310] cpu=0	jifd=27	cycled=1174194	insd=199547	cml2=636	bmd=7306
+May 24 15:56:01 ncps-mc1-12 kernel: [15072.169288] cpu=0	jifd=27	cycled=1551071	insd=229181	cml2=799	bmd=9243
+May 24 15:56:01 ncps-mc1-12 kernel: [15072.277315] cpu=0	jifd=27	cycled=1167643	insd=166475	cml2=586	bmd=6693
+May 24 15:56:01 ncps-mc1-12 kernel: [15072.385307] cpu=0	jifd=27	cycled=1919389	insd=241738	cml2=734	bmd=9477
+May 24 15:56:01 ncps-mc1-12 kernel: [15072.493324] cpu=0	jifd=27	cycled=1242960	insd=185627	cml2=729	bmd=6448
+May 24 15:56:02 ncps-mc1-12 kernel: [15072.601308] cpu=0	jifd=27	cycled=1102895	insd=153244	cml2=720	bmd=5951
+May 24 15:56:02 ncps-mc1-12 kernel: [15072.709316] cpu=0	jifd=27	cycled=1312631	insd=187492	cml2=823	bmd=6348
+May 24 15:56:02 ncps-mc1-12 kernel: [15072.817319] cpu=0	jifd=27	cycled=1159247	insd=183925	cml2=706	bmd=6639
+May 24 15:56:02 ncps-mc1-12 kernel: [15072.925309] cpu=0	jifd=27	cycled=981508	insd=152516	cml2=568	bmd=5704
+May 24 15:56:02 ncps-mc1-12 kernel: [15073.033320] cpu=0	jifd=27	cycled=1292965	insd=184238	cml2=894	bmd=6524
+May 24 15:56:02 ncps-mc1-12 kernel: [15073.145296] cpu=0	jifd=27	cycled=1239174	insd=175846	cml2=665	bmd=6914
+May 24 15:56:02 ncps-mc1-12 kernel: [15073.249296] cpu=0	jifd=27	cycled=1287345	insd=188400	cml2=613	bmd=7524
+May 24 15:56:02 ncps-mc1-12 kernel: [15073.357295] cpu=0	jifd=27	cycled=1271501	insd=205984	cml2=715	bmd=7625
+May 24 15:56:02 ncps-mc1-12 kernel: [15073.465313] cpu=0	jifd=27	cycled=940058	insd=134494	cml2=682	bmd=4852
+May 24 15:56:03 ncps-mc1-12 kernel: [15073.573304] cpu=0	jifd=27	cycled=1087893	insd=155948	cml2=646	bmd=5926
+May 24 15:56:03 ncps-mc1-12 kernel: [15073.681322] cpu=0	jifd=27	cycled=989583	insd=133159	cml2=610	bmd=5101
+May 24 15:56:03 ncps-mc1-12 kernel: [15073.789333] cpu=0	jifd=27	cycled=1366933	insd=196141	cml2=710	bmd=7582
+May 24 15:56:03 ncps-mc1-12 kernel: [15073.897332] cpu=0	jifd=27	cycled=1360925	insd=187120	cml2=714	bmd=7169
+May 24 15:56:03 ncps-mc1-12 kernel: [15074.005361] cpu=0	jifd=27	cycled=1902854	insd=266985	cml2=980	bmd=9957
+May 24 15:56:03 ncps-mc1-12 kernel: [15074.113329] cpu=0	jifd=27	cycled=1182284	insd=144681	cml2=723	bmd=5671
+May 24 15:56:03 ncps-mc1-12 kernel: [15074.221336] cpu=0	jifd=27	cycled=1422373	insd=198527	cml2=636	bmd=7215
+May 24 15:56:03 ncps-mc1-12 kernel: [15074.329321] cpu=0	jifd=27	cycled=1057355	insd=130630	cml2=546	bmd=5204
+May 24 15:56:03 ncps-mc1-12 kernel: [15074.437342] cpu=0	jifd=27	cycled=1852564	insd=211924	cml2=1643	bmd=8229
+May 24 15:56:04 ncps-mc1-12 kernel: [15074.545318] cpu=0	jifd=27	cycled=848604	insd=103719	cml2=522	bmd=3941
+May 24 15:56:04 ncps-mc1-12 kernel: [15074.653322] cpu=0	jifd=27	cycled=858936	insd=105259	cml2=525	bmd=4039
+May 24 15:56:04 ncps-mc1-12 kernel: [15074.761344] cpu=0	jifd=27	cycled=1017457	insd=133281	cml2=619	bmd=4928
+May 24 15:56:04 ncps-mc1-12 kernel: [15074.869323] cpu=0	jifd=27	cycled=777345	insd=93510	cml2=473	bmd=3583
+May 24 15:56:04 ncps-mc1-12 kernel: [15074.977318] cpu=0	jifd=27	cycled=1057179	insd=130132	cml2=568	bmd=5039
+May 24 15:56:04 ncps-mc1-12 kernel: [15075.085324] cpu=0	jifd=27	cycled=1146542	insd=156995	cml2=747	bmd=5984
+May 24 15:56:04 ncps-mc1-12 kernel: [15075.193317] cpu=0	jifd=27	cycled=1034614	insd=129606	cml2=614	bmd=5148
+May 24 15:56:04 ncps-mc1-12 kernel: [15075.301354] cpu=0	jifd=27	cycled=1468413	insd=190929	cml2=629	bmd=7529
+May 24 15:56:04 ncps-mc1-12 kernel: [15075.409335] cpu=0	jifd=27	cycled=2233374	insd=257827	cml2=1134	bmd=9671
+May 24 15:56:04 ncps-mc1-12 kernel: [15075.517349] cpu=0	jifd=27	cycled=1179942	insd=143475	cml2=822	bmd=5631
+May 24 15:56:05 ncps-mc1-12 kernel: [15075.625336] cpu=0	jifd=27	cycled=1105227	insd=125596	cml2=585	bmd=4942
+May 24 15:56:05 ncps-mc1-12 kernel: [15075.733318] cpu=0	jifd=27	cycled=972555	insd=129693	cml2=584	bmd=4966
+May 24 15:56:05 ncps-mc1-12 kernel: [15075.841320] cpu=0	jifd=27	cycled=1436936	insd=164193	cml2=487	bmd=6332
+May 24 15:56:05 ncps-mc1-12 kernel: [15075.949316] cpu=0	jifd=27	cycled=1369574	insd=163240	cml2=966	bmd=6409
+May 24 15:56:05 ncps-mc1-12 kernel: [15076.057346] cpu=0	jifd=27	cycled=865992	insd=101802	cml2=469	bmd=3926
+May 24 15:56:05 ncps-mc1-12 kernel: [15076.165311] cpu=0	jifd=27	cycled=960864	insd=114853	cml2=568	bmd=4449
+May 24 15:56:05 ncps-mc1-12 kernel: [15076.273311] cpu=0	jifd=27	cycled=1557916	insd=193121	cml2=673	bmd=7389
+May 24 15:56:05 ncps-mc1-12 kernel: [15076.381372] cpu=0	jifd=27	cycled=1441159	insd=163418	cml2=745	bmd=6134
+May 24 15:56:05 ncps-mc1-12 kernel: [15076.489347] cpu=0	jifd=27	cycled=1583049	insd=164556	cml2=975	bmd=6492
+May 24 15:56:06 ncps-mc1-12 kernel: [15076.597318] cpu=0	jifd=27	cycled=769973	insd=91997	cml2=476	bmd=3542
+May 24 15:56:06 ncps-mc1-12 kernel: [15076.705316] cpu=0	jifd=27	cycled=907500	insd=111847	cml2=601	bmd=4204
+May 24 15:56:06 ncps-mc1-12 kernel: [15076.813309] cpu=0	jifd=27	cycled=787139	insd=99414	cml2=480	bmd=3699
+May 24 15:56:06 ncps-mc1-12 kernel: [15076.921310] cpu=0	jifd=27	cycled=955673	insd=116921	cml2=593	bmd=4326
+May 24 15:56:06 ncps-mc1-12 kernel: [15077.029330] cpu=0	jifd=27	cycled=1052810	insd=120646	cml2=530	bmd=4725
+May 24 15:56:06 ncps-mc1-12 kernel: [15077.137310] cpu=0	jifd=27	cycled=1139907	insd=148213	cml2=741	bmd=5448
+May 24 15:56:06 ncps-mc1-12 kernel: [15077.245308] cpu=0	jifd=27	cycled=721878	insd=86857	cml2=394	bmd=3376
+May 24 15:56:06 ncps-mc1-12 kernel: [15077.353312] cpu=0	jifd=27	cycled=1415278	insd=192756	cml2=610	bmd=7429
+May 24 15:56:06 ncps-mc1-12 kernel: [15077.461309] cpu=0	jifd=27	cycled=960860	insd=125371	cml2=505	bmd=4872
+May 24 15:56:07 ncps-mc1-12 kernel: [15077.569344] cpu=0	jifd=27	cycled=1443257	insd=169359	cml2=689	bmd=6231
+May 24 15:56:07 ncps-mc1-12 kernel: [15077.677322] cpu=0	jifd=27	cycled=893376	insd=107749	cml2=553	bmd=4016
+May 24 15:56:07 ncps-mc1-12 kernel: [15077.785335] cpu=0	jifd=27	cycled=900165	insd=109575	cml2=562	bmd=4114
+May 24 15:56:07 ncps-mc1-12 kernel: [15077.893316] cpu=0	jifd=27	cycled=899456	insd=111464	cml2=566	bmd=4140
+May 24 15:56:07 ncps-mc1-12 kernel: [15078.001331] cpu=0	jifd=27	cycled=2020133	insd=247624	cml2=1270	bmd=9491
+May 24 15:56:07 ncps-mc1-12 kernel: [15078.109314] cpu=0	jifd=27	cycled=1053598	insd=124769	cml2=656	bmd=4787
+May 24 15:56:07 ncps-mc1-12 kernel: [15078.217338] cpu=0	jifd=27	cycled=991102	insd=113395	cml2=556	bmd=4421
+May 24 15:56:07 ncps-mc1-12 kernel: [15078.325304] cpu=0	jifd=27	cycled=1384574	insd=186545	cml2=704	bmd=7268
+May 24 15:56:07 ncps-mc1-12 kernel: [15078.433366] cpu=0	jifd=27	cycled=1160925	insd=143302	cml2=604	bmd=5645
+May 24 15:56:08 ncps-mc1-12 kernel: [15078.541317] cpu=0	jifd=27	cycled=1328073	insd=159693	cml2=655	bmd=6092
+May 24 15:56:08 ncps-mc1-12 kernel: [15078.649316] cpu=0	jifd=27	cycled=953292	insd=119743	cml2=582	bmd=4576
+May 24 15:56:08 ncps-mc1-12 kernel: [15078.757316] cpu=0	jifd=27	cycled=931259	insd=113484	cml2=566	bmd=4258
+May 24 15:56:08 ncps-mc1-12 kernel: [15078.865333] cpu=0	jifd=27	cycled=1315962	insd=154583	cml2=931	bmd=5946
+May 24 15:56:08 ncps-mc1-12 kernel: [15078.973346] cpu=0	jifd=27	cycled=1198026	insd=143774	cml2=644	bmd=5385
+May 24 15:56:08 ncps-mc1-12 kernel: [15079.081352] cpu=0	jifd=27	cycled=1220539	insd=151133	cml2=717	bmd=5561
+May 24 15:56:08 ncps-mc1-12 kernel: [15079.189327] cpu=0	jifd=27	cycled=1086665	insd=141450	cml2=626	bmd=5433
+May 24 15:56:08 ncps-mc1-12 kernel: [15079.297339] cpu=0	jifd=27	cycled=1242190	insd=135788	cml2=620	bmd=5100
+May 24 15:56:08 ncps-mc1-12 kernel: [15079.405313] cpu=0	jifd=27	cycled=2038636	insd=253865	cml2=885	bmd=10017
+May 24 15:56:08 ncps-mc1-12 kernel: [15079.513310] cpu=0	jifd=27	cycled=1338258	insd=183189	cml2=1098	bmd=6908
+May 24 15:56:09 ncps-mc1-12 kernel: [15079.621365] cpu=0	jifd=27	cycled=986549	insd=117429	cml2=584	bmd=4451
+May 24 15:56:09 ncps-mc1-12 kernel: [15079.729307] cpu=0	jifd=27	cycled=888581	insd=115592	cml2=547	bmd=4298
+May 24 15:56:09 ncps-mc1-12 kernel: [15079.837336] cpu=0	jifd=27	cycled=974777	insd=123389	cml2=588	bmd=4673
+May 24 15:56:09 ncps-mc1-12 kernel: [15079.945315] cpu=0	jifd=27	cycled=1448184	insd=166776	cml2=749	bmd=6227
+May 24 15:56:09 ncps-mc1-12 kernel: [15080.053353] cpu=0	jifd=27	cycled=1220716	insd=148456	cml2=558	bmd=5597
+May 24 15:56:09 ncps-mc1-12 kernel: [15080.161325] cpu=0	jifd=27	cycled=1254042	insd=196588	cml2=742	bmd=6735
+May 24 15:56:09 ncps-mc1-12 kernel: [15080.269384] cpu=0	jifd=27	cycled=1398277	insd=156694	cml2=937	bmd=6031
+May 24 15:56:09 ncps-mc1-12 kernel: [15080.377318] cpu=0	jifd=27	cycled=1583068	insd=209912	cml2=695	bmd=7937
+May 24 15:56:09 ncps-mc1-12 kernel: [15080.485304] cpu=0	jifd=27	cycled=2273037	insd=262350	cml2=989	bmd=9921
+May 24 15:56:10 ncps-mc1-12 kernel: [15080.593308] cpu=0	jifd=27	cycled=2056111	insd=258153	cml2=785	bmd=9835
+May 24 15:56:10 ncps-mc1-12 kernel: [15080.701308] cpu=0	jifd=27	cycled=279066	insd=43261	cml2=71	bmd=1724
+May 24 15:56:10 ncps-mc1-12 kernel: [15080.809307] cpu=0	jifd=27	cycled=1098725	insd=133582	cml2=609	bmd=4949
+May 24 15:56:10 ncps-mc1-12 kernel: [15080.917309] cpu=0	jifd=27	cycled=902825	insd=109614	cml2=551	bmd=3961
+May 24 15:56:10 ncps-mc1-12 kernel: [15081.025310] cpu=0	jifd=27	cycled=2385366	insd=268256	cml2=1131	bmd=9699
+May 24 15:56:10 ncps-mc1-12 kernel: [15081.133308] cpu=0	jifd=27	cycled=858850	insd=104877	cml2=514	bmd=3970
+May 24 15:56:10 ncps-mc1-12 kernel: [15081.241309] cpu=0	jifd=27	cycled=923680	insd=115325	cml2=544	bmd=4391
+May 24 15:56:10 ncps-mc1-12 kernel: [15081.349320] cpu=0	jifd=27	cycled=987417	insd=121901	cml2=608	bmd=4560
+May 24 15:56:10 ncps-mc1-12 kernel: [15081.457305] cpu=0	jifd=27	cycled=1575753	insd=224974	cml2=778	bmd=8402
+May 24 15:56:11 ncps-mc1-12 kernel: [15081.565309] cpu=0	jifd=27	cycled=1208635	insd=164892	cml2=671	bmd=6196
+May 24 15:56:11 ncps-mc1-12 kernel: [15081.673302] cpu=0	jifd=27	cycled=1024548	insd=130453	cml2=653	bmd=4795
+May 24 15:56:11 ncps-mc1-12 kernel: [15081.781307] cpu=0	jifd=27	cycled=862459	insd=109129	cml2=537	bmd=4050
+May 24 15:56:11 ncps-mc1-12 kernel: [15081.889308] cpu=0	jifd=27	cycled=971290	insd=118746	cml2=572	bmd=4497
+May 24 15:56:11 ncps-mc1-12 kernel: [15081.997339] cpu=0	jifd=27	cycled=1345793	insd=162447	cml2=660	bmd=6100
+May 24 15:56:11 ncps-mc1-12 kernel: [15082.105321] cpu=0	jifd=27	cycled=1053850	insd=123121	cml2=562	bmd=4581
+May 24 15:56:11 ncps-mc1-12 kernel: [15082.213304] cpu=0	jifd=27	cycled=1071308	insd=133019	cml2=586	bmd=4825
+May 24 15:56:11 ncps-mc1-12 kernel: [15082.321328] cpu=0	jifd=27	cycled=1529301	insd=188958	cml2=1543	bmd=7186
+May 24 15:56:11 ncps-mc1-12 kernel: [15082.429304] cpu=0	jifd=27	cycled=1413310	insd=180673	cml2=765	bmd=7048
+May 24 15:56:12 ncps-mc1-12 kernel: [15082.537283] cpu=0	jifd=27	cycled=1336559	insd=158811	cml2=620	bmd=6114
+May 24 15:56:12 ncps-mc1-12 kernel: [15082.645309] cpu=0	jifd=27	cycled=1033446	insd=132763	cml2=626	bmd=5003
+May 24 15:56:12 ncps-mc1-12 kernel: [15082.753304] cpu=0	jifd=27	cycled=954727	insd=124929	cml2=503	bmd=4738
+May 24 15:56:12 ncps-mc1-12 kernel: [15082.861306] cpu=0	jifd=27	cycled=875496	insd=105794	cml2=533	bmd=4016
+May 24 15:56:12 ncps-mc1-12 kernel: [15082.969327] cpu=0	jifd=27	cycled=1168144	insd=140489	cml2=659	bmd=5293
+May 24 15:56:12 ncps-mc1-12 kernel: [15083.077328] cpu=0	jifd=27	cycled=1674541	insd=179583	cml2=662	bmd=6551
+May 24 15:56:12 ncps-mc1-12 kernel: [15083.185312] cpu=0	jifd=27	cycled=933173	insd=112452	cml2=576	bmd=4187
+May 24 15:56:12 ncps-mc1-12 kernel: [15083.293312] cpu=0	jifd=27	cycled=858350	insd=101750	cml2=534	bmd=3871
+May 24 15:56:12 ncps-mc1-12 kernel: [15083.401289] cpu=0	jifd=27	cycled=1189989	insd=156145	cml2=669	bmd=5731
+May 24 15:56:12 ncps-mc1-12 kernel: [15083.509314] cpu=0	jifd=27	cycled=1199160	insd=155417	cml2=547	bmd=6056
+May 24 15:56:13 ncps-mc1-12 kernel: [15083.617311] cpu=0	jifd=27	cycled=1117437	insd=142276	cml2=639	bmd=5466
+May 24 15:56:13 ncps-mc1-12 kernel: [15083.725296] cpu=0	jifd=27	cycled=897602	insd=114900	cml2=559	bmd=4375
+May 24 15:56:13 ncps-mc1-12 kernel: [15083.833316] cpu=0	jifd=27	cycled=879182	insd=104697	cml2=519	bmd=3883
+May 24 15:56:13 ncps-mc1-12 kernel: [15083.941310] cpu=0	jifd=27	cycled=834477	insd=100247	cml2=519	bmd=3736
+May 24 15:56:13 ncps-mc1-12 kernel: [15084.049314] cpu=0	jifd=27	cycled=1250568	insd=153129	cml2=885	bmd=5945
+May 24 15:56:13 ncps-mc1-12 kernel: [15084.157327] cpu=0	jifd=27	cycled=1091772	insd=135102	cml2=671	bmd=5023
+May 24 15:56:13 ncps-mc1-12 kernel: [15084.265309] cpu=0	jifd=27	cycled=1161670	insd=134878	cml2=656	bmd=5013
+May 24 15:56:13 ncps-mc1-12 kernel: [15084.373317] cpu=0	jifd=27	cycled=1036054	insd=121596	cml2=619	bmd=4511
+May 24 15:56:13 ncps-mc1-12 kernel: [15084.481308] cpu=0	jifd=27	cycled=1177564	insd=151856	cml2=553	bmd=5955
+May 24 15:56:14 ncps-mc1-12 kernel: [15084.589293] cpu=0	jifd=27	cycled=1258698	insd=150561	cml2=519	bmd=5750
+May 24 15:56:14 ncps-mc1-12 kernel: [15084.697309] cpu=0	jifd=27	cycled=780962	insd=97146	cml2=419	bmd=3722
+May 24 15:56:14 ncps-mc1-12 kernel: [15084.805306] cpu=0	jifd=27	cycled=889253	insd=105399	cml2=542	bmd=3907
+May 24 15:56:14 ncps-mc1-12 kernel: [15084.913301] cpu=0	jifd=27	cycled=812322	insd=100526	cml2=487	bmd=3722
+May 24 15:56:14 ncps-mc1-12 kernel: [15085.021316] cpu=0	jifd=27	cycled=2068546	insd=246019	cml2=1105	bmd=9401
+May 24 15:56:14 ncps-mc1-12 kernel: [15085.129317] cpu=0	jifd=27	cycled=878476	insd=107791	cml2=536	bmd=4079
+May 24 15:56:14 ncps-mc1-12 kernel: [15085.237313] cpu=0	jifd=27	cycled=969114	insd=116864	cml2=540	bmd=4292
+May 24 15:56:14 ncps-mc1-12 kernel: [15085.345325] cpu=0	jifd=27	cycled=985937	insd=117285	cml2=575	bmd=4468
+May 24 15:56:14 ncps-mc1-12 kernel: [15085.453317] cpu=0	jifd=27	cycled=1140104	insd=132787	cml2=558	bmd=5161
+May 24 15:56:15 ncps-mc1-12 kernel: [15085.561339] cpu=0	jifd=27	cycled=1322941	insd=175737	cml2=624	bmd=6670
+May 24 15:56:15 ncps-mc1-12 kernel: [15085.669303] cpu=0	jifd=27	cycled=973745	insd=133358	cml2=651	bmd=4857
+May 24 15:56:15 ncps-mc1-12 kernel: [15085.777337] cpu=0	jifd=27	cycled=11078215	insd=1426188	cml2=7020	bmd=43644
+May 24 15:56:15 ncps-mc1-12 kernel: [15085.885343] cpu=0	jifd=27	cycled=71861269	insd=9328254	cml2=48608	bmd=299367
+May 24 15:56:15 ncps-mc1-12 kernel: [15085.993303] cpu=0	jifd=27	cycled=20906949	insd=2171981	cml2=10927	bmd=70954
+May 24 15:56:15 ncps-mc1-12 kernel: [15086.101292] cpu=0	jifd=27	cycled=1313540	insd=170687	cml2=793	bmd=6709
+May 24 15:56:15 ncps-mc1-12 kernel: [15086.209302] cpu=0	jifd=27	cycled=1148046	insd=142166	cml2=696	bmd=5192
+May 24 15:56:15 ncps-mc1-12 kernel: [15086.317298] cpu=0	jifd=27	cycled=1017667	insd=120736	cml2=616	bmd=4500
+May 24 15:56:15 ncps-mc1-12 kernel: [15086.425314] cpu=0	jifd=27	cycled=1054881	insd=134935	cml2=630	bmd=5043
+May 24 15:56:15 ncps-mc1-12 kernel: [15086.533299] cpu=0	jifd=27	cycled=1151089	insd=151104	cml2=519	bmd=5931
+May 24 15:56:16 ncps-mc1-12 kernel: [15086.641334] cpu=0	jifd=27	cycled=1393376	insd=170815	cml2=1251	bmd=6342
+May 24 15:56:16 ncps-mc1-12 kernel: [15086.749344] cpu=0	jifd=27	cycled=947585	insd=111525	cml2=535	bmd=4228
+May 24 15:56:16 ncps-mc1-12 kernel: [15086.857296] cpu=0	jifd=27	cycled=965252	insd=117398	cml2=561	bmd=4375
+May 24 15:56:16 ncps-mc1-12 kernel: [15086.965322] cpu=0	jifd=27	cycled=1207653	insd=139168	cml2=710	bmd=5212
+May 24 15:56:16 ncps-mc1-12 kernel: [15087.073299] cpu=0	jifd=27	cycled=1121137	insd=135084	cml2=533	bmd=5356
+May 24 15:56:16 ncps-mc1-12 kernel: [15087.181296] cpu=0	jifd=27	cycled=1093036	insd=142180	cml2=604	bmd=5379
+May 24 15:56:16 ncps-mc1-12 kernel: [15087.289298] cpu=0	jifd=27	cycled=965323	insd=119399	cml2=593	bmd=4351
+May 24 15:56:16 ncps-mc1-12 kernel: [15087.397317] cpu=0	jifd=27	cycled=954135	insd=113252	cml2=514	bmd=4294
+May 24 15:56:16 ncps-mc1-12 kernel: [15087.505300] cpu=0	jifd=27	cycled=1108405	insd=141160	cml2=583	bmd=5469
+May 24 15:56:17 ncps-mc1-12 kernel: [15087.613294] cpu=0	jifd=27	cycled=1036113	insd=135841	cml2=565	bmd=5215
+May 24 15:56:17 ncps-mc1-12 kernel: [15087.721291] cpu=0	jifd=27	cycled=864414	insd=123043	cml2=559	bmd=4448
+May 24 15:56:17 ncps-mc1-12 kernel: [15087.829292] cpu=0	jifd=27	cycled=1001231	insd=126954	cml2=576	bmd=4614
+May 24 15:56:17 ncps-mc1-12 kernel: [15087.937293] cpu=0	jifd=27	cycled=1024762	insd=122212	cml2=595	bmd=4594
+May 24 15:56:17 ncps-mc1-12 kernel: [15088.045306] cpu=0	jifd=27	cycled=1378110	insd=156040	cml2=629	bmd=5985
+May 24 15:56:17 ncps-mc1-12 kernel: [15088.153325] cpu=0	jifd=27	cycled=1370154	insd=181360	cml2=670	bmd=6714
+May 24 15:56:17 ncps-mc1-12 kernel: [15088.261305] cpu=0	jifd=27	cycled=1012489	insd=117021	cml2=556	bmd=4182
+May 24 15:56:17 ncps-mc1-12 kernel: [15088.369329] cpu=0	jifd=27	cycled=978267	insd=109724	cml2=561	bmd=4061
+May 24 15:56:17 ncps-mc1-12 kernel: [15088.477296] cpu=0	jifd=27	cycled=1056548	insd=133508	cml2=673	bmd=5035
+May 24 15:56:18 ncps-mc1-12 kernel: [15088.585298] cpu=0	jifd=27	cycled=1233164	insd=161404	cml2=609	bmd=6299
+May 24 15:56:18 ncps-mc1-12 kernel: [15088.693296] cpu=0	jifd=27	cycled=906223	insd=111206	cml2=553	bmd=4095
+May 24 15:56:18 ncps-mc1-12 kernel: [15088.801310] cpu=0	jifd=27	cycled=1102858	insd=147648	cml2=664	bmd=5136
+May 24 15:56:18 ncps-mc1-12 kernel: [15088.909305] cpu=0	jifd=27	cycled=1131754	insd=126856	cml2=624	bmd=4715
+May 24 15:56:18 ncps-mc1-12 kernel: [15089.017319] cpu=0	jifd=27	cycled=2010535	insd=230382	cml2=937	bmd=8629
+May 24 15:56:18 ncps-mc1-12 kernel: [15089.125308] cpu=0	jifd=27	cycled=1063027	insd=136784	cml2=588	bmd=5356
+May 24 15:56:18 ncps-mc1-12 kernel: [15089.233294] cpu=0	jifd=27	cycled=1444732	insd=201578	cml2=1108	bmd=7685
+May 24 15:56:18 ncps-mc1-12 kernel: [15089.341300] cpu=0	jifd=27	cycled=1166242	insd=135607	cml2=745	bmd=5319
+May 24 15:56:18 ncps-mc1-12 kernel: [15089.449295] cpu=0	jifd=27	cycled=969366	insd=119017	cml2=602	bmd=4560
+May 24 15:56:19 ncps-mc1-12 kernel: [15089.557293] cpu=0	jifd=27	cycled=1157533	insd=160597	cml2=645	bmd=6070
+May 24 15:56:19 ncps-mc1-12 kernel: [15089.665304] cpu=0	jifd=27	cycled=1123648	insd=138423	cml2=585	bmd=5287
+May 24 15:56:19 ncps-mc1-12 kernel: [15089.773295] cpu=0	jifd=27	cycled=1041155	insd=128496	cml2=585	bmd=4830
+May 24 15:56:19 ncps-mc1-12 kernel: [15089.881293] cpu=0	jifd=27	cycled=992558	insd=117069	cml2=563	bmd=4376
+May 24 15:56:19 ncps-mc1-12 kernel: [15089.989327] cpu=0	jifd=27	cycled=1183163	insd=136569	cml2=588	bmd=5167
+May 24 15:56:19 ncps-mc1-12 kernel: [15090.097289] cpu=0	jifd=27	cycled=1222563	insd=154327	cml2=731	bmd=6022
+May 24 15:56:19 ncps-mc1-12 kernel: [15090.205285] cpu=0	jifd=27	cycled=1348092	insd=167039	cml2=709	bmd=6431
+May 24 15:56:19 ncps-mc1-12 kernel: [15090.313335] cpu=0	jifd=27	cycled=1601894	insd=173817	cml2=740	bmd=6614
+May 24 15:56:19 ncps-mc1-12 kernel: [15090.421289] cpu=0	jifd=27	cycled=871093	insd=108958	cml2=565	bmd=4117
+May 24 15:56:19 ncps-mc1-12 kernel: [15090.529292] cpu=0	jifd=27	cycled=1008060	insd=135344	cml2=653	bmd=5020
+May 24 15:56:20 ncps-mc1-12 kernel: [15090.637287] cpu=0	jifd=27	cycled=1084616	insd=148001	cml2=484	bmd=5747
+May 24 15:56:20 ncps-mc1-12 kernel: [15090.745292] cpu=0	jifd=27	cycled=981607	insd=120142	cml2=527	bmd=4572
+May 24 15:56:20 ncps-mc1-12 kernel: [15090.853287] cpu=0	jifd=27	cycled=867117	insd=109726	cml2=496	bmd=4168
+May 24 15:56:20 ncps-mc1-12 kernel: [15090.961285] cpu=0	jifd=27	cycled=2962688	insd=385598	cml2=1806	bmd=13414
+May 24 15:56:20 ncps-mc1-12 kernel: [15091.069291] cpu=0	jifd=27	cycled=1064340	insd=121156	cml2=550	bmd=4785
+May 24 15:56:20 ncps-mc1-12 kernel: [15091.177291] cpu=0	jifd=27	cycled=1126865	insd=145145	cml2=596	bmd=5605
+May 24 15:56:20 ncps-mc1-12 kernel: [15091.285289] cpu=0	jifd=27	cycled=1028835	insd=132870	cml2=548	bmd=5155
+May 24 15:56:20 ncps-mc1-12 kernel: [15091.393280] cpu=0	jifd=27	cycled=1369469	insd=170631	cml2=689	bmd=6407
+May 24 15:56:20 ncps-mc1-12 kernel: [15091.501289] cpu=0	jifd=27	cycled=933413	insd=124979	cml2=611	bmd=4685
+May 24 15:56:21 ncps-mc1-12 kernel: [15091.609316] cpu=0	jifd=27	cycled=1071724	insd=136035	cml2=549	bmd=5285
+May 24 15:56:21 ncps-mc1-12 kernel: [15091.717292] cpu=0	jifd=27	cycled=1076691	insd=135645	cml2=540	bmd=5124
+May 24 15:56:21 ncps-mc1-12 kernel: [15091.825290] cpu=0	jifd=27	cycled=948690	insd=114209	cml2=585	bmd=4241
+May 24 15:56:21 ncps-mc1-12 kernel: [15091.933291] cpu=0	jifd=27	cycled=997134	insd=116668	cml2=595	bmd=4272
+May 24 15:56:21 ncps-mc1-12 kernel: [15092.041295] cpu=0	jifd=27	cycled=1127397	insd=141617	cml2=601	bmd=5454
+May 24 15:56:21 ncps-mc1-12 kernel: [15092.149285] cpu=0	jifd=27	cycled=1215299	insd=153088	cml2=663	bmd=5907
+May 24 15:56:21 ncps-mc1-12 kernel: [15092.257299] cpu=0	jifd=27	cycled=1401397	insd=172752	cml2=671	bmd=6570
+May 24 15:56:21 ncps-mc1-12 kernel: [15092.365333] cpu=0	jifd=27	cycled=878903	insd=98919	cml2=484	bmd=3742
+May 24 15:56:21 ncps-mc1-12 kernel: [15092.473308] cpu=0	jifd=27	cycled=1008124	insd=121993	cml2=598	bmd=4652
+May 24 15:56:22 ncps-mc1-12 kernel: [15092.581295] cpu=0	jifd=27	cycled=908674	insd=111707	cml2=589	bmd=4285
+May 24 15:56:22 ncps-mc1-12 kernel: [15092.689283] cpu=0	jifd=27	cycled=1145950	insd=150379	cml2=498	bmd=5794
+May 24 15:56:22 ncps-mc1-12 kernel: [15092.797290] cpu=0	jifd=27	cycled=838269	insd=99891	cml2=479	bmd=3780
+May 24 15:56:22 ncps-mc1-12 kernel: [15092.905286] cpu=0	jifd=27	cycled=1077874	insd=127386	cml2=663	bmd=4713
+May 24 15:56:22 ncps-mc1-12 kernel: [15093.013300] cpu=0	jifd=27	cycled=1753281	insd=234297	cml2=1036	bmd=9109
+May 24 15:56:22 ncps-mc1-12 kernel: [15093.121287] cpu=0	jifd=27	cycled=986260	insd=124877	cml2=576	bmd=4899
+May 24 15:56:22 ncps-mc1-12 kernel: [15093.229292] cpu=0	jifd=27	cycled=982617	insd=118729	cml2=588	bmd=4508
+May 24 15:56:22 ncps-mc1-12 kernel: [15093.337285] cpu=0	jifd=27	cycled=1153506	insd=148158	cml2=599	bmd=5862
+May 24 15:56:22 ncps-mc1-12 kernel: [15093.445337] cpu=0	jifd=27	cycled=1172828	insd=163603	cml2=674	bmd=5949
+May 24 15:56:23 ncps-mc1-12 kernel: [15093.553286] cpu=0	jifd=27	cycled=942060	insd=126581	cml2=570	bmd=4816
+May 24 15:56:23 ncps-mc1-12 kernel: [15093.661285] cpu=0	jifd=27	cycled=1083331	insd=142014	cml2=592	bmd=5440
+May 24 15:56:23 ncps-mc1-12 kernel: [15093.769279] cpu=0	jifd=27	cycled=1090565	insd=132967	cml2=547	bmd=5122
+May 24 15:56:23 ncps-mc1-12 kernel: [15093.877282] cpu=0	jifd=27	cycled=1083000	insd=137911	cml2=635	bmd=5163
+May 24 15:56:23 ncps-mc1-12 kernel: [15093.985281] cpu=0	jifd=27	cycled=1250738	insd=158539	cml2=611	bmd=6214
+May 24 15:56:23 ncps-mc1-12 kernel: [15094.093288] cpu=0	jifd=27	cycled=1007554	insd=121861	cml2=607	bmd=4669
+May 24 15:56:23 ncps-mc1-12 kernel: [15094.201284] cpu=0	jifd=27	cycled=1170918	insd=135324	cml2=700	bmd=5111
+May 24 15:56:23 ncps-mc1-12 kernel: [15094.309312] cpu=0	jifd=27	cycled=1723550	insd=200320	cml2=683	bmd=7693
+May 24 15:56:23 ncps-mc1-12 kernel: [15094.417282] cpu=0	jifd=27	cycled=886820	insd=110106	cml2=529	bmd=4355
+May 24 15:56:23 ncps-mc1-12 kernel: [15094.525281] cpu=0	jifd=27	cycled=938737	insd=116888	cml2=582	bmd=4492
+May 24 15:56:24 ncps-mc1-12 kernel: [15094.633284] cpu=0	jifd=27	cycled=922564	insd=113218	cml2=562	bmd=4410
+May 24 15:56:24 ncps-mc1-12 kernel: [15094.741302] cpu=0	jifd=27	cycled=1376180	insd=182276	cml2=591	bmd=7156
+May 24 15:56:24 ncps-mc1-12 kernel: [15094.849306] cpu=0	jifd=27	cycled=1175295	insd=136438	cml2=621	bmd=5207
+May 24 15:56:24 ncps-mc1-12 kernel: [15094.957314] cpu=0	jifd=27	cycled=1544257	insd=209606	cml2=1350	bmd=7640
+May 24 15:56:24 ncps-mc1-12 kernel: [15095.065282] cpu=0	jifd=27	cycled=1257057	insd=147557	cml2=630	bmd=5685
+May 24 15:56:24 ncps-mc1-12 kernel: [15095.173289] cpu=0	jifd=27	cycled=1390170	insd=146550	cml2=624	bmd=5578
+May 24 15:56:24 ncps-mc1-12 kernel: [15095.281285] cpu=0	jifd=27	cycled=850456	insd=105421	cml2=507	bmd=3995
+May 24 15:56:24 ncps-mc1-12 kernel: [15095.389294] cpu=0	jifd=27	cycled=1395810	insd=168548	cml2=633	bmd=6562
+May 24 15:56:24 ncps-mc1-12 kernel: [15095.497280] cpu=0	jifd=27	cycled=1138682	insd=134193	cml2=1144	bmd=5209
+May 24 15:56:25 ncps-mc1-12 kernel: [15095.605303] cpu=0	jifd=27	cycled=931639	insd=112376	cml2=562	bmd=4213
+May 24 15:56:25 ncps-mc1-12 kernel: [15095.713279] cpu=0	jifd=27	cycled=1065366	insd=133192	cml2=571	bmd=5125
+May 24 15:56:25 ncps-mc1-12 kernel: [15095.821274] cpu=0	jifd=27	cycled=1194649	insd=140756	cml2=623	bmd=5260
+May 24 15:56:25 ncps-mc1-12 kernel: [15095.929274] cpu=0	jifd=27	cycled=907336	insd=107479	cml2=536	bmd=3992
+May 24 15:56:25 ncps-mc1-12 kernel: [15096.037295] cpu=0	jifd=27	cycled=1558166	insd=198153	cml2=718	bmd=7374
+May 24 15:56:25 ncps-mc1-12 kernel: [15096.145281] cpu=0	jifd=27	cycled=984162	insd=115618	cml2=594	bmd=4240
+May 24 15:56:25 ncps-mc1-12 kernel: [15096.253290] cpu=0	jifd=27	cycled=1146384	insd=135460	cml2=647	bmd=5209
+May 24 15:56:25 ncps-mc1-12 kernel: [15096.361298] cpu=0	jifd=27	cycled=1103756	insd=141000	cml2=587	bmd=5372
+May 24 15:56:25 ncps-mc1-12 kernel: [15096.469309] cpu=0	jifd=27	cycled=1538653	insd=159498	cml2=991	bmd=5961
+May 24 15:56:26 ncps-mc1-12 kernel: [15096.577275] cpu=0	jifd=27	cycled=852570	insd=104425	cml2=551	bmd=3941
+May 24 15:56:26 ncps-mc1-12 kernel: [15096.685274] cpu=0	jifd=27	cycled=941642	insd=115349	cml2=572	bmd=4286
+May 24 15:56:26 ncps-mc1-12 kernel: [15096.793270] cpu=0	jifd=27	cycled=1576186	insd=209294	cml2=945	bmd=8275
+May 24 15:56:26 ncps-mc1-12 kernel: [15096.901283] cpu=0	jifd=27	cycled=1051666	insd=125330	cml2=652	bmd=4648
+May 24 15:56:26 ncps-mc1-12 kernel: [15097.009299] cpu=0	jifd=27	cycled=1353043	insd=168805	cml2=634	bmd=6550
+May 24 15:56:26 ncps-mc1-12 kernel: [15097.117280] cpu=0	jifd=27	cycled=1085967	insd=144034	cml2=676	bmd=5681
+May 24 15:56:26 ncps-mc1-12 kernel: [15097.225276] cpu=0	jifd=27	cycled=1080490	insd=132846	cml2=590	bmd=5192
+May 24 15:56:26 ncps-mc1-12 kernel: [15097.333274] cpu=0	jifd=27	cycled=977437	insd=118187	cml2=600	bmd=4434
+May 24 15:56:26 ncps-mc1-12 kernel: [15097.441279] cpu=0	jifd=27	cycled=1068604	insd=136506	cml2=575	bmd=5227
+May 24 15:56:27 ncps-mc1-12 kernel: [15097.549273] cpu=0	jifd=27	cycled=992947	insd=122562	cml2=563	bmd=4745
+May 24 15:56:27 ncps-mc1-12 kernel: [15097.657301] cpu=0	jifd=27	cycled=995440	insd=109986	cml2=398	bmd=4335
+May 24 15:56:27 ncps-mc1-12 kernel: [15097.765281] cpu=0	jifd=27	cycled=1335551	insd=160619	cml2=568	bmd=6151
+May 24 15:56:27 ncps-mc1-12 kernel: [15097.873279] cpu=0	jifd=27	cycled=911150	insd=110454	cml2=450	bmd=4165
+May 24 15:56:27 ncps-mc1-12 kernel: [15097.981298] cpu=0	jifd=27	cycled=2120260	insd=320023	cml2=3073	bmd=12269
+May 24 15:56:27 ncps-mc1-12 kernel: [15098.089276] cpu=0	jifd=27	cycled=1234879	insd=145792	cml2=803	bmd=5581
+May 24 15:56:27 ncps-mc1-12 kernel: [15098.197280] cpu=0	jifd=27	cycled=1160818	insd=129173	cml2=666	bmd=4737
+May 24 15:56:27 ncps-mc1-12 kernel: [15098.305306] cpu=0	jifd=27	cycled=1364955	insd=157760	cml2=1404	bmd=6193
+May 24 15:56:27 ncps-mc1-12 kernel: [15098.413275] cpu=0	jifd=27	cycled=942794	insd=127682	cml2=555	bmd=4981
+May 24 15:56:27 ncps-mc1-12 kernel: [15098.521272] cpu=0	jifd=27	cycled=772445	insd=106985	cml2=477	bmd=4069
+May 24 15:56:28 ncps-mc1-12 kernel: [15098.629283] cpu=0	jifd=27	cycled=940860	insd=115729	cml2=559	bmd=4430
+May 24 15:56:28 ncps-mc1-12 kernel: [15098.737276] cpu=0	jifd=27	cycled=936711	insd=115135	cml2=517	bmd=4577
+May 24 15:56:28 ncps-mc1-12 kernel: [15098.845273] cpu=0	jifd=27	cycled=1361713	insd=170026	cml2=671	bmd=6684
+May 24 15:56:28 ncps-mc1-12 kernel: [15098.953303] cpu=0	jifd=27	cycled=1326924	insd=155340	cml2=1323	bmd=6098
+May 24 15:56:28 ncps-mc1-12 kernel: [15099.061275] cpu=0	jifd=27	cycled=1188499	insd=148203	cml2=526	bmd=5832
+May 24 15:56:28 ncps-mc1-12 kernel: [15099.169269] cpu=0	jifd=27	cycled=1110543	insd=141676	cml2=679	bmd=5410
+May 24 15:56:28 ncps-mc1-12 kernel: [15099.277295] cpu=0	jifd=27	cycled=1143288	insd=147774	cml2=784	bmd=5740
+May 24 15:56:28 ncps-mc1-12 kernel: [15099.385280] cpu=0	jifd=27	cycled=874686	insd=109003	cml2=586	bmd=4142
+May 24 15:56:28 ncps-mc1-12 kernel: [15099.493270] cpu=0	jifd=27	cycled=1109887	insd=136588	cml2=525	bmd=5124
+May 24 15:56:29 ncps-mc1-12 kernel: [15099.601273] cpu=0	jifd=27	cycled=892354	insd=113134	cml2=561	bmd=4185
+May 24 15:56:29 ncps-mc1-12 kernel: [15099.709279] cpu=0	jifd=27	cycled=941648	insd=112205	cml2=562	bmd=4148
+May 24 15:56:29 ncps-mc1-12 kernel: [15099.817276] cpu=0	jifd=27	cycled=1244424	insd=154454	cml2=565	bmd=5874
+May 24 15:56:29 ncps-mc1-12 kernel: [15099.925274] cpu=0	jifd=27	cycled=1019421	insd=117535	cml2=558	bmd=4473
+May 24 15:56:29 ncps-mc1-12 kernel: [15100.033292] cpu=0	jifd=27	cycled=6617161	insd=869019	cml2=4539	bmd=32548
+May 24 15:56:29 ncps-mc1-12 kernel: [15100.141310] cpu=0	jifd=27	cycled=6158554	insd=761474	cml2=2844	bmd=27681
+May 24 15:56:29 ncps-mc1-12 kernel: [15100.249283] cpu=0	jifd=27	cycled=789496	insd=99843	cml2=302	bmd=3923
+May 24 15:56:29 ncps-mc1-12 kernel: [15100.357274] cpu=0	jifd=27	cycled=5380056	insd=725206	cml2=2597	bmd=27956
+May 24 15:56:29 ncps-mc1-12 kernel: [15100.465269] cpu=0	jifd=27	cycled=6130535	insd=657303	cml2=2332	bmd=25257
+May 24 15:56:30 ncps-mc1-12 kernel: [15100.573296] cpu=0	jifd=27	cycled=1219002	insd=158224	cml2=970	bmd=5875
+May 24 15:56:30 ncps-mc1-12 kernel: [15100.681291] cpu=0	jifd=27	cycled=11494124	insd=1293499	cml2=4669	bmd=50563
+May 24 15:56:30 ncps-mc1-12 kernel: [15100.789289] cpu=0	jifd=27	cycled=260277	insd=27044	cml2=27	bmd=1194
+May 24 15:56:30 ncps-mc1-12 kernel: [15100.897280] cpu=0	jifd=27	cycled=5381972	insd=646440	cml2=2398	bmd=25185
+May 24 15:56:30 ncps-mc1-12 kernel: [15101.005284] cpu=0	jifd=27	cycled=6125903	insd=792954	cml2=2777	bmd=30239
+May 24 15:56:30 ncps-mc1-12 kernel: [15101.113269] cpu=0	jifd=27	cycled=202423	insd=25772	cml2=39	bmd=1204
+May 24 15:56:30 ncps-mc1-12 kernel: [15101.221278] cpu=0	jifd=27	cycled=26235336	insd=3372925	cml2=16484	bmd=111434
+May 24 15:56:30 ncps-mc1-12 kernel: [15101.329274] cpu=0	jifd=27	cycled=5338289	insd=718305	cml2=2451	bmd=27283
+May 24 15:56:30 ncps-mc1-12 kernel: [15101.437284] cpu=0	jifd=27	cycled=509444	insd=57416	cml2=170	bmd=2471
+May 24 15:56:31 ncps-mc1-12 kernel: [15101.545293] cpu=0	jifd=27	cycled=5850841	insd=759320	cml2=2653	bmd=28541
+May 24 15:56:31 ncps-mc1-12 kernel: [15101.653273] cpu=0	jifd=27	cycled=5880624	insd=687134	cml2=2616	bmd=26323
+May 24 15:56:31 ncps-mc1-12 kernel: [15101.761277] cpu=0	jifd=27	cycled=762934	insd=94547	cml2=276	bmd=3866
+May 24 15:56:31 ncps-mc1-12 kernel: [15101.869304] cpu=0	jifd=27	cycled=7854882	insd=944901	cml2=3195	bmd=36039
+May 24 15:56:31 ncps-mc1-12 kernel: [15101.977270] cpu=0	jifd=27	cycled=4415274	insd=461891	cml2=1620	bmd=17805
+May 24 15:56:31 ncps-mc1-12 kernel: [15102.085380] cpu=0	jifd=27	cycled=913839	insd=107353	cml2=447	bmd=4434
+May 24 15:56:31 ncps-mc1-12 kernel: [15102.193288] cpu=0	jifd=27	cycled=10995750	insd=1305134	cml2=4743	bmd=49899
+May 24 15:56:31 ncps-mc1-12 kernel: [15102.301272] cpu=0	jifd=27	cycled=247610	insd=27876	cml2=18	bmd=1248
+May 24 15:56:31 ncps-mc1-12 kernel: [15102.409266] cpu=0	jifd=27	cycled=6111690	insd=702287	cml2=2604	bmd=22872
+May 24 15:56:31 ncps-mc1-12 kernel: [15102.517281] cpu=0	jifd=27	cycled=5184926	insd=694304	cml2=2375	bmd=26814
+May 24 15:56:32 ncps-mc1-12 kernel: [15102.625274] cpu=0	jifd=27	cycled=383766	insd=41822	cml2=97	bmd=1892
+May 24 15:56:32 ncps-mc1-12 kernel: [15102.733268] cpu=0	jifd=27	cycled=5135236	insd=688169	cml2=2496	bmd=26626
+May 24 15:56:32 ncps-mc1-12 kernel: [15102.841270] cpu=0	jifd=27	cycled=4958872	insd=652244	cml2=2336	bmd=25345
+May 24 15:56:32 ncps-mc1-12 kernel: [15102.949328] cpu=0	jifd=27	cycled=1226469	insd=160947	cml2=367	bmd=6336
+May 24 15:56:32 ncps-mc1-12 kernel: [15103.057285] cpu=0	jifd=27	cycled=5806366	insd=772263	cml2=2903	bmd=28943
+May 24 15:56:32 ncps-mc1-12 kernel: [15103.165266] cpu=0	jifd=27	cycled=6075348	insd=630124	cml2=2316	bmd=23872
+May 24 15:56:32 ncps-mc1-12 kernel: [15103.273288] cpu=0	jifd=27	cycled=1042682	insd=138370	cml2=356	bmd=5500
+May 24 15:56:32 ncps-mc1-12 kernel: [15103.381276] cpu=0	jifd=27	cycled=6712954	insd=657356	cml2=2312	bmd=22632
+May 24 15:56:32 ncps-mc1-12 kernel: [15103.489279] cpu=0	jifd=27	cycled=4774690	insd=640907	cml2=2289	bmd=24435
+May 24 15:56:33 ncps-mc1-12 kernel: [15103.597295] cpu=0	jifd=27	cycled=958600	insd=123539	cml2=854	bmd=4696
+May 24 15:56:33 ncps-mc1-12 kernel: [15103.705265] cpu=0	jifd=27	cycled=5185555	insd=687691	cml2=2602	bmd=25810
+May 24 15:56:33 ncps-mc1-12 kernel: [15103.813273] cpu=0	jifd=27	cycled=4805108	insd=656686	cml2=2302	bmd=25157
+May 24 15:56:33 ncps-mc1-12 kernel: [15103.921279] cpu=0	jifd=27	cycled=690575	insd=96626	cml2=176	bmd=3796
+May 24 15:56:33 ncps-mc1-12 kernel: [15104.029276] cpu=0	jifd=27	cycled=5454666	insd=730266	cml2=2772	bmd=27714
+May 24 15:56:33 ncps-mc1-12 kernel: [15104.137359] cpu=0	jifd=27	cycled=15771173	insd=2741525	cml2=12782	bmd=104759
+May 24 15:56:33 ncps-mc1-12 kernel: [15104.245317] cpu=0	jifd=27	cycled=2763531	insd=373757	cml2=2483	bmd=14254
+May 24 15:56:33 ncps-mc1-12 kernel: [15104.353266] cpu=0	jifd=27	cycled=1762739	insd=225670	cml2=810	bmd=8874
+May 24 15:56:33 ncps-mc1-12 kernel: [15104.461250] cpu=0	jifd=27	cycled=1110795	insd=167413	cml2=386	bmd=6713
+May 24 15:56:34 ncps-mc1-12 kernel: [15104.569264] cpu=0	jifd=27	cycled=1119724	insd=142919	cml2=626	bmd=5608
+May 24 15:56:34 ncps-mc1-12 kernel: [15104.677246] cpu=0	jifd=27	cycled=1344971	insd=159760	cml2=700	bmd=6286
+May 24 15:56:34 ncps-mc1-12 kernel: [15104.785292] cpu=0	jifd=27	cycled=1164673	insd=132070	cml2=694	bmd=5073
+May 24 15:56:34 ncps-mc1-12 kernel: [15104.893265] cpu=0	jifd=27	cycled=860335	insd=103927	cml2=512	bmd=4124
+May 24 15:56:34 ncps-mc1-12 kernel: [15105.001265] cpu=0	jifd=27	cycled=2507446	insd=334128	cml2=1237	bmd=12904
+May 24 15:56:34 ncps-mc1-12 kernel: [15105.109261] cpu=0	jifd=27	cycled=840322	insd=104366	cml2=544	bmd=4032
+May 24 15:56:34 ncps-mc1-12 kernel: [15105.217277] cpu=0	jifd=27	cycled=2556482	insd=201284	cml2=1206	bmd=7695
+May 24 15:56:34 ncps-mc1-12 kernel: [15105.325263] cpu=0	jifd=27	cycled=1877275	insd=177402	cml2=763	bmd=6967
+May 24 15:56:34 ncps-mc1-12 kernel: [15105.433262] cpu=0	jifd=27	cycled=1024212	insd=138480	cml2=559	bmd=5420
+May 24 15:56:35 ncps-mc1-12 kernel: [15105.541280] cpu=0	jifd=27	cycled=1017882	insd=138276	cml2=572	bmd=5290
+May 24 15:56:35 ncps-mc1-12 kernel: [15105.649265] cpu=0	jifd=27	cycled=879699	insd=108322	cml2=519	bmd=4248
+May 24 15:56:35 ncps-mc1-12 kernel: [15105.757263] cpu=0	jifd=27	cycled=1089705	insd=140168	cml2=582	bmd=5475
+May 24 15:56:35 ncps-mc1-12 kernel: [15105.865264] cpu=0	jifd=27	cycled=868045	insd=106186	cml2=521	bmd=4196
+May 24 15:56:35 ncps-mc1-12 kernel: [15105.973249] cpu=0	jifd=27	cycled=1426076	insd=180325	cml2=797	bmd=7194
+May 24 15:56:35 ncps-mc1-12 kernel: [15106.081268] cpu=0	jifd=27	cycled=1172359	insd=138988	cml2=670	bmd=5333
+May 24 15:56:35 ncps-mc1-12 kernel: [15106.189300] cpu=0	jifd=27	cycled=1017640	insd=124506	cml2=578	bmd=4902
+May 24 15:56:35 ncps-mc1-12 kernel: [15106.297293] cpu=0	jifd=27	cycled=1135986	insd=148526	cml2=605	bmd=5832
+May 24 15:56:35 ncps-mc1-12 kernel: [15106.405264] cpu=0	jifd=27	cycled=885828	insd=111150	cml2=523	bmd=4455
+May 24 15:56:35 ncps-mc1-12 kernel: [15106.513273] cpu=0	jifd=27	cycled=972244	insd=123199	cml2=556	bmd=4638
+May 24 15:56:36 ncps-mc1-12 kernel: [15106.621257] cpu=0	jifd=27	cycled=929700	insd=114698	cml2=540	bmd=4493
+May 24 15:56:36 ncps-mc1-12 kernel: [15106.729263] cpu=0	jifd=27	cycled=1516073	insd=181166	cml2=1032	bmd=7116
+May 24 15:56:36 ncps-mc1-12 kernel: [15106.837300] cpu=0	jifd=27	cycled=1011925	insd=115768	cml2=558	bmd=4530
+May 24 15:56:36 ncps-mc1-12 kernel: [15106.945282] cpu=0	jifd=27	cycled=1163916	insd=139649	cml2=621	bmd=5452
+May 24 15:56:36 ncps-mc1-12 kernel: [15107.053262] cpu=0	jifd=27	cycled=1072340	insd=140138	cml2=549	bmd=5511
+May 24 15:56:36 ncps-mc1-12 kernel: [15107.161261] cpu=0	jifd=27	cycled=1001680	insd=124818	cml2=638	bmd=4800
+May 24 15:56:36 ncps-mc1-12 kernel: [15107.269270] cpu=0	jifd=27	cycled=937639	insd=116719	cml2=552	bmd=4486
+May 24 15:56:36 ncps-mc1-12 kernel: [15107.377257] cpu=0	jifd=27	cycled=1060898	insd=137643	cml2=594	bmd=5475
+May 24 15:56:36 ncps-mc1-12 kernel: [15107.485280] cpu=0	jifd=27	cycled=1124104	insd=141693	cml2=598	bmd=5536
+May 24 15:56:37 ncps-mc1-12 kernel: [15107.593287] cpu=0	jifd=27	cycled=1126863	insd=129592	cml2=487	bmd=5191
+May 24 15:56:37 ncps-mc1-12 kernel: [15107.701256] cpu=0	jifd=27	cycled=925124	insd=120769	cml2=556	bmd=4642
+May 24 15:56:37 ncps-mc1-12 kernel: [15107.809260] cpu=0	jifd=27	cycled=1215044	insd=169325	cml2=589	bmd=6158
+May 24 15:56:37 ncps-mc1-12 kernel: [15107.917281] cpu=0	jifd=27	cycled=1096302	insd=126342	cml2=621	bmd=4822
+May 24 15:56:37 ncps-mc1-12 kernel: [15108.025280] cpu=0	jifd=27	cycled=1535855	insd=182840	cml2=662	bmd=7383
+May 24 15:56:37 ncps-mc1-12 kernel: [15108.133257] cpu=0	jifd=27	cycled=1371160	insd=175456	cml2=1438	bmd=6693
+May 24 15:56:37 ncps-mc1-12 kernel: [15108.241271] cpu=0	jifd=27	cycled=1001937	insd=127940	cml2=597	bmd=4970
+May 24 15:56:37 ncps-mc1-12 kernel: [15108.349287] cpu=0	jifd=27	cycled=1122889	insd=147686	cml2=599	bmd=5830
+May 24 15:56:37 ncps-mc1-12 kernel: [15108.457252] cpu=0	jifd=27	cycled=1127158	insd=145562	cml2=602	bmd=5452
+May 24 15:56:38 ncps-mc1-12 kernel: [15108.565257] cpu=0	jifd=27	cycled=945833	insd=115920	cml2=570	bmd=4401
+May 24 15:56:38 ncps-mc1-12 kernel: [15108.673253] cpu=0	jifd=27	cycled=957791	insd=114821	cml2=569	bmd=4527
+May 24 15:56:38 ncps-mc1-12 kernel: [15108.781250] cpu=0	jifd=27	cycled=1233769	insd=144281	cml2=593	bmd=5641
+May 24 15:56:38 ncps-mc1-12 kernel: [15108.889300] cpu=0	jifd=27	cycled=1067219	insd=129740	cml2=631	bmd=5068
+May 24 15:56:38 ncps-mc1-12 kernel: [15108.997258] cpu=0	jifd=27	cycled=1637764	insd=211880	cml2=878	bmd=8219
+May 24 15:56:38 ncps-mc1-12 kernel: [15109.105278] cpu=0	jifd=27	cycled=951399	insd=117909	cml2=534	bmd=4607
+May 24 15:56:38 ncps-mc1-12 kernel: [15109.213271] cpu=0	jifd=27	cycled=1017519	insd=122248	cml2=604	bmd=4749
+May 24 15:56:38 ncps-mc1-12 kernel: [15109.321252] cpu=0	jifd=27	cycled=772648	insd=106694	cml2=466	bmd=4104
+May 24 15:56:38 ncps-mc1-12 kernel: [15109.429274] cpu=0	jifd=27	cycled=1330455	insd=164234	cml2=534	bmd=6434
+May 24 15:56:39 ncps-mc1-12 kernel: [15109.537251] cpu=0	jifd=27	cycled=1025717	insd=130299	cml2=527	bmd=5116
+May 24 15:56:39 ncps-mc1-12 kernel: [15109.645246] cpu=0	jifd=27	cycled=1024293	insd=123060	cml2=616	bmd=4702
+May 24 15:56:39 ncps-mc1-12 kernel: [15109.753255] cpu=0	jifd=27	cycled=967439	insd=116873	cml2=510	bmd=4401
+May 24 15:56:39 ncps-mc1-12 kernel: [15109.861255] cpu=0	jifd=27	cycled=1166877	insd=149241	cml2=602	bmd=5875
+May 24 15:56:39 ncps-mc1-12 kernel: [15109.969267] cpu=0	jifd=27	cycled=1121878	insd=133233	cml2=601	bmd=5023
+May 24 15:56:39 ncps-mc1-12 kernel: [15110.077255] cpu=0	jifd=27	cycled=1357770	insd=171399	cml2=815	bmd=6680
+May 24 15:56:39 ncps-mc1-12 kernel: [15110.185288] cpu=0	jifd=27	cycled=898852	insd=102955	cml2=499	bmd=3915
+May 24 15:56:39 ncps-mc1-12 kernel: [15110.293248] cpu=0	jifd=27	cycled=888303	insd=109117	cml2=571	bmd=4116
+May 24 15:56:39 ncps-mc1-12 kernel: [15110.401250] cpu=0	jifd=27	cycled=1092007	insd=145465	cml2=543	bmd=5638
+May 24 15:56:39 ncps-mc1-12 kernel: [15110.509253] cpu=0	jifd=27	cycled=1034105	insd=123575	cml2=519	bmd=4734
+May 24 15:56:40 ncps-mc1-12 kernel: [15110.617287] cpu=0	jifd=27	cycled=1002235	insd=120014	cml2=618	bmd=4532
+May 24 15:56:40 ncps-mc1-12 kernel: [15110.725244] cpu=0	jifd=27	cycled=960923	insd=113519	cml2=577	bmd=4226
+May 24 15:56:40 ncps-mc1-12 kernel: [15110.833241] cpu=0	jifd=27	cycled=1624532	insd=208937	cml2=663	bmd=7940
+May 24 15:56:40 ncps-mc1-12 kernel: [15110.941251] cpu=0	jifd=27	cycled=875316	insd=107841	cml2=527	bmd=4138
+May 24 15:56:40 ncps-mc1-12 kernel: [15111.049228] cpu=0	jifd=27	cycled=1242637	insd=150768	cml2=621	bmd=5818
+May 24 15:56:40 ncps-mc1-12 kernel: [15111.157264] cpu=0	jifd=27	cycled=1047722	insd=128928	cml2=616	bmd=4892
+May 24 15:56:40 ncps-mc1-12 kernel: [15111.265251] cpu=0	jifd=27	cycled=914817	insd=106807	cml2=545	bmd=4063
+May 24 15:56:40 ncps-mc1-12 kernel: [15111.373257] cpu=0	jifd=27	cycled=1244451	insd=144701	cml2=1108	bmd=5609
+May 24 15:56:40 ncps-mc1-12 kernel: [15111.481248] cpu=0	jifd=27	cycled=1326658	insd=165904	cml2=635	bmd=6487
+May 24 15:56:41 ncps-mc1-12 kernel: [15111.589264] cpu=0	jifd=27	cycled=904843	insd=113987	cml2=453	bmd=4477
+May 24 15:56:41 ncps-mc1-12 kernel: [15111.697250] cpu=0	jifd=27	cycled=934038	insd=110734	cml2=555	bmd=4180
+May 24 15:56:41 ncps-mc1-12 kernel: [15111.805255] cpu=0	jifd=27	cycled=947965	insd=112000	cml2=566	bmd=4227
+May 24 15:56:41 ncps-mc1-12 kernel: [15111.913248] cpu=0	jifd=27	cycled=1246193	insd=156552	cml2=664	bmd=5895
+May 24 15:56:41 ncps-mc1-12 kernel: [15112.021253] cpu=0	jifd=27	cycled=1235911	insd=152957	cml2=669	bmd=5937
+May 24 15:56:41 ncps-mc1-12 kernel: [15112.129249] cpu=0	jifd=27	cycled=1141718	insd=148142	cml2=614	bmd=5833
+May 24 15:56:41 ncps-mc1-12 kernel: [15112.237267] cpu=0	jifd=27	cycled=932163	insd=113231	cml2=562	bmd=4324
+May 24 15:56:41 ncps-mc1-12 kernel: [15112.345250] cpu=0	jifd=27	cycled=897961	insd=110981	cml2=530	bmd=4228
+May 24 15:56:41 ncps-mc1-12 kernel: [15112.453242] cpu=0	jifd=27	cycled=1105122	insd=150737	cml2=576	bmd=5734
+May 24 15:56:42 ncps-mc1-12 kernel: [15112.561237] cpu=0	jifd=27	cycled=1076466	insd=141437	cml2=602	bmd=5460
+May 24 15:56:42 ncps-mc1-12 kernel: [15112.669249] cpu=0	jifd=27	cycled=1098061	insd=131204	cml2=639	bmd=4883
+May 24 15:56:42 ncps-mc1-12 kernel: [15112.777261] cpu=0	jifd=27	cycled=876462	insd=106143	cml2=477	bmd=4094
+May 24 15:56:42 ncps-mc1-12 kernel: [15112.885246] cpu=0	jifd=27	cycled=1158744	insd=158097	cml2=619	bmd=6020
+May 24 15:56:42 ncps-mc1-12 kernel: [15112.993248] cpu=0	jifd=27	cycled=1696666	insd=240866	cml2=928	bmd=8875
+May 24 15:56:42 ncps-mc1-12 kernel: [15113.101249] cpu=0	jifd=27	cycled=1506019	insd=184820	cml2=612	bmd=7407
+May 24 15:56:42 ncps-mc1-12 kernel: [15113.209285] cpu=0	jifd=27	cycled=892181	insd=105412	cml2=497	bmd=4053
+May 24 15:56:42 ncps-mc1-12 kernel: [15113.317262] cpu=0	jifd=27	cycled=1005510	insd=120109	cml2=597	bmd=4451
+May 24 15:56:42 ncps-mc1-12 kernel: [15113.425244] cpu=0	jifd=27	cycled=888942	insd=112865	cml2=522	bmd=4264
+May 24 15:56:42 ncps-mc1-12 kernel: [15113.533271] cpu=0	jifd=27	cycled=1156667	insd=138376	cml2=544	bmd=5334
+May 24 15:56:43 ncps-mc1-12 kernel: [15113.641263] cpu=0	jifd=27	cycled=1285315	insd=165100	cml2=662	bmd=6122
+May 24 15:56:43 ncps-mc1-12 kernel: [15113.749239] cpu=0	jifd=27	cycled=905086	insd=109529	cml2=508	bmd=4199
+May 24 15:56:43 ncps-mc1-12 kernel: [15113.857247] cpu=0	jifd=27	cycled=1076709	insd=136437	cml2=636	bmd=5056
+May 24 15:56:43 ncps-mc1-12 kernel: [15113.965238] cpu=0	jifd=27	cycled=1463623	insd=172899	cml2=719	bmd=6478
+May 24 15:56:43 ncps-mc1-12 kernel: [15114.073275] cpu=0	jifd=27	cycled=1355111	insd=172050	cml2=656	bmd=6209
+May 24 15:56:43 ncps-mc1-12 kernel: [15114.181278] cpu=0	jifd=27	cycled=1222890	insd=154205	cml2=665	bmd=6019
+May 24 15:56:43 ncps-mc1-12 kernel: [15114.289243] cpu=0	jifd=27	cycled=1111600	insd=149243	cml2=721	bmd=5424
+May 24 15:56:43 ncps-mc1-12 kernel: [15114.397273] cpu=0	jifd=27	cycled=974552	insd=118714	cml2=581	bmd=4540
+May 24 15:56:43 ncps-mc1-12 kernel: [15114.505243] cpu=0	jifd=27	cycled=1202848	insd=145030	cml2=973	bmd=5690
+May 24 15:56:44 ncps-mc1-12 kernel: [15114.613247] cpu=0	jifd=27	cycled=1190202	insd=147586	cml2=663	bmd=5585
+May 24 15:56:44 ncps-mc1-12 kernel: [15114.721258] cpu=0	jifd=27	cycled=999736	insd=131833	cml2=643	bmd=4662
+May 24 15:56:44 ncps-mc1-12 kernel: [15114.829276] cpu=0	jifd=27	cycled=895697	insd=104779	cml2=488	bmd=4018
+May 24 15:56:44 ncps-mc1-12 kernel: [15114.937243] cpu=0	jifd=27	cycled=1044392	insd=135960	cml2=577	bmd=5155
+May 24 15:56:44 ncps-mc1-12 kernel: [15115.045246] cpu=0	jifd=27	cycled=1555134	insd=185443	cml2=763	bmd=7218
+May 24 15:56:44 ncps-mc1-12 kernel: [15115.153239] cpu=0	jifd=27	cycled=1067147	insd=142584	cml2=584	bmd=5642
+May 24 15:56:44 ncps-mc1-12 kernel: [15115.261243] cpu=0	jifd=27	cycled=1036654	insd=130175	cml2=648	bmd=5081
+May 24 15:56:44 ncps-mc1-12 kernel: [15115.369248] cpu=0	jifd=27	cycled=1476859	insd=212931	cml2=677	bmd=7704
+May 24 15:56:44 ncps-mc1-12 kernel: [15115.477250] cpu=0	jifd=27	cycled=1003219	insd=125354	cml2=573	bmd=4813
+May 24 15:56:45 ncps-mc1-12 kernel: [15115.585239] cpu=0	jifd=27	cycled=1229254	insd=152976	cml2=665	bmd=6063
+May 24 15:56:45 ncps-mc1-12 kernel: [15115.693239] cpu=0	jifd=27	cycled=1016825	insd=133035	cml2=546	bmd=5210
+May 24 15:56:45 ncps-mc1-12 kernel: [15115.801241] cpu=0	jifd=27	cycled=1163383	insd=144751	cml2=774	bmd=5765
+May 24 15:56:45 ncps-mc1-12 kernel: [15115.909290] cpu=0	jifd=27	cycled=1405694	insd=161801	cml2=823	bmd=6077
+May 24 15:56:45 ncps-mc1-12 kernel: [15116.017240] cpu=0	jifd=27	cycled=1344630	insd=165722	cml2=694	bmd=6582
+May 24 15:56:45 ncps-mc1-12 kernel: [15116.125245] cpu=0	jifd=27	cycled=1272780	insd=140379	cml2=601	bmd=5530
+May 24 15:56:45 ncps-mc1-12 kernel: [15116.233270] cpu=0	jifd=27	cycled=1310676	insd=160534	cml2=596	bmd=6346
+May 24 15:56:45 ncps-mc1-12 kernel: [15116.341240] cpu=0	jifd=27	cycled=967388	insd=126543	cml2=568	bmd=4759
+May 24 15:56:45 ncps-mc1-12 kernel: [15116.449241] cpu=0	jifd=27	cycled=912189	insd=112375	cml2=523	bmd=4293
+May 24 15:56:46 ncps-mc1-12 kernel: [15116.557285] cpu=0	jifd=27	cycled=44905006	insd=6308040	cml2=31918	bmd=209036
+May 24 15:56:46 ncps-mc1-12 kernel: [15116.665252] cpu=0	jifd=27	cycled=35251887	insd=4237606	cml2=21249	bmd=140577
+May 24 15:56:46 ncps-mc1-12 kernel: [15116.773262] cpu=0	jifd=27	cycled=1440685	insd=205574	cml2=691	bmd=8227
+May 24 15:56:46 ncps-mc1-12 kernel: [15116.881265] cpu=0	jifd=27	cycled=1131884	insd=149626	cml2=602	bmd=5782
+May 24 15:56:46 ncps-mc1-12 kernel: [15116.989246] cpu=0	jifd=27	cycled=1727259	insd=224775	cml2=964	bmd=8553
+May 24 15:56:46 ncps-mc1-12 kernel: [15117.097243] cpu=0	jifd=27	cycled=974482	insd=122401	cml2=605	bmd=4762
+May 24 15:56:46 ncps-mc1-12 kernel: [15117.205243] cpu=0	jifd=27	cycled=1047250	insd=140845	cml2=557	bmd=5568
+May 24 15:56:46 ncps-mc1-12 kernel: [15117.313254] cpu=0	jifd=27	cycled=846882	insd=106536	cml2=504	bmd=4086
+May 24 15:56:46 ncps-mc1-12 kernel: [15117.421238] cpu=0	jifd=27	cycled=891502	insd=109396	cml2=538	bmd=4189
+May 24 15:56:46 ncps-mc1-12 kernel: [15117.529236] cpu=0	jifd=27	cycled=999294	insd=123569	cml2=552	bmd=4714
+May 24 15:56:47 ncps-mc1-12 kernel: [15117.637233] cpu=0	jifd=27	cycled=1156181	insd=144686	cml2=575	bmd=5654
+May 24 15:56:47 ncps-mc1-12 kernel: [15117.745259] cpu=0	jifd=27	cycled=1153685	insd=144633	cml2=588	bmd=5572
+May 24 15:56:47 ncps-mc1-12 kernel: [15117.853280] cpu=0	jifd=27	cycled=1129499	insd=139558	cml2=539	bmd=5520
+May 24 15:56:47 ncps-mc1-12 kernel: [15117.961234] cpu=0	jifd=27	cycled=1190899	insd=152577	cml2=698	bmd=5708
+May 24 15:56:47 ncps-mc1-12 kernel: [15118.069250] cpu=0	jifd=27	cycled=1089222	insd=140244	cml2=616	bmd=5251
+May 24 15:56:47 ncps-mc1-12 kernel: [15118.177232] cpu=0	jifd=27	cycled=701740	insd=89640	cml2=435	bmd=3489
+May 24 15:56:47 ncps-mc1-12 kernel: [15118.285234] cpu=0	jifd=27	cycled=1137975	insd=148185	cml2=582	bmd=5596
+May 24 15:56:47 ncps-mc1-12 kernel: [15118.393240] cpu=0	jifd=27	cycled=989489	insd=121588	cml2=600	bmd=4558
+May 24 15:56:47 ncps-mc1-12 kernel: [15118.501266] cpu=0	jifd=27	cycled=868964	insd=102908	cml2=496	bmd=3881
+May 24 15:56:48 ncps-mc1-12 kernel: [15118.609261] cpu=0	jifd=27	cycled=1085615	insd=131660	cml2=535	bmd=5083
+May 24 15:56:48 ncps-mc1-12 kernel: [15118.717237] cpu=0	jifd=27	cycled=1105974	insd=131152	cml2=644	bmd=5052
+May 24 15:56:48 ncps-mc1-12 kernel: [15118.825218] cpu=0	jifd=27	cycled=1202446	insd=152960	cml2=464	bmd=6005
+May 24 15:56:48 ncps-mc1-12 kernel: [15118.933247] cpu=0	jifd=27	cycled=863248	insd=105295	cml2=504	bmd=3939
+May 24 15:56:48 ncps-mc1-12 kernel: [15119.041240] cpu=0	jifd=27	cycled=1547268	insd=175612	cml2=608	bmd=6666
+May 24 15:56:48 ncps-mc1-12 kernel: [15119.149235] cpu=0	jifd=27	cycled=964478	insd=120589	cml2=645	bmd=4588
+May 24 15:56:48 ncps-mc1-12 kernel: [15119.257234] cpu=0	jifd=27	cycled=1019746	insd=136270	cml2=541	bmd=5250
+May 24 15:56:48 ncps-mc1-12 kernel: [15119.365229] cpu=0	jifd=27	cycled=1235650	insd=146328	cml2=572	bmd=5367
+May 24 15:56:48 ncps-mc1-12 kernel: [15119.473244] cpu=0	jifd=27	cycled=952317	insd=112697	cml2=576	bmd=4167
+May 24 15:56:49 ncps-mc1-12 kernel: [15119.581237] cpu=0	jifd=27	cycled=998149	insd=117425	cml2=594	bmd=4295
+May 24 15:56:49 ncps-mc1-12 kernel: [15119.689261] cpu=0	jifd=27	cycled=1323539	insd=151022	cml2=574	bmd=5569
+May 24 15:56:49 ncps-mc1-12 kernel: [15119.797234] cpu=0	jifd=27	cycled=1085312	insd=135660	cml2=575	bmd=5184
+May 24 15:56:49 ncps-mc1-12 kernel: [15119.905324] cpu=0	jifd=27	cycled=1088469	insd=126384	cml2=473	bmd=4913
+May 24 15:56:49 ncps-mc1-12 kernel: [15120.013234] cpu=0	jifd=27	cycled=1172712	insd=142939	cml2=643	bmd=5392
+May 24 15:56:49 ncps-mc1-12 kernel: [15120.121252] cpu=0	jifd=27	cycled=955393	insd=117258	cml2=581	bmd=4496
+May 24 15:56:49 ncps-mc1-12 kernel: [15120.229273] cpu=0	jifd=27	cycled=925466	insd=112428	cml2=522	bmd=4276
+May 24 15:56:49 ncps-mc1-12 kernel: [15120.337234] cpu=0	jifd=27	cycled=1191975	insd=147304	cml2=607	bmd=5548
+May 24 15:56:49 ncps-mc1-12 kernel: [15120.445228] cpu=0	jifd=27	cycled=778303	insd=100255	cml2=465	bmd=3799
+May 24 15:56:50 ncps-mc1-12 kernel: [15120.553234] cpu=0	jifd=27	cycled=1080296	insd=130744	cml2=607	bmd=4870
+May 24 15:56:50 ncps-mc1-12 kernel: [15120.661232] cpu=0	jifd=27	cycled=1085491	insd=139975	cml2=567	bmd=5507
+May 24 15:56:50 ncps-mc1-12 kernel: [15120.769232] cpu=0	jifd=27	cycled=960719	insd=131529	cml2=557	bmd=4899
+May 24 15:56:50 ncps-mc1-12 kernel: [15120.877230] cpu=0	jifd=27	cycled=1268073	insd=159564	cml2=516	bmd=6050
+May 24 15:56:50 ncps-mc1-12 kernel: [15120.985253] cpu=0	jifd=27	cycled=1711824	insd=227884	cml2=827	bmd=8541
+May 24 15:56:50 ncps-mc1-12 kernel: [15121.093246] cpu=0	jifd=27	cycled=1000004	insd=125408	cml2=594	bmd=4769
+May 24 15:56:50 ncps-mc1-12 kernel: [15121.201229] cpu=0	jifd=27	cycled=970324	insd=125775	cml2=600	bmd=4927
+May 24 15:56:50 ncps-mc1-12 kernel: [15121.309234] cpu=0	jifd=27	cycled=964753	insd=130658	cml2=536	bmd=5161
+May 24 15:56:50 ncps-mc1-12 kernel: [15121.417231] cpu=0	jifd=27	cycled=748673	insd=95794	cml2=436	bmd=3717
+May 24 15:56:50 ncps-mc1-12 kernel: [15121.525269] cpu=0	jifd=27	cycled=1090608	insd=125546	cml2=619	bmd=4797
+May 24 15:56:51 ncps-mc1-12 kernel: [15121.633248] cpu=0	jifd=27	cycled=2355562	insd=292365	cml2=1443	bmd=10111
+May 24 15:56:51 ncps-mc1-12 kernel: [15121.741250] cpu=0	jifd=27	cycled=1360518	insd=159041	cml2=628	bmd=6163
+May 24 15:56:51 ncps-mc1-12 kernel: [15121.849262] cpu=0	jifd=27	cycled=1504373	insd=177350	cml2=722	bmd=6938
+May 24 15:56:51 ncps-mc1-12 kernel: [15121.957234] cpu=0	jifd=27	cycled=1099567	insd=135737	cml2=565	bmd=5234
+May 24 15:56:51 ncps-mc1-12 kernel: [15122.065257] cpu=0	jifd=27	cycled=1245811	insd=135063	cml2=536	bmd=5463
+May 24 15:56:51 ncps-mc1-12 kernel: [15122.173234] cpu=0	jifd=27	cycled=1022705	insd=128280	cml2=604	bmd=4976
+May 24 15:56:51 ncps-mc1-12 kernel: [15122.281273] cpu=0	jifd=27	cycled=1226756	insd=155621	cml2=554	bmd=5935
+May 24 15:56:51 ncps-mc1-12 kernel: [15122.389232] cpu=0	jifd=27	cycled=1204133	insd=154479	cml2=603	bmd=5883
+May 24 15:56:51 ncps-mc1-12 kernel: [15122.497241] cpu=0	jifd=27	cycled=1002487	insd=119287	cml2=589	bmd=4487
+May 24 15:56:52 ncps-mc1-12 kernel: [15122.605264] cpu=0	jifd=27	cycled=1007298	insd=115696	cml2=589	bmd=4293
+May 24 15:56:52 ncps-mc1-12 kernel: [15122.713251] cpu=0	jifd=27	cycled=1124424	insd=135578	cml2=592	bmd=5244
+May 24 15:56:52 ncps-mc1-12 kernel: [15122.821237] cpu=0	jifd=27	cycled=1018427	insd=118147	cml2=578	bmd=4572
+May 24 15:56:52 ncps-mc1-12 kernel: [15122.929235] cpu=0	jifd=27	cycled=1198051	insd=155414	cml2=546	bmd=6034
+May 24 15:56:52 ncps-mc1-12 kernel: [15123.037214] cpu=0	jifd=27	cycled=1353430	insd=162194	cml2=735	bmd=6361
+May 24 15:56:52 ncps-mc1-12 kernel: [15123.145231] cpu=0	jifd=27	cycled=1126974	insd=137970	cml2=615	bmd=5216
+May 24 15:56:52 ncps-mc1-12 kernel: [15123.253227] cpu=0	jifd=27	cycled=905456	insd=114971	cml2=550	bmd=4460
+May 24 15:56:52 ncps-mc1-12 kernel: [15123.361227] cpu=0	jifd=27	cycled=1040450	insd=134750	cml2=520	bmd=5356
+May 24 15:56:52 ncps-mc1-12 kernel: [15123.469223] cpu=0	jifd=27	cycled=919738	insd=110666	cml2=547	bmd=4191
+May 24 15:56:53 ncps-mc1-12 kernel: [15123.577246] cpu=0	jifd=27	cycled=898475	insd=104941	cml2=494	bmd=3945
+May 24 15:56:53 ncps-mc1-12 kernel: [15123.685230] cpu=0	jifd=27	cycled=1030711	insd=122232	cml2=593	bmd=4630
+May 24 15:56:53 ncps-mc1-12 kernel: [15123.793231] cpu=0	jifd=27	cycled=1112613	insd=136637	cml2=630	bmd=5111
+May 24 15:56:53 ncps-mc1-12 kernel: [15123.901230] cpu=0	jifd=27	cycled=1206325	insd=150543	cml2=650	bmd=5753
+May 24 15:56:53 ncps-mc1-12 kernel: [15124.009258] cpu=0	jifd=27	cycled=1239423	insd=157179	cml2=600	bmd=6081
+May 24 15:56:53 ncps-mc1-12 kernel: [15124.117227] cpu=0	jifd=27	cycled=914706	insd=118942	cml2=551	bmd=4512
+May 24 15:56:53 ncps-mc1-12 kernel: [15124.225225] cpu=0	jifd=27	cycled=790291	insd=97943	cml2=429	bmd=3767
+May 24 15:56:53 ncps-mc1-12 kernel: [15124.333235] cpu=0	jifd=27	cycled=809480	insd=95787	cml2=430	bmd=3669
+May 24 15:56:53 ncps-mc1-12 kernel: [15124.441250] cpu=0	jifd=27	cycled=1069732	insd=138611	cml2=456	bmd=5454
+May 24 15:56:54 ncps-mc1-12 kernel: [15124.549235] cpu=0	jifd=27	cycled=1063599	insd=126870	cml2=603	bmd=4708
+May 24 15:56:54 ncps-mc1-12 kernel: [15124.657242] cpu=0	jifd=27	cycled=909676	insd=109569	cml2=537	bmd=4108
+May 24 15:56:54 ncps-mc1-12 kernel: [15124.765243] cpu=0	jifd=27	cycled=1210509	insd=153508	cml2=738	bmd=6040
+May 24 15:56:54 ncps-mc1-12 kernel: [15124.873255] cpu=0	jifd=27	cycled=1116036	insd=134253	cml2=674	bmd=5319
