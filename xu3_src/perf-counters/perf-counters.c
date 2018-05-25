@@ -20,6 +20,12 @@
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_AUTHOR("Mark Blanco <markb1@andrew.cmu.edu>");
 
+// If defined, RESTRICT_CPU causes perf counter kthread to run on just
+// the CPU core with the number specified.
+//#define RESTRICT_CPU 0
+
+#define DEBUG 0
+
 #define DEFAULT_PERIOD_MS 100
 
 // Events of interest, aside from cycles:
@@ -29,6 +35,7 @@ MODULE_AUTHOR("Mark Blanco <markb1@andrew.cmu.edu>");
 								// (assumed to RAM, past LLC)
 #define L2_DATA_REFILL 0x17		// L2 Cache miss 
 
+// The number of counters to be enabled, aside from the cycle counter.
 #define NUM_COUNTERS 4
 const unsigned int counters[] = {INST_RET, BRANCH_MISPRED, DATA_MEM_ACCESS, L2_DATA_REFILL};
 
@@ -169,7 +176,7 @@ static ssize_t cntr_store(struct cpu_counter_obj* obj, struct cntr_attribute* at
 static struct cntr_attribute sample_period_attribute = 
 	__ATTR(sample_period_ms, 0664, cntr_show, cntr_store);
 static struct cntr_attribute cycles_attribute = 
-	__ATTR("cycles", 0664, cntr_show, cntr_store);
+	__ATTR(cycles, 0664, cntr_show, cntr_store);
 static struct cntr_attribute instructions_attribute = 
 	__ATTR(instructions_retired, 0664, cntr_show, cntr_store);
 static struct cntr_attribute branch_miss_attribute = 
@@ -209,7 +216,7 @@ DEFINE_PER_CPU(struct my_perf_data_struct, my_perf_data);
 DEFINE_PER_CPU(struct my_perf_data_struct*, my_perf_data_ptr);
 
 // Define function to create a new cpu_counter_obj object:
-static struct cpu_counter_obj* create_cntr_obj(const char* name)
+static struct cpu_counter_obj* create_cntr_obj(const char* name, struct kset* parent_kset)
 {
 	struct cpu_counter_obj* cntr_obj;
 	int retval;
@@ -220,7 +227,7 @@ static struct cpu_counter_obj* create_cntr_obj(const char* name)
 		return NULL;
 	
 	// Set kset for this object
-	cntr_obj->kobj.kset = cntr_kset;
+	cntr_obj->kobj.kset = parent_kset;
 
 	// Set default sampling period:
 	cntr_obj->sample_period_ms = DEFAULT_PERIOD_MS;
@@ -251,7 +258,7 @@ struct task_struct* task[8];
 int data;
 int ret;
 
-// Function definitions
+// Function definitions for PMU interfacing:
 
 // Disable perf counters and userspace access to them:
 static void disable_cpu_counters(void* data)
@@ -272,14 +279,15 @@ static void disable_cpu_counters(void* data)
 static unsigned int enable_cpu_counters(void * data)
 {
 	unsigned int cpuid, i;
-	/* Read cpucode from thing */
+	/* Read cpucode from core */
 	asm volatile("mrc p15, 0, %0, c9, c12, 0" : "=r"(cpuid));
 	cpuid &= (0x00ff << 16);
 	cpuid = cpuid >> 16;
 
 	disable_cpu_counters(NULL);
 	
-	//Disable event filtering on clock
+	// Disable event filtering on clock. 
+	// Note: requires PMUv2 as defined in ARM arch manual
 	asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(0b11111));
 	asm volatile("mcr p15, 0, %0, c9, c13, 1" :: "r"(0));
 
@@ -309,8 +317,6 @@ unsigned int read_cycle_count(void)
 }
 
 // Select and read performance counter register number 'reg_num'
-// TODO: add checks to make sure this doesn't try to access non-enabled regs.
-// TODO: add check to make sure not to access if userspace is not enabled?
 static inline 
 unsigned int read_p15_count(unsigned int reg_num)
 {
@@ -323,7 +329,7 @@ unsigned int read_p15_count(unsigned int reg_num)
 }
 
 static inline 
-void reset_counters_c(void)
+void reset_counters(void)
 {
 	unsigned int v;
 	// Read the original value to preserve settings:
@@ -334,27 +340,22 @@ void reset_counters_c(void)
 
 int perf_thread(void * data)
 {
-	// Get CPU id:
-	unsigned int cpu_id = smp_processor_id();
+	// Get core id:
+	unsigned int coreid = smp_processor_id();
 	char name[] = "cpu_\0";
 
 	// Timing:
 	struct timeval tm1, tm2, tm3;
 	unsigned long elapsed;
+	// Data holding:
 	unsigned int sample_period_ms, cpuid;
 	unsigned int i = 0;
 	struct my_perf_data_struct* my_perf_data_local;
-
 	struct cpu_counter_obj* my_cpu_counter_obj_local;
-	
-//	if (cpu_id < 4)
-//	{
-//		goto KTHREAD_END;
-//	}
 
-	name[3] = (char)(cpu_id + '0');
-	
-	my_cpu_counter_obj_local = create_cntr_obj(name);
+	// Create representative sysfs object:
+	name[3] = (char)(coreid + '0');
+	my_cpu_counter_obj_local = create_cntr_obj(name, cntr_kset);
 	if (!my_cpu_counter_obj_local)
 	{
 		goto KTHREAD_END;
@@ -362,8 +363,7 @@ int perf_thread(void * data)
 	
 	// Start perf counters on CPU:
 	cpuid = enable_cpu_counters(NULL);
-	reset_counters_c();
-	printk(KERN_INFO "[perf] CPU %d of type %u\n", cpu_id, cpuid);
+	printk(KERN_INFO "[perf] CPU %d of type %u\n", coreid, cpuid);
 	schedule();
 
 	while(!kthread_should_stop())
@@ -389,34 +389,34 @@ int perf_thread(void * data)
 		my_cpu_counter_obj_local->l2_data_refills = my_perf_data_local->counterVal[3];
 		
 		
-#if 1 //DEBUG
-		if (cpu_id == 4)
-			printk(KERN_INFO "[perf] CPU %d: %u cycles\n", cpu_id, my_perf_data_local->cycles);
-		/*printk(KERN_INFO "[perf] CPU %d: %u cycles\n\tIntructions: %u\n\tBMisses: %u\n\t"
-						 "DMEMAccesses: %u\n\tL2Refills: %u\n",
-						 cpu_id, my_perf_data_local->cycles2, 
-						 my_perf_data_local->instr2, my_perf_data_local->bmiss2, 
-						 my_perf_data_local->dmema2, my_perf_data_local->l2r2);
-		*/
+#if DEBUG
+		if (coreid == 4)
+			printk(KERN_INFO "[perf] CPU %d: %u cycles\n", coreid, my_perf_data_local->cycles);
 #endif
 		// Check time elapsed:
+#if DEBUG
 		tm3.tv_usec = tm2.tv_usec;
 		tm3.tv_sec = tm2.tv_sec;
+#endif
 		do_gettimeofday(&tm2);
 		
 		elapsed = 1000 * (tm2.tv_sec - tm1.tv_sec) + (tm2.tv_usec - tm1.tv_usec) / 1000;
 #ifdef DEBUG
 		elapsed2 = 1000 * (tm2.tv_sec - tm3.tv_sec) + (tm2.tv_usec - tm3.tv_usec) / 1000;
-		pr_info("[perf] CPU %d: %llu ms elapsed", cpu_id, elapsed);
-		pr_info("[perf] CPU %d: %llu ms elapsed2", cpu_id, elapsed2);
+		pr_info("[perf] CPU %d: %llu ms elapsed", coreid, elapsed);
+		pr_info("[perf] CPU %d: %llu ms elapsed2", coreid, elapsed2);
 #endif
 		
 		// Release reference to perf data, thereby ending the atomic section. VERY IMPORTANT!
 		put_cpu_var(my_perf_data);
-		reset_counters_c();
+		
+		// Reset counters for next period of accumulation
+		// NOTE: if period is too high, it is possible that the counters could overflow
+		// 		 and reset within the span of one period.
+		reset_counters();
 		
 		// wait for remainder:
-		msleep((unsigned long long)(sample_period_ms - elapsed));
+		msleep((unsigned long)(sample_period_ms - elapsed));
 	}
 
 	// Cleanup and disable CPU counters:
@@ -430,7 +430,7 @@ int init_module(void)
 {
 	int cpu;
 	
-	pr_info("Performance counter kmod for XU3.\n");
+	pr_info("Performance counter kmod for ARMv7.\n");
 	// Setup here:
 	my_perf_data_ptr = alloc_percpu(my_perf_data);
 
@@ -447,8 +447,9 @@ int init_module(void)
 	get_online_cpus();
 	for_each_online_cpu(cpu)
 	{
-		// Don't bother perf monitoring for little cluster cores:
-//		if (cpu > 3)
+#ifdef RESTRICT_CPU
+		if (cpu == RESTRICT_CPU)
+#endif
 		{
 			task[cpu] = kthread_create(perf_thread, (void*) data, "perf_counter_thread");
 			kthread_bind(task[cpu], cpu);
@@ -460,8 +461,9 @@ int init_module(void)
 	get_online_cpus();
 	for_each_online_cpu(cpu)
 	{
-		// Don't bother perf monitoring for little cluster cores:
-//		if (cpu > 3)
+#ifdef RESTRICT_CPU
+		if (cpu == RESTRICT_CPU)
+#endif
 			wake_up_process(task[cpu]);
 	}
 	put_online_cpus();
@@ -474,13 +476,14 @@ void cleanup_module(void)
 {
 	int cpu;
 
-	pr_info("Cleaning up perf counter kmod for XU3.\n");
+	pr_info("Cleaning up perf counter kmod for ARMv7.\n");
 	
 	get_online_cpus();
 	for_each_online_cpu(cpu)
 	{
-		// Don't bother perf monitoring for little cluster cores:
-//		if (cpu > 3)
+#ifdef RESTRICT_CPU
+		if (cpu == RESTRICT_CPU)
+#endif
 			kthread_stop(task[cpu]);
 	}
 	put_online_cpus();
@@ -489,8 +492,3 @@ void cleanup_module(void)
 
 	printk(KERN_INFO "[ RL_PERF ] unloaded.");
 }
-
-/* References:
-https://github.com/pietromercati/KSAMPLER/blob/master/ksampler.c
-TODO: Add others here...
-*/
