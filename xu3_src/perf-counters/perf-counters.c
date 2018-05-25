@@ -16,6 +16,8 @@
 #include <linux/kobject.h>
 #include <linux/slab.h>
 
+#include "sysfs-perf.h"
+
 // License (required to load module that writes to sysfs anyways):
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_AUTHOR("Mark Blanco <markb1@andrew.cmu.edu>");
@@ -26,7 +28,6 @@ MODULE_AUTHOR("Mark Blanco <markb1@andrew.cmu.edu>");
 
 #define DEBUG 0
 
-#define DEFAULT_PERIOD_MS 100
 
 // Events of interest, aside from cycles:
 #define INST_RET 0x08 			// Instructions retired
@@ -46,166 +47,14 @@ const unsigned int counters[] = {INST_RET, BRANCH_MISPRED, DATA_MEM_ACCESS, L2_D
 // Setting 2 and 4 reset event counts and cycle counts respectively.
 #define PERF_DEF_OPTS ( (1 << 0) )
 
-// Struct definitions
 struct my_perf_data_struct {
 	// cycles
 	unsigned int cycles;
 	unsigned int counterVal[NUM_COUNTERS];
 };
 
-// This object is replicated for each CPU on the system for which we want counter data.
-// All of the object instances will have a single (shared) kset as their parent and will
-// have a directory and file representations in sysfs.
-// See linux kernel samples/kobject/kset-example.c for more.
-struct cpu_counter_obj {
-	struct kobject kobj;
-	unsigned int sample_period_ms;
-	unsigned int cycles;
-	unsigned int instructions_retired;
-	unsigned int branch_mispredictions;
-	unsigned int data_memory_accesses;
-	unsigned int l2_data_refills;
-};
-#define to_cntr_obj(x) container_of(x, struct cpu_counter_obj, kobj)
-
-// Custom attribute for the cpu_counter_obj object:
-struct cntr_attribute {
-	struct attribute attr;
-	ssize_t (*show)(struct cpu_counter_obj* obj, struct cntr_attribute* attr, char* buf);
-	ssize_t (*store)(struct cpu_counter_obj* obj, struct cntr_attribute* attr, const char* buf, 
-						size_t len);
-};
-#define to_cntr_attribute(x) container_of(x, struct cntr_attribute, attr)
-
-/*
- * Default show function to be passed to sysfs. Translates from kobject to the 
- * cpu_counter_obj object, then calls show for that object.
- */
-static ssize_t cntr_attr_show(struct kobject* kobj, struct attribute *attr, char* buf)
-{
-	struct cntr_attribute* attribute;
-	struct cpu_counter_obj* cpu_cntr;
-
-	attribute = to_cntr_attribute(attr);
-	cpu_cntr = to_cntr_obj(kobj);
-
-	if (!attribute->show)
-		return -EIO;
-
-	return attribute->show(cpu_cntr, attribute, buf);
-}
-
-/*
- * Default store function to be passed to sysfs. Translates from kobject to the 
- * cpu_counter_obj object, then calls store for that object.
- */
-static ssize_t cntr_attr_store(struct kobject* kobj, struct attribute *attr, const char* buf, size_t len)
-{
-	struct cntr_attribute* attribute;
-	struct cpu_counter_obj* cpu_cntr;
-
-	attribute = to_cntr_attribute(attr);
-	cpu_cntr = to_cntr_obj(kobj);
-
-	if (!attribute->store)
-		return -EIO;
-
-	return attribute->store(cpu_cntr, attribute, buf, len);
-}
-
-// Sysfs ops that will be associated with ktype below, 
-// defined using the show/store functions above.
-static const struct sysfs_ops cntr_sysfs_ops = {
-	.show = cntr_attr_show,
-	.store = cntr_attr_store,
-};
-
-// Release function for cpu_counter_obj object. CANNOT BE LEFT EMPTY!
-static void cntr_release(struct kobject* kobj)
-{
-	struct cpu_counter_obj* cntr_obj;
-	cntr_obj = to_cntr_obj(kobj);
-	kfree(cntr_obj);
-}
-
-// Sysfs show/store functions to handle the vars stored in cpu_counter_obj objects:
-static ssize_t cntr_show(struct cpu_counter_obj* obj, 
-							struct cntr_attribute* attr, char* buf)
-{
-	unsigned int var;
-
-	if (strcmp(attr->attr.name, "sample_period_ms") == 0)
-		var = obj->sample_period_ms;
-	else if (strcmp(attr->attr.name, "cycles") == 0)
-		var = obj->cycles;
-	else if (strcmp(attr->attr.name, "instructions_retired") == 0)
-		var = obj->instructions_retired;
-	else if (strcmp(attr->attr.name, "branch_mispredictions") == 0)
-		var = obj->branch_mispredictions;
-	else if (strcmp(attr->attr.name, "data_memory_accesses") == 0)
-		var = obj->data_memory_accesses; 
-	else if (strcmp(attr->attr.name, "l2_data_refills") == 0)
-		var = obj->l2_data_refills;
-	else
-		var = 0;
-
-	return sprintf(buf, "%u\n", var);
-}
-
-
-static ssize_t cntr_store(struct cpu_counter_obj* obj, struct cntr_attribute* attr, 
-							const char* buf, size_t len)
-{
-	unsigned int var;
-	int ret;
-
-	ret = kstrtoint(buf, 10, &var);
-	if (ret < 0)
-		return ret;
-
-	if (strcmp(attr->attr.name, "sample_period_ms") == 0)
-		obj->sample_period_ms = var;
-	else
-		// No reason to take a counter value from userspace.
-		var = 0;
-
-	return len;
-}
-
-// Define sysfs file attributes:
-static struct cntr_attribute sample_period_attribute = 
-	__ATTR(sample_period_ms, 0664, cntr_show, cntr_store);
-static struct cntr_attribute cycles_attribute = 
-	__ATTR(cycles, 0664, cntr_show, cntr_store);
-static struct cntr_attribute instructions_attribute = 
-	__ATTR(instructions_retired, 0664, cntr_show, cntr_store);
-static struct cntr_attribute branch_miss_attribute = 
-	__ATTR(branch_mispredictions, 0664, cntr_show, cntr_store);
-static struct cntr_attribute dmem_access_attribute = 
-	__ATTR(data_memory_accesses, 0664, cntr_show, cntr_store);
-static struct cntr_attribute l2_refill_attribute = 
-	__ATTR(l2_data_refills, 0664, cntr_show, cntr_store);
-
-// Create a group of attributes so they can be created and destroyed all at once:
-static struct attribute* cntr_default_attrs[] = {
-	&sample_period_attribute.attr,
-	&cycles_attribute.attr,
-	&instructions_attribute.attr,
-	&branch_miss_attribute.attr,
-	&dmem_access_attribute.attr,
-	&l2_refill_attribute.attr,
-	NULL,		// MUST BE NULL TERMINATED!
-};
-
-
-// Create ktypes for custom kobjects. This is where the sysfs ops,
-// release function, and set of default attributes (just instantiated above)
-// are tied together.
-static struct kobj_type cntr_ktype = {
-	.sysfs_ops = &cntr_sysfs_ops,
-	.release = cntr_release,
-	.default_attrs = cntr_default_attrs,
-};
+extern struct cpu_counter_obj* create_cntr_obj(const char* name, struct kset* parent);
+extern void destroy_cntr_obj(struct cpu_counter_obj* obj);
 
 // Create unifying kset for all cpu counter objects:
 static struct kset* cntr_kset;
@@ -214,45 +63,6 @@ DEFINE_PER_CPU(struct cpu_counter_obj, my_cpu_counter_obj);
 // Create some data instances on all CPUs, bound to each CPU:
 DEFINE_PER_CPU(struct my_perf_data_struct, my_perf_data);
 DEFINE_PER_CPU(struct my_perf_data_struct*, my_perf_data_ptr);
-
-// Define function to create a new cpu_counter_obj object:
-static struct cpu_counter_obj* create_cntr_obj(const char* name, struct kset* parent_kset)
-{
-	struct cpu_counter_obj* cntr_obj;
-	int retval;
-
-	/* Allocate the memory for the whole object */
-	cntr_obj = kzalloc(sizeof(*cntr_obj), GFP_ATOMIC);
-	if (!cntr_obj)
-		return NULL;
-	
-	// Set kset for this object
-	cntr_obj->kobj.kset = parent_kset;
-
-	// Set default sampling period:
-	cntr_obj->sample_period_ms = DEFAULT_PERIOD_MS;
-
-	// Init and add kobject embedded in cntr_obj with the kernel.
-	retval = kobject_init_and_add(&cntr_obj->kobj, &cntr_ktype, NULL, "%s", name);
-	if (retval)
-	{
-		kobject_put(&cntr_obj->kobj);
-		return NULL;
-	}
-
-	// Send uevent that the kobject was added to the system.
-	kobject_uevent(&cntr_obj->kobj, KOBJ_ADD);
-
-	return cntr_obj;
-}
-
-// Define destructor for cpu_counter_obj object. This works by removing a
-// reference from the embdedded kobject; when all references are finally released
-// the kernel will dismiss the cntr_obj.
-static void destroy_cntr_obj(struct cpu_counter_obj* obj)
-{
-	kobject_put(&obj->kobj);
-}
 
 struct task_struct* task[8];
 int data;
@@ -345,8 +155,12 @@ int perf_thread(void * data)
 	char name[] = "cpu_\0";
 
 	// Timing:
-	struct timeval tm1, tm2, tm3;
+	struct timeval tm1, tm2;
 	unsigned long elapsed;
+#if DEBUG
+	unsigned long elapsed2; 
+	struct timeval tm3;
+#endif
 	// Data holding:
 	unsigned int sample_period_ms, cpuid;
 	unsigned int i = 0;
@@ -401,7 +215,7 @@ int perf_thread(void * data)
 		do_gettimeofday(&tm2);
 		
 		elapsed = 1000 * (tm2.tv_sec - tm1.tv_sec) + (tm2.tv_usec - tm1.tv_usec) / 1000;
-#ifdef DEBUG
+#if DEBUG
 		elapsed2 = 1000 * (tm2.tv_sec - tm3.tv_sec) + (tm2.tv_usec - tm3.tv_usec) / 1000;
 		pr_info("[perf] CPU %d: %llu ms elapsed", coreid, elapsed);
 		pr_info("[perf] CPU %d: %llu ms elapsed2", coreid, elapsed2);

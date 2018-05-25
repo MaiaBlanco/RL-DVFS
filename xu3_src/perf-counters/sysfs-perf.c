@@ -8,7 +8,6 @@
 
 #include "sysfs-perf.h"
 
-
 // Sysfs interfacing variables:
 
 // Sysfs ops that will be associated with ktype below, 
@@ -20,17 +19,17 @@ const struct sysfs_ops cntr_sysfs_ops = {
 
 // Define sysfs file attributes:
 struct cntr_attribute sample_period_attribute = 
-	__ATTR(sample_period_ms, 0664, cntr_show, cntr_store);
+	__ATTR(sample_period_ms, FMODE, cntr_show, cntr_store);
 struct cntr_attribute cycles_attribute = 
-	__ATTR(cycles, 0664, cntr_show, cntr_store);
+	__ATTR(cycles, FMODE, cntr_show, cntr_store);
 struct cntr_attribute instructions_attribute = 
-	__ATTR(instructions_retired, 0664, cntr_show, cntr_store);
+	__ATTR(instructions_retired, FMODE, cntr_show, cntr_store);
 struct cntr_attribute branch_miss_attribute = 
-	__ATTR(branch_mispredictions, 0664, cntr_show, cntr_store);
+	__ATTR(branch_mispredictions, FMODE, cntr_show, cntr_store);
 struct cntr_attribute dmem_access_attribute = 
-	__ATTR(data_memory_accesses, 0664, cntr_show, cntr_store);
+	__ATTR(data_memory_accesses, FMODE, cntr_show, cntr_store);
 struct cntr_attribute l2_refill_attribute = 
-	__ATTR(l2_data_refills, 0664, cntr_show, cntr_store);
+	__ATTR(l2_data_refills, FMODE, cntr_show, cntr_store);
 
 // Create a group of attributes so they can be created and destroyed all at once:
 struct attribute* cntr_default_attrs[] = {
@@ -144,9 +143,8 @@ ssize_t cntr_store(struct cpu_counter_obj* obj, struct cntr_attribute* attr,
 }
 
 
-
 // Define function to create a new cpu_counter_obj object:
-struct cpu_counter_obj* create_cntr_obj(const char* name, struct kset* parent)
+struct cpu_counter_obj* create_cntr_obj(const char* name, struct kset* parent_kset)
 {
 	struct cpu_counter_obj* cntr_obj;
 	int retval;
@@ -157,7 +155,7 @@ struct cpu_counter_obj* create_cntr_obj(const char* name, struct kset* parent)
 		return NULL;
 	
 	// Set kset for this object
-	cntr_obj->kobj.kset = parent;
+	cntr_obj->kobj.kset = parent_kset;
 
 	// Set default sampling period:
 	cntr_obj->sample_period_ms = DEFAULT_PERIOD_MS;

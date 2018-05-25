@@ -29,37 +29,13 @@
 #include <linux/kobject.h>
 #include <linux/slab.h>
 
-#include "params-perf.h"
+//#include "params-perf.h"
+
+#define FMODE 0664
+#define DEFAULT_PERIOD_MS 100
 
 MODULE_LICENSE("Dual BSD/GPL");
 
-// Struct definitions
-struct my_perf_data_struct {
-	// Jiffies
-	int jif1;
-	int jif2; 
-	int jif_diff;
-	// cycles
-	int cycles1;
-	int cycles2;
-	int cycles_diff;
-	// instructions
-	int instr1;
-	int instr2;
-	int instr_diff;
-	// l2 refills
-	int l2r1;
-	int l2r2;
-	int l2r_diff;
-	// data mem accesses
-	int dmema1;
-	int dmema2;
-	int dmema_diff;
-	// branch misses
-	int bmiss1;
-	int bmiss2;
-	int bmiss_diff;
-};
 
 // This object is replicated for each CPU on the system for which we want counter data.
 // All of the object instances will have a single (shared) kset as their parent and will
@@ -67,12 +43,12 @@ struct my_perf_data_struct {
 // See linux kernel samples/kobject/kset-example.c for more.
 struct cpu_counter_obj {
 	struct kobject kobj;
-	int sample_period_ms;
-	int cycles;
-	int instructions_retired;
-	int branch_mispredictions;
-	int data_memory_accesses;
-	int l2_data_refills;
+	unsigned int sample_period_ms;
+	unsigned int cycles;
+	unsigned int instructions_retired;
+	unsigned int branch_mispredictions;
+	unsigned int data_memory_accesses;
+	unsigned int l2_data_refills;
 };
 #define to_cntr_obj(x) container_of(x, struct cpu_counter_obj, kobj)
 
@@ -80,8 +56,8 @@ struct cpu_counter_obj {
 struct cntr_attribute {
 	struct attribute attr;
 	ssize_t (*show)(struct cpu_counter_obj* obj, struct cntr_attribute* attr, char* buf);
-	ssize_t (*store)(struct cpu_counter_obj* obj, struct cntr_attribute* attr, 
-						const char* buf, size_t len);
+	ssize_t (*store)(struct cpu_counter_obj* obj, struct cntr_attribute* attr, const char* buf, 
+						size_t len);
 };
 #define to_cntr_attribute(x) container_of(x, struct cntr_attribute, attr)
 
