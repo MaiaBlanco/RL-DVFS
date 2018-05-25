@@ -1,9 +1,6 @@
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
-// For timing with jiffies:
-#include <linux/sched.h>
-#include <linux/jiffies.h>
 // For kernel threading:
 #include <linux/kthread.h>
 // For outputting perf counters to sysfs:
@@ -19,7 +16,6 @@
 #include <linux/kobject.h>
 #include <linux/slab.h>
 
-
 // License (required to load module that writes to sysfs anyways):
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_AUTHOR("Mark Blanco <markb1@andrew.cmu.edu>");
@@ -33,47 +29,21 @@ MODULE_AUTHOR("Mark Blanco <markb1@andrew.cmu.edu>");
 								// (assumed to RAM, past LLC)
 #define L2_DATA_REFILL 0x17		// L2 Cache miss 
 
-// Register assignments in CP15 PMU in ARM cores:
-#define COUNTER_INST 0
-#define COUNTER_MISPRED 1
-#define COUNTER_DMEMA 2
-#define COUNTER_L2R 3
-
-#define CNTR_MASK 0xffffffff
+#define NUM_COUNTERS 4
+const unsigned int counters[] = {INST_RET, BRANCH_MISPRED, DATA_MEM_ACCESS, L2_DATA_REFILL};
 
 // Setting for perf counters. 
 // 1 enables all counters, 16 enables event exporting to external devices.
 // Setting 8 enables clock division such that the cycle counter counts every
 // 64 cycles. 
 // Setting 2 and 4 reset event counts and cycle counts respectively.
-#define PERF_DEF_OPTS ( (1 << 0) | (1 << 3) )
+#define PERF_DEF_OPTS ( (1 << 0) )
 
 // Struct definitions
 struct my_perf_data_struct {
-	// Jiffies
-	int jif1;
-	int jif2; 
-	int jif_diff;
 	// cycles
-	int cycles1;
-	int cycles2;
-	int cycles_diff;
-	// instructions
-	int instr1;
-	int instr2;
-	int instr_diff;
-	// l2 refills
-	int l2r1;
-	int l2r2;
-	int l2r_diff;
-	// data mem accesses
-	int dmema1;
-	int dmema2;
-	int dmema_diff;
-	// branch misses
-	int bmiss1;
-	int bmiss2;
-	int bmiss_diff;
+	unsigned int cycles;
+	unsigned int counterVal[NUM_COUNTERS];
 };
 
 // This object is replicated for each CPU on the system for which we want counter data.
@@ -82,12 +52,12 @@ struct my_perf_data_struct {
 // See linux kernel samples/kobject/kset-example.c for more.
 struct cpu_counter_obj {
 	struct kobject kobj;
-	int sample_period_ms;
-	int cycles;
-	int instructions_retired;
-	int branch_mispredictions;
-	int data_memory_accesses;
-	int l2_data_refills;
+	unsigned int sample_period_ms;
+	unsigned int cycles;
+	unsigned int instructions_retired;
+	unsigned int branch_mispredictions;
+	unsigned int data_memory_accesses;
+	unsigned int l2_data_refills;
 };
 #define to_cntr_obj(x) container_of(x, struct cpu_counter_obj, kobj)
 
@@ -199,7 +169,7 @@ static ssize_t cntr_store(struct cpu_counter_obj* obj, struct cntr_attribute* at
 static struct cntr_attribute sample_period_attribute = 
 	__ATTR(sample_period_ms, 0664, cntr_show, cntr_store);
 static struct cntr_attribute cycles_attribute = 
-	__ATTR(cycles, 0664, cntr_show, cntr_store);
+	__ATTR("cycles", 0664, cntr_show, cntr_store);
 static struct cntr_attribute instructions_attribute = 
 	__ATTR(instructions_retired, 0664, cntr_show, cntr_store);
 static struct cntr_attribute branch_miss_attribute = 
@@ -283,51 +253,50 @@ int ret;
 
 // Function definitions
 
+// Disable perf counters and userspace access to them:
+static void disable_cpu_counters(void* data)
+{
+	/* Disable Everything */
+	// Disable user-mode access
+	asm volatile("mcr p15, 0, %0, c9, c14, 0" :: "r"(0));
+	// Disable Count
+	asm volatile("mcr p15, 0, %0, c9, c12, 2" :: "r"(0xffffffff));
+	// Disable Interrupts
+	asm volatile("mcr p15, 0, %0, c9, c14, 2" :: "r"(0xffffffff));
+	// Reset counts and disable counters
+	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"((1 << 1) | (1 << 2)));
+	// Clear Overflow Register
+	asm volatile("mcr p15, 0, %0, c9, c12, 3" :: "r"(0xffffffff));
+}
 // Enable the CPU counters #defined above; enable userspace access, etc:
 static unsigned int enable_cpu_counters(void * data)
 {
-	unsigned int cpuid;
+	unsigned int cpuid, i;
 	/* Read cpucode from thing */
 	asm volatile("mrc p15, 0, %0, c9, c12, 0" : "=r"(cpuid));
 	cpuid &= (0x00ff << 16);
 	cpuid = cpuid >> 16;
-	/* Enable user-mode access to counters. */
-	asm volatile("mcr p15, 0, %0, c9, c14, 0" :: "r"(1));
-	// Program PMU and enable all counters, and also reset counts:
-	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"(PERF_DEF_OPTS | 2 | 4));
-	// Enable cycle count register and 4 other event registers:
-	asm volatile("mcr p15, 0, %0, c9, c12, 1" :: "r"(0x8000000f));
-	// Disable counter overflow interrupts:
-	asm volatile("mcr p15, 0, %0, c9, c14, 2" :: "r"(0x8000000f));
+
+	disable_cpu_counters(NULL);
 	
-	// Setup the 4 other registers to track events of interest (listed @ top of file):
-	// Select first programmable event register:
-	asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(COUNTER_INST));
-	asm volatile("mcr p15, 0, %0, c9, c13, 1" :: "r"(INST_RET));
+	//Disable event filtering on clock
+	asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(0b11111));
+	asm volatile("mcr p15, 0, %0, c9, c13, 1" :: "r"(0));
 
-	// Select second programmable event reg:
-	asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(COUNTER_MISPRED));
-	asm volatile("mcr p15, 0, %0, c9, c13, 1" :: "r"(BRANCH_MISPRED));
-
-	// Select third programmable event reg:
-	asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(COUNTER_DMEMA));
-	asm volatile("mcr p15, 0, %0, c9, c13, 1" :: "r"(DATA_MEM_ACCESS));
-
-	// Select fourth programmable event reg:
-	asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(COUNTER_L2R));
-	asm volatile("mcr p15, 0, %0, c9, c13, 1" :: "r"(L2_DATA_REFILL));
+	// Setup the count registers to track events of interest (listed @ top of file):
+	for(i = 0; i < NUM_COUNTERS; ++i)
+	{
+		asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(i));
+		asm volatile("mcr p15, 0, %0, c9, c13, 1" :: "r"(counters[i]));
+	}
+	//Enable cycle count + counters (2**NUM_COUNTERS-1)
+	asm volatile ("mcr p15, 0, %0, c9, c12, 1" :: "r"((1 << 31) | ((2 << NUM_COUNTERS)-1)));
+	// Enable counters
+	asm volatile ("mcr p15, 0, %0, c9, c12, 0" :: "r"(PERF_DEF_OPTS));
+	// Enable user-mode access to counters
+	asm volatile("mcr p15, 0, %0, c9, c14, 0" :: "r"(1));
+	
 	return cpuid;
-}
-
-// Disable perf counters and userspace access to them:
-static void disable_cpu_counters(void* data)
-{
-	/* Disable user-mode access to counters. */
-	asm volatile("mcr p15, 0, %0, c9, c14, 0" :: "r"(0));
-	// Disable all counters (cycle counter and the 4 others): 
-	asm volatile("mcr p15, 0, %0, c9, c12, 1" :: "r"(0x00000000));
-	// Reset PMU counters and reset clock div settings, etc.:
-	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"(0x00000007));
 }
 
 static inline 
@@ -360,65 +329,9 @@ void reset_counters_c(void)
 	// Read the original value to preserve settings:
 	asm volatile("mrc p15, 0, %0, c9, c12, 0" : "=r"(v));
 	// Reset the performance counters by setting bits 1 and 2:
-	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"(v | 2 | 4));
+	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"(v | (1 << 2) | (1 << 1)));
 }
 
-static inline 
-unsigned int read_inst_count(void)
-{
-	return read_p15_count(COUNTER_INST);
-}
-
-static inline 
-unsigned int read_mispred_count(void)
-{
-	return read_p15_count(COUNTER_MISPRED);
-}
-
-static inline 
-unsigned int read_datamemaccess_count(void)
-{
-	return read_p15_count(COUNTER_DMEMA);
-}
-
-
-static inline 
-unsigned int read_l2refill_count(void)
-{
-	return read_p15_count(COUNTER_L2R);
-}
-/*
-void get_perf_counters(unsigned int* res, unsigned int millis_period)
-{
-
-	unsigned int old_cycles, old_instructions, old_bmiss, 
-					old_dmemaccess, old_l2refill;
-	struct timeval stop, start;
-	
-	// Get initial time and counts:
-	// TODO: fix this so it doesn't use non-kernel timing:
-	gettimeofday(&start, NULL);
-	old_cycles = read_cycle_count();
-	old_instructions = read_inst_count();
-	old_bmiss = read_mispred_count();
-	old_dmemaccess = read_datamemaccess_count();
-	old_l2refill = read_l2refill_count();
-	gettimeofday(&stop, NULL);
-	
-	// Wait for sample period:
-	while ( (unsigned int)(stop.tv_usec - start.tv_usec) < millis_period*1000 )
-	{
-		gettimeofday(&stop, NULL);
-	}
-	
-	// Update counter vals and print:
-	res[0] = read_cycle_count() - old_cycles;
-	res[1] = read_inst_count() - old_instructions;
-	res[2] = read_mispred_count() - old_bmiss;
-	res[3] = read_datamemaccess_count() - old_dmemaccess;
-	res[4] = read_l2refill_count() - old_l2refill;
-}
-*/
 int perf_thread(void * data)
 {
 	// Get CPU id:
@@ -427,9 +340,9 @@ int perf_thread(void * data)
 
 	// Timing:
 	struct timeval tm1, tm2, tm3;
-	unsigned long long elapsed, elapsed2;
+	unsigned long elapsed;
 	unsigned int sample_period_ms, cpuid;
-
+	unsigned int i = 0;
 	struct my_perf_data_struct* my_perf_data_local;
 
 	struct cpu_counter_obj* my_cpu_counter_obj_local;
@@ -451,7 +364,6 @@ int perf_thread(void * data)
 	cpuid = enable_cpu_counters(NULL);
 	reset_counters_c();
 	printk(KERN_INFO "[perf] CPU %d of type %u\n", cpu_id, cpuid);
-	
 	schedule();
 
 	while(!kthread_should_stop())
@@ -463,50 +375,30 @@ int perf_thread(void * data)
 
 		my_perf_data_local = &get_cpu_var(my_perf_data);
 
-		my_perf_data_local->jif2 = jiffies;
-		my_perf_data_local->jif_diff = my_perf_data_local->jif2 - my_perf_data_local->jif1;
-
-		my_perf_data_local->cycles2 = (int)(read_cycle_count() & CNTR_MASK);
-		my_perf_data_local->cycles_diff = abs(my_perf_data_local->cycles2 - my_perf_data_local->cycles1);
-
-		my_perf_data_local->instr2 = (int)(read_inst_count() & CNTR_MASK);
-		my_perf_data_local->instr_diff = abs(my_perf_data_local->instr2 - my_perf_data_local->instr1);
-
-		my_perf_data_local->dmema2 = (int)(read_datamemaccess_count() & CNTR_MASK);
-		my_perf_data_local->dmema_diff = abs(my_perf_data_local->dmema2 - my_perf_data_local->dmema1);
-
-		my_perf_data_local->l2r2 = (int)(read_l2refill_count() & CNTR_MASK);
-		my_perf_data_local->l2r_diff = abs(my_perf_data_local->l2r2 - my_perf_data_local->l2r1);
-//		printk(KERN_INFO "[perf] CPU %d: %u refills\n", cpu_id, my_perf_data_local->l2r2);
-
-		my_perf_data_local->bmiss2 = (int)(read_mispred_count() & CNTR_MASK);
-		my_perf_data_local->bmiss_diff = abs(my_perf_data_local->bmiss2 - my_perf_data_local->bmiss1);
-
-		// Copy values over
-		my_perf_data_local->jif1 = my_perf_data_local->jif2;
-		my_perf_data_local->cycles1 = my_perf_data_local->cycles2;
-		my_perf_data_local->instr1 = my_perf_data_local->instr2;
-		my_perf_data_local->dmema1 = my_perf_data_local->dmema2;
-		my_perf_data_local->l2r1 = my_perf_data_local->l2r2;
-		my_perf_data_local->bmiss1 = my_perf_data_local->bmiss2;
+		my_perf_data_local->cycles = read_cycle_count();
+		for(i = 0; i < NUM_COUNTERS; ++i)
+		{
+			my_perf_data_local->counterVal[i] = read_p15_count(i);
+		}
 
 		// Make values available in sysfs:
-		my_cpu_counter_obj_local->cycles = my_perf_data_local->cycles_diff;
-		my_cpu_counter_obj_local->instructions_retired = my_perf_data_local->instr_diff;
-		my_cpu_counter_obj_local->branch_mispredictions = my_perf_data_local->bmiss_diff;
-		my_cpu_counter_obj_local->data_memory_accesses = my_perf_data_local->dmema_diff;
-		my_cpu_counter_obj_local->l2_data_refills = my_perf_data_local->l2r_diff;
+		my_cpu_counter_obj_local->cycles = my_perf_data_local->cycles;
+		my_cpu_counter_obj_local->instructions_retired = my_perf_data_local->counterVal[0];
+		my_cpu_counter_obj_local->branch_mispredictions = my_perf_data_local->counterVal[1];
+		my_cpu_counter_obj_local->data_memory_accesses = my_perf_data_local->counterVal[2];
+		my_cpu_counter_obj_local->l2_data_refills = my_perf_data_local->counterVal[3];
 		
 		
 #if 1 //DEBUG
 		if (cpu_id == 4)
-		printk(KERN_INFO "[perf] CPU %d: %u cycles\n\tJiffies %u\n\tIntructions: %u\n\tBMisses: %u\n\t"
+			printk(KERN_INFO "[perf] CPU %d: %u cycles\n", cpu_id, my_perf_data_local->cycles);
+		/*printk(KERN_INFO "[perf] CPU %d: %u cycles\n\tIntructions: %u\n\tBMisses: %u\n\t"
 						 "DMEMAccesses: %u\n\tL2Refills: %u\n",
-						 cpu_id, my_perf_data_local->cycles2, my_perf_data_local->jif2, 
+						 cpu_id, my_perf_data_local->cycles2, 
 						 my_perf_data_local->instr2, my_perf_data_local->bmiss2, 
 						 my_perf_data_local->dmema2, my_perf_data_local->l2r2);
+		*/
 #endif
-
 		// Check time elapsed:
 		tm3.tv_usec = tm2.tv_usec;
 		tm3.tv_sec = tm2.tv_sec;
@@ -521,7 +413,8 @@ int perf_thread(void * data)
 		
 		// Release reference to perf data, thereby ending the atomic section. VERY IMPORTANT!
 		put_cpu_var(my_perf_data);
-		//reset_counters_c();
+		reset_counters_c();
+		
 		// wait for remainder:
 		msleep((unsigned long long)(sample_period_ms - elapsed));
 	}
@@ -549,7 +442,7 @@ int init_module(void)
 	// Create cpu_counter_obj for each cpu:
 	// TODO: ALLOC cpu_counter_obj objects for each CPU?
 	// each will be registered by the corresponding kthread with the kset.
-
+	
 
 	get_online_cpus();
 	for_each_online_cpu(cpu)
