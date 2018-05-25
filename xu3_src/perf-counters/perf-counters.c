@@ -26,14 +26,14 @@ MODULE_AUTHOR("Mark Blanco <markb1@andrew.cmu.edu>");
 
 // Sampling period can be changed per-core from the sysfs interface at
 // '/sys/kernel/performance_counters/cpu*/sample_period_ms
-#define DEFAULT_PERIOD_MS 100
+#define DEFAULT_PERIOD_MS 50
 
 // Adds printouts for timing and measure cpu cycles in kthread function:
 #define DEBUG 0
 
 // If defined, RESTRICT_CPU causes perf counter kthread to run on just
 // the CPU core with the number specified.
-//#define RESTRICT_CPU 0
+#define RESTRICT_CPU 4
 
 
 struct my_perf_data_struct {
@@ -172,7 +172,7 @@ int init_module(void)
 	for_each_online_cpu(cpu)
 	{
 #ifdef RESTRICT_CPU
-		if (cpu == RESTRICT_CPU)
+		if (cpu >= RESTRICT_CPU)
 #endif
 		{
 			task[cpu] = kthread_create(perf_thread, (void*) data, "perf_counter_thread");
@@ -186,7 +186,7 @@ int init_module(void)
 	for_each_online_cpu(cpu)
 	{
 #ifdef RESTRICT_CPU
-		if (cpu == RESTRICT_CPU)
+		if (cpu >= RESTRICT_CPU)
 #endif
 			wake_up_process(task[cpu]);
 	}
@@ -206,7 +206,7 @@ void cleanup_module(void)
 	for_each_online_cpu(cpu)
 	{
 #ifdef RESTRICT_CPU
-		if (cpu == RESTRICT_CPU)
+		if (cpu >= RESTRICT_CPU)
 #endif
 			kthread_stop(task[cpu]);
 	}
