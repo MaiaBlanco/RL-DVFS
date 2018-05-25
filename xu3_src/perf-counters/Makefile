@@ -1,5 +1,5 @@
 obj-m += perfmod.o
-perfmod-objs := perf-counters.o sysfs-perf.o
+perfmod-objs := perf-counters.o pmu-perf.o sysfs-perf.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules

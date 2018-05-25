@@ -16,36 +16,25 @@
 #include <linux/kobject.h>
 #include <linux/slab.h>
 
+#include "pmu-perf.h"
 #include "sysfs-perf.h"
 
 // License (required to load module that writes to sysfs anyways):
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_AUTHOR("Mark Blanco <markb1@andrew.cmu.edu>");
 
+
+// Sampling period can be changed per-core from the sysfs interface at
+// '/sys/kernel/performance_counters/cpu*/sample_period_ms
+#define DEFAULT_PERIOD_MS 100
+
+// Adds printouts for timing and measure cpu cycles in kthread function:
+#define DEBUG 0
+
 // If defined, RESTRICT_CPU causes perf counter kthread to run on just
 // the CPU core with the number specified.
 //#define RESTRICT_CPU 0
 
-#define DEBUG 0
-
-
-// Events of interest, aside from cycles:
-#define INST_RET 0x08 			// Instructions retired
-#define BRANCH_MISPRED 0x10		// branch misprediction
-#define DATA_MEM_ACCESS 0x13	// Access to data memory 
-								// (assumed to RAM, past LLC)
-#define L2_DATA_REFILL 0x17		// L2 Cache miss 
-
-// The number of counters to be enabled, aside from the cycle counter.
-#define NUM_COUNTERS 4
-const unsigned int counters[] = {INST_RET, BRANCH_MISPRED, DATA_MEM_ACCESS, L2_DATA_REFILL};
-
-// Setting for perf counters. 
-// 1 enables all counters, 16 enables event exporting to external devices.
-// Setting 8 enables clock division such that the cycle counter counts every
-// 64 cycles. 
-// Setting 2 and 4 reset event counts and cycle counts respectively.
-#define PERF_DEF_OPTS ( (1 << 0) )
 
 struct my_perf_data_struct {
 	// cycles
@@ -53,8 +42,8 @@ struct my_perf_data_struct {
 	unsigned int counterVal[NUM_COUNTERS];
 };
 
-extern struct cpu_counter_obj* create_cntr_obj(const char* name, struct kset* parent);
-extern void destroy_cntr_obj(struct cpu_counter_obj* obj);
+//extern struct cpu_counter_obj* create_cntr_obj(const char* name, struct kset* parent);
+//extern void destroy_cntr_obj(struct cpu_counter_obj* obj);
 
 // Create unifying kset for all cpu counter objects:
 static struct kset* cntr_kset;
@@ -68,85 +57,6 @@ struct task_struct* task[8];
 int data;
 int ret;
 
-// Function definitions for PMU interfacing:
-
-// Disable perf counters and userspace access to them:
-static void disable_cpu_counters(void* data)
-{
-	/* Disable Everything */
-	// Disable user-mode access
-	asm volatile("mcr p15, 0, %0, c9, c14, 0" :: "r"(0));
-	// Disable Count
-	asm volatile("mcr p15, 0, %0, c9, c12, 2" :: "r"(0xffffffff));
-	// Disable Interrupts
-	asm volatile("mcr p15, 0, %0, c9, c14, 2" :: "r"(0xffffffff));
-	// Reset counts and disable counters
-	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"((1 << 1) | (1 << 2)));
-	// Clear Overflow Register
-	asm volatile("mcr p15, 0, %0, c9, c12, 3" :: "r"(0xffffffff));
-}
-// Enable the CPU counters #defined above; enable userspace access, etc:
-static unsigned int enable_cpu_counters(void * data)
-{
-	unsigned int cpuid, i;
-	/* Read cpucode from core */
-	asm volatile("mrc p15, 0, %0, c9, c12, 0" : "=r"(cpuid));
-	cpuid &= (0x00ff << 16);
-	cpuid = cpuid >> 16;
-
-	disable_cpu_counters(NULL);
-	
-	// Disable event filtering on clock. 
-	// Note: requires PMUv2 as defined in ARM arch manual
-	asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(0b11111));
-	asm volatile("mcr p15, 0, %0, c9, c13, 1" :: "r"(0));
-
-	// Setup the count registers to track events of interest (listed @ top of file):
-	for(i = 0; i < NUM_COUNTERS; ++i)
-	{
-		asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(i));
-		asm volatile("mcr p15, 0, %0, c9, c13, 1" :: "r"(counters[i]));
-	}
-	//Enable cycle count + counters (2**NUM_COUNTERS-1)
-	asm volatile ("mcr p15, 0, %0, c9, c12, 1" :: "r"((1 << 31) | ((2 << NUM_COUNTERS)-1)));
-	// Enable counters
-	asm volatile ("mcr p15, 0, %0, c9, c12, 0" :: "r"(PERF_DEF_OPTS));
-	// Enable user-mode access to counters
-	asm volatile("mcr p15, 0, %0, c9, c14, 0" :: "r"(1));
-	
-	return cpuid;
-}
-
-static inline 
-unsigned int read_cycle_count(void)
-{
-	unsigned int c;
-	// Read cycle count register:
-	asm volatile("mrc p15, 0, %0, c9, c13, 0" : "=r"(c));
-	return c;
-}
-
-// Select and read performance counter register number 'reg_num'
-static inline 
-unsigned int read_p15_count(unsigned int reg_num)
-{
-	unsigned int c;
-	// Select correct register:
-	asm volatile("mcr p15, 0, %0, c9, c12, 5" :: "r"(reg_num));
-	// Read that register:
-	asm volatile("mrc p15, 0, %0, c9, c13, 2" : "=r"(c));
-	return c;
-}
-
-static inline 
-void reset_counters(void)
-{
-	unsigned int v;
-	// Read the original value to preserve settings:
-	asm volatile("mrc p15, 0, %0, c9, c12, 0" : "=r"(v));
-	// Reset the performance counters by setting bits 1 and 2:
-	asm volatile("mcr p15, 0, %0, c9, c12, 0" :: "r"(v | (1 << 2) | (1 << 1)));
-}
 
 int perf_thread(void * data)
 {

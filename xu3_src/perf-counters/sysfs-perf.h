@@ -2,12 +2,19 @@
 	Description: Header with struct definitions and sysfs function 
 		prototypes for perf-counters kernel module, for use on 32-bit 
 		ARM cortex-A processors (specifically A-7, A-15, and A-53 in v7 mode).
+			
+			If additional or different performance counters 
+			are desired for the kernel module's functionality 
+			(and for them to show up in sysfs), then the 
+			struct instances here should be updated to reflect the new 
+			names and quantity of the counter events. 
+			Of the statically defined functions, only cntr_show() 
+			needs to be updated to handle the new counter_object 
+			internal variables corresponding to each event.
+	
 	Date: 25 May 2018
 	Author: Mark Blanco <markb1@andrew.cmu.edu>
 */
-#ifndef PERF_SYSFS_H
-#define PERF_SYSFS_H
-
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -29,10 +36,14 @@
 #include <linux/kobject.h>
 #include <linux/slab.h>
 
-//#include "params-perf.h"
+#ifndef PERF_SYSFS_H
+#define PERF_SYSFS_H
+
 
 #define FMODE 0664
+#ifndef DEFAULT_PERIOD_MS
 #define DEFAULT_PERIOD_MS 100
+#endif
 
 MODULE_LICENSE("Dual BSD/GPL");
 
@@ -65,13 +76,4 @@ struct cntr_attribute {
 struct cpu_counter_obj* create_cntr_obj(const char* name, struct kset* parent);
 void destroy_cntr_obj(struct cpu_counter_obj* obj);
 
-
-// Internal sysfs function prototypes:
-ssize_t cntr_attr_show(struct kobject* kobj, struct attribute *attr, char* buf);
-ssize_t cntr_attr_store(struct kobject* kobj, struct attribute *attr, 
-						const char* buf, size_t len);
-void cntr_release(struct kobject* kobj);
-ssize_t cntr_show(struct cpu_counter_obj* obj, struct cntr_attribute* attr, char* buf);
-ssize_t cntr_store(struct cpu_counter_obj* obj, struct cntr_attribute* attr, 
-						const char* buf, size_t len);
 #endif
