@@ -42,7 +42,7 @@
 
 #define FMODE 0664
 #ifndef DEFAULT_PERIOD_MS
-#define DEFAULT_PERIOD_MS 100
+#define DEFAULT_PERIOD_MS 50
 #endif
 
 MODULE_LICENSE("Dual BSD/GPL");
