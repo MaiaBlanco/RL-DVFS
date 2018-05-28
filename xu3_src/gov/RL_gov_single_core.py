@@ -1,6 +1,6 @@
 import numpy as np
 import multiprocessing as mp
-import subprocess, os
+import subprocess, os, sys
 import ctypes
 import time
 
@@ -69,9 +69,8 @@ def set_period(p):
 Returns state figures, non-quantized.
 Includes branch misses per Kinstruction, IPC, and l2miss, data memory accesses 
 per Kinstruction for each core, plus core temp and big cluster power. 
-(BMPKI, IPC, MPKI, MDMEMAPKI, celsius, watts)
+(BMPKI, IPC, CMPKI, DAPKI, celsius, watts, frequency)
 TODO: add leakage power?
-TODO: add v/f levels?
 TODO: add thermal predictions?
 '''
 def get_raw_state():	
@@ -165,4 +164,10 @@ def Q_learning(states):
 
 
 if __name__ == "__main__":
+	if len(sys.argv) < 2:
+		print("USAGE: {} benchmark_running".format(sys.argv[0]))
+		sys.exit()
+	benchmark=sys.argv[1]
+	os.mkdir(benchmark)
+	os.chdir(benchmark)
 	init_RL()
