@@ -22,10 +22,11 @@ Estimated big cluster leakage power
 
 # Dimensions of state space:
 VARS = 18
+FREQS = 19
 LABELS = ['BMPKI', 'IPC', 'CMPKI', 'DAPKI', 'temp', 'power']
 # Array of bools sets log scale if true:
 SCALING = [True, True, True, True, False, False]
-BUCKETS = 
+BUCKETS = \
 	{
 	'BMPKI':15,
 	'IPC':15,
@@ -35,7 +36,7 @@ BUCKETS =
 	'power':15,
 	}
 # Min and max limits are in linear scale
-MINS = 
+MINS = \
 	{
 	# Note 1s to avoid domain error on log scaled stats:
 	'BMPKI':1,
@@ -45,7 +46,7 @@ MINS =
 	'temp':35,
 	'power':0
 	}
-MAXS = 
+MAXS = \
 	{
 	'BMPKI':50,
 	'IPC':4,
@@ -57,7 +58,7 @@ MAXS =
 
 # Function to bin frequencies:
 def freq_to_bucket(freq):
-	big_freqs = [2000000,1900000,1800000,1700000,1600000,1500000,1400000,1300000,1200000,1100000,1000000,900000,800000,700000,600000,500000,400000,300000,200000]	
+	big_freqs = [200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1700000, 1800000, 1900000, 2000000]
 	return big_freqs.index(int(freq))
 
 # Epsilon
