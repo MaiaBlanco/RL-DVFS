@@ -21,19 +21,21 @@ Estimated big cluster leakage power
 '''
 
 # Dimensions of state space:
-VARS = 18
+VARS = 6
 FREQS = 19
-LABELS = ['BMPKI', 'IPC', 'CMPKI', 'DAPKI', 'temp', 'power']
+LABELS = ['BMPKI', 'IPC', 'CMPKI', #'DAPKI',
+						'temp', 'power']
 # Array of bools sets log scale if true:
-SCALING = [True, True, True, True, False, False]
+SCALING = [True, True, True, #True,
+				False, False]
 BUCKETS = \
 	{
-	'BMPKI':15,
-	'IPC':15,
-	'CMPKI':20,
-	'DAPKI':10,
-	'temp':15,
-	'power':15,
+	'BMPKI':10,
+	'IPC':10,
+	'CMPKI':10,
+#	'DAPKI':10,
+	'temp':10,
+	'power':10,
 	}
 # Min and max limits are in linear scale
 MINS = \
@@ -42,7 +44,7 @@ MINS = \
 	'BMPKI':1,
 	'IPC':1,
 	'CMPKI':1,
-	'DAPKI':1,
+#	'DAPKI':1,
 	'temp':35,
 	'power':0
 	}
@@ -51,18 +53,24 @@ MAXS = \
 	'BMPKI':50,
 	'IPC':4,
 	'CMPKI':50,
-	'DAPKI':10000,
+#	'DAPKI':10000,
 	'temp':80,
 	'power':5
 	}
 
+#big cluster frequencies
+big_freqs = [200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1700000, 1800000, 1900000, 2000000]
 # Function to bin frequencies:
 def freq_to_bucket(freq):
-	big_freqs = [200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1700000, 1800000, 1900000, 2000000]
+	global big_freqs
 	return big_freqs.index(int(freq))
 
-# Epsilon
-E = 0.01
+# N0 for epsilon calculation
+N0= 1000
+# Discounting factor:
+GAMMA = 0.9
+# Lambda for Q-learning updates:
+LAMBDA = 0.6
 # Update period in seconds
 PERIOD = 0.050
 # Limit in celsius
