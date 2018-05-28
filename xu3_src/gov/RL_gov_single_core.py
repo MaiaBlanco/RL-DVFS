@@ -14,7 +14,7 @@ from state_space_params_xu3_single_core import freq_to_bucket
 VARS = 7
 # Array of global state-action values. Dimensions are:
 # (num vf settings for big cluster * num state variables * max num buckets )
-Q = np.zeros( (FREQS, VARS, BUCKETS) ) 
+Q = np.zeros( (FREQS, VARS, 19) ) 
 
 def checkpoint_statespace():
 	ms_period = int(PERIOD*1000)
@@ -111,22 +111,25 @@ def bucket_state(raw):
 	# Use bucket width to determine index of each raw state value:
 	all_mins = np.array([MINS[k] for k in LABELS])
 	all_maxs = np.array([MAXS[k] for k in LABELS])
-	all_widths = np.array([BUCKETS[k] for k in LABELS])
+	num_buckets = np.array([BUCKETS[k] for k in LABELS])
 	# Bound raw values to min and max from params:
-	raw_no_freq = np.minimum.reduce([all_mins, raw_no_freq])
-	raw_no_freq = np.maximum.reduce([all_maxs, raw_no_freq])
+	raw_no_freq = np.minimum.reduce([all_maxs, raw_no_freq])
+	raw_no_freq = np.maximum.reduce([all_mins, raw_no_freq])
 	# Apply log scaling where specified:
 	raw_no_freq[SCALING] = np.log(raw_no_freq[SCALING]) #np.array([np.log(x) if s else x for x,s in zip(raw_no_freq, SCALING)])
-	print(raw_no_freq)
-	input()
 	# Floor values for proper bucketing:
-	raw_floored = raw_no_freq - all_mins
-	state = np.divide(raw_floored, all_widths)
-	state += [freq_to_bucket(raw[-1])]
+	scaled_bounds = [(np.log(x), np.log(y)) if s else (x,y) for x,y,s in zip(all_mins, all_maxs, SCALING)]
+	scaled_mins, scaled_maxs = zip(*scaled_bounds)
+	scaled_widths = np.divide( np.array(scaled_maxs) - np.array(scaled_mins), num_buckets)
+	raw_floored = raw_no_freq - scaled_mins
+	state = np.divide(raw_floored, scaled_widths)
+	state = np.append(state, [freq_to_bucket(raw[-1])])
+	print(state)
 	# for i, x in enumerate(state):
 	# 	if x > (BUCKETS-1):
 	# 		print("WARN: Stat {} has greater bucket than {}: {}".format(i, BUCKETS-1, x))
 	# 		state[i] = BUCKETS-1
+	print(raw[-1])
 	return [int(x) for x in state]
 
 
@@ -142,7 +145,8 @@ def profile_statespace():
 		max_state = get_raw_state()
 		min_state = max_state
 	i = 0
-	stat_counts = np.zeros((VARS, BUCKETS), dtype=np.uint64)
+	num_buckets = np.max([v for v in BUCKETS.values()])
+	stat_counts = np.zeros((VARS, num_buckets), dtype=np.uint64)
 	while True:
 		start = time.time()
 		raw = get_raw_state()
