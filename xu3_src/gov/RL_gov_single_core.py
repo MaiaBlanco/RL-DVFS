@@ -124,6 +124,7 @@ def bucket_state(raw):
 
 
 def profile_statespace():
+	raw_history = []
 	ms_period = int(PERIOD*1000)
 	set_period(ms_period)
 	try:
@@ -138,6 +139,7 @@ def profile_statespace():
 	while True:
 		start = time.time()
 		raw = get_raw_state()
+		raw_history.append(raw)
 		max_state = np.maximum.reduce([max_state, raw])
 		min_state = np.minimum.reduce([min_state, raw])
 		bucketed = bucket_state(raw)
@@ -145,10 +147,11 @@ def profile_statespace():
 			stat_counts[stat_index, loc] += 1
 		
 		i += 1
-		if i % 100 == 0:
+		if i % 1000 == 0:
 			np.save('max_state_{}ms_single_core.npy'.format(ms_period), max_state)
 			np.save('min_state_{}ms_single_core.npy'.format(ms_period), min_state)
 			np.save('bucket_counts_{}ms_single_core.npy'.format(ms_period), stat_counts)
+			np.save('raw.npy', raw_history)
 			print("{}: Checkpointed raw state max and min.".format(i))
 			print(raw)
 			print(bucketed)
@@ -156,7 +159,7 @@ def profile_statespace():
 		end = time.time()
 		elapsed = end-start
 		if elapsed > PERIOD:
-			print("WARN: elapsed > period ({} > {})".format(elapsed, period)
+			print("WARN: elapsed > period ({} > {})".format(elapsed, PERIOD))
 		time.sleep(max(0, PERIOD - elapsed))
 
 
