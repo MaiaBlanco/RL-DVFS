@@ -7,8 +7,8 @@ import time
 # Local imports:
 import sysfs_paths_xu3 as sfs
 import devfreq_utils_xu3 as dvfs
-from state_space_params_xu3 import *
-from state_space_params_xu3 import freq_to_bucket
+from state_space_params_xu3_single_core import *
+from state_space_params_xu3_single_core import freq_to_bucket
 
 # Redefine state space number of vars for single-core implementation:
 VARS = 7
@@ -107,18 +107,26 @@ def get_raw_state():
 Place state in 'bucket' given min/max values and number of buckets for each value
 '''
 def bucket_state(raw):
+	raw_no_freq = raw[:-1]
 	# Use bucket width to determine index of each raw state value:
-	all_mins = np.array([bmiss_MIN, ipc_MIN, mpi_MIN, dmemi_MIN, temp_MIN] \
-															+ [pwr_MIN] + [0])
-	all_widths = np.array([bmiss_width, ipc_width, mpi_width, dmemi_width, temp_width] \
-																+ [pwr_width] + [1])
-	raw_floored = np.array(raw) - all_mins
+	all_mins = np.array([MINS[k] for k in LABELS])
+	all_maxs = np.array([MAXS[k] for k in LABELS])
+	all_widths = np.array([BUCKETS[k] for k in LABELS])
+	# Bound raw values to min and max from params:
+	raw_no_freq = np.minimum.reduce([all_mins, raw_no_freq])
+	raw_no_freq = np.maximum.reduce([all_maxs, raw_no_freq])
+	# Apply log scaling where specified:
+	raw_no_freq[SCALING] = np.log(raw_no_freq[SCALING]) #np.array([np.log(x) if s else x for x,s in zip(raw_no_freq, SCALING)])
+	print(raw_no_freq)
+	input()
+	# Floor values for proper bucketing:
+	raw_floored = raw_no_freq - all_mins
 	state = np.divide(raw_floored, all_widths)
-	state[-1] = freq_to_bucket(raw[-1])
-	for i, x in enumerate(state):
-		if x > (BUCKETS-1):
-			print("WARN: Stat {} has greater bucket than {}: {}".format(i, BUCKETS-1, x))
-			state[i] = BUCKETS-1
+	state += [freq_to_bucket(raw[-1])]
+	# for i, x in enumerate(state):
+	# 	if x > (BUCKETS-1):
+	# 		print("WARN: Stat {} has greater bucket than {}: {}".format(i, BUCKETS-1, x))
+	# 		state[i] = BUCKETS-1
 	return [int(x) for x in state]
 
 
