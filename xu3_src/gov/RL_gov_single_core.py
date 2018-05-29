@@ -23,6 +23,11 @@ C = np.zeros( dims )
 
 def checkpoint_statespace():
 	global Q, C
+	yn = str(raw_input("Save statespace? (y/n)") ).lower()
+	while yn != 'y' and yn != 'n':
+		yn = str(raw_input("Enter y/n: ")).lower()
+	if yn == 'n':
+		return
 	ms_period = int(PERIOD*1000)
 	np.save("Q_{}ms.npy".format(ms_period), Q)
 	np.save("C_{}ms.npy".format(ms_period), C)
@@ -173,7 +178,7 @@ def Q_learning():
 	global num_buckets
 	global big_freqs
 	global Q,C
-	'''
+	
 	# Take care of statespace checkpoints:
 	try:
 		load_statespace()
@@ -181,7 +186,6 @@ def Q_learning():
 	except:
 		print("Could not load statespace; continue with fresh.")
 	atexit.register(checkpoint_statespace)
-	'''
 	
 	# Init runtime vars:
 	# sa_history = deque(maxlen=HIST_LIM)
@@ -235,7 +239,7 @@ def reward_func(IPS, temp, watts):
 	global RHO, THETA # <-- From state space params module.
 	# Return throughput minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
-	reward = IPS - (RHO * thermal_v) - (THETA * watts)
+	reward = IPS/100 - (RHO * thermal_v) - (THETA * watts)
 	return reward
 
 def profile_statespace():
