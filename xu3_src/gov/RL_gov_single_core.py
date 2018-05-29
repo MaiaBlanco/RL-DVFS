@@ -4,6 +4,8 @@ import subprocess, os, sys
 import ctypes
 import time
 import random
+import atexit
+from collections import deque
 
 # Local imports:
 import sysfs_paths_xu3 as sfs
@@ -13,18 +15,29 @@ from state_space_params_xu3_single_core import freq_to_bucket
 
 num_buckets = np.array([BUCKETS[k] for k in LABELS])
 # TODO: resolve redundant frequency in action and state space
+# Idea: make action space only five choices: go up 1 or 2 or go down 1 or 2?
 dims = [FREQS] + list(num_buckets) + [FREQS]
 print(dims)
 Q = np.zeros( dims ) 
 C = np.zeros( dims, dtype=np.uint32)
 
-def checkpoint_statespace(state_vals):
+def checkpoint_statespace():
+	global Q, C
 	ms_period = int(PERIOD*1000)
-	np.save("statespace_{}ms.npy".format(ms_period), state_vals)
+	np.save("Q_{}ms.npy".format(ms_period), Q)
+	np.save("C_{}ms.npy".format(ms_period), C)
 
 def load_statespace():
+	global Q, C
 	ms_period = int(PERIOD*1000)
-	return np.load("statespace_{}ms.npy".format(ms_period))
+	try:
+		Q_t = np.load("Q_{}ms.npy".format(ms_period))
+		C_t = np.load("C_{}ms.npy".format(ms_period))
+	except:
+		raise Exception("Could not read previous statespace")
+		return
+	Q = Q_t
+	C = C_t
 
 # XU3 has built-in sensors, so use them:
 def get_power():
@@ -49,6 +62,8 @@ def init():
 		print("WARNING: perf-counters module not loaded. Loading...")
 		process = subprocess.Popen(['sudo', 'insmod', 'perfmod.ko'])
 		output, err = process.communicate()
+	ms_period = int(PERIOD*1000)
+	set_period(ms_period)
 
 def get_counter_value(cpu_num, attr_name):
 	with open("/sys/kernel/performance_counters/cpu{}/{}".format(cpu_num, attr_name), 
@@ -79,11 +94,11 @@ def get_raw_state():
 		
 	cpu_freq = dvfs.getClusterFreq(cpu)
 	# Convert cpu freq from kHz to Hz and then multiply by period;
-	total_possible_cycles = int(cpu_freq * 1000 * PERIOD)
-	#cycles_used = get_counter_value(cpu, "cycles")
+	#total_possible_cycles = int(cpu_freq * 1000 * PERIOD)
+	cycles_used = get_counter_value(cpu, "cycles")
 	
 	diffs[cpu-4, 0] = get_counter_value(cpu, "branch_mispredictions")
-	diffs[cpu-4, 1] = total_possible_cycles
+	diffs[cpu-4, 1] = cycles_used #total_possible_cycles
 	diffs[cpu-4, 2] = get_counter_value(cpu, "instructions_retired")
 	diffs[cpu-4, 3] = get_counter_value(cpu, "l2_data_refills")
 	#diffs[cpu-4, 4] = get_counter_value(cpu, "data_memory_accesses")
@@ -126,6 +141,7 @@ def bucket_state(raw):
 	raw_floored = raw_no_freq - scaled_mins
 	state = np.divide(raw_floored, scaled_widths)
 	state = np.append(state, [freq_to_bucket(raw[-1])])
+	state[:-1] = np.minimum.reduce([num_buckets-1, state[:-1]])
 	return [int(x) for x in state]
 
 
@@ -165,15 +181,21 @@ def update_QC(SAR_hist):
 
 
 
-# TODO: implement limit to history length
 def Q_learning():
+	try:
+		load_statespace()
+		print("Loaded statespace")
+	except:
+		print("Could not load statespace; continue with fresh.")
+	atexit.register(checkpoint_statespace)
 	# Array of state-action values. Dimensions are:
 	global num_buckets
 	global big_freqs
 	global Q,C
-	sa_history = []
+	sa_history = deque(maxlen=HIST_LIM)
 	last_action = None
 	last_state = None
+	reward = None
 	# Learn forever:
 	while True:
 		start = time.time()
@@ -182,16 +204,15 @@ def Q_learning():
 		raw_state = get_raw_state()
 		state = bucket_state(raw_state)
 		reward = reward1(raw_state)	
-		print(reward)
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
 			sa_history.append((last_state, last_action, reward))
-			update_QC(sa_history)
+			update_QC(list(sa_history))
 
 		# Compute epsilon for next round of action: 
 		N_st = np.sum(C[:,state[0], state[1], state[2], state[3], \
-									state[4], state[5] ]) 
+								state[4], state[5] ]) 
 		epsilon = N0/(N0+N_st)
 
 		# Apply epsilon randomness:
@@ -200,7 +221,7 @@ def Q_learning():
 		else:
 			best_action = np.argmax(Q[:,state[0], state[1], state[2], state[3], \
 									state[4], state[5] ] )
-		print(best_action)
+		print(last_action, reward)
 
 		# Save current state:
 		last_state = state
@@ -208,6 +229,7 @@ def Q_learning():
 
 		# Take action:
 		dvfs.setClusterFreq(4, big_freqs[best_action])
+		C[best_action,state[0], state[1], state[2], state[3], state[4], state[5] ] += 1
 		
 		# Wait for next period:
 		elapsed = time.time() - start
@@ -215,9 +237,8 @@ def Q_learning():
 
 
 def profile_statespace():
-	raw_history = []
 	ms_period = int(PERIOD*1000)
-	set_period(ms_period)
+	raw_history = []
 	try:
 		max_state = np.load('max_state_{}ms_single_core.npy'.format(ms_period))
 		min_state = np.load('min_state_{}ms_single_core.npy'.format(ms_period))
@@ -225,8 +246,9 @@ def profile_statespace():
 	except:
 		max_state = get_raw_state()
 		min_state = max_state
+		print("No previous data. Starting anew.")
 	i = 0
-	num_buckets = np.max([v for v in BUCKETS.values()])
+	num_buckets = np.max([v for v in BUCKETS.values()] + [FREQS])
 	stat_counts = np.zeros((VARS, num_buckets), dtype=np.uint64)
 	while True:
 		start = time.time()
@@ -262,7 +284,15 @@ if __name__ == "__main__":
 	init()
 	if len(sys.argv) == 2:
 		benchmark=sys.argv[1]
-		os.mkdir(benchmark)
+		try:
+			os.mkdir(benchmark)
+		except:
+			print("Folder {} already exists. Continue? (y/n)".format(benchmark))
+			cont = str(raw_input('> ')).lower()
+			while cont != 'y' and cont != 'n':
+				cont = str(raw_input('Enter y/n: ')).lower()
+			if cont == 'n':
+				sys.exit()
 		os.chdir(benchmark)
 		profile_statespace()
 	else:

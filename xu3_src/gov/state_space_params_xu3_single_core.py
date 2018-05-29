@@ -21,10 +21,13 @@ Estimated big cluster leakage power
 '''
 
 # Dimensions of state space:
-VARS = 6
 FREQS = 19
 LABELS = ['BMPKI', 'IPC', 'CMPKI', #'DAPKI',
 						'temp', 'power']
+
+# +1 for frequency added on the end.
+VARS = len(LABELS) + 1
+
 # Array of bools sets log scale if true:
 SCALING = [True, True, True, #True,
 				False, False]
@@ -71,8 +74,13 @@ N0= 1000
 GAMMA = 0.9
 # Lambda for Q-learning updates:
 LAMBDA = 0.6
+# History length limit:
+HIST_LIM = 10
 # Update period in seconds
-PERIOD = 0.050
+PERIOD = 0.200
+BASE_PERIOD = 0.05
+SCALER = PERIOD/BASE_PERIOD
+MAXS = {k:v*SCALER for k,v in MAXS.items()}
 # Limit in celsius
 THERMAL_LIMIT = 68
 RHO = 0.0
