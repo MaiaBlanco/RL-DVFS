@@ -15,7 +15,7 @@ from state_space_params_xu3_single_core import freq_to_bucket
 
 # TODO: resolve redundant frequency in action and state space
 # Idea: make action space only five choices: go up 1 or 2 or go down 1 or 2?
-num_buckets = [BUCKETS[k] for k in LABELS]
+num_buckets = np.array([BUCKETS[k] for k in LABELS])
 dims = [FREQS] + list(num_buckets) + [FREQS]
 print(dims)
 Q = np.zeros( dims ) 
@@ -173,6 +173,7 @@ def Q_learning():
 	global num_buckets
 	global big_freqs
 	global Q,C
+	'''
 	# Take care of statespace checkpoints:
 	try:
 		load_statespace()
@@ -180,6 +181,8 @@ def Q_learning():
 	except:
 		print("Could not load statespace; continue with fresh.")
 	atexit.register(checkpoint_statespace)
+	'''
+	
 	# Init runtime vars:
 	# sa_history = deque(maxlen=HIST_LIM)
 	last_action = None
@@ -192,7 +195,7 @@ def Q_learning():
 		# get current state and reward from last iteration:
 		raw_state, IPC_p, IPS = get_raw_state()
 		state = bucket_state(raw_state)
-		reward = reward(IPS, raw_state[3], raw_state[4])	
+		reward = reward_func(IPS, raw_state[3], raw_state[4])	
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
@@ -228,7 +231,7 @@ def Q_learning():
 		time.sleep(max(0, PERIOD - elapsed))
 
 
-def reward(IPS, temp, watts):
+def reward_func(IPS, temp, watts):
 	global RHO, THETA # <-- From state space params module.
 	# Return throughput minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)

@@ -29,33 +29,33 @@ LABELS = ['BMPKI', 'IPC', 'CMPKI', #'DAPKI',
 VARS = len(LABELS) + 1
 
 # Array of bools sets log scale if true:
-SCALING = [True, True, True, #True,
-				False, False]
+SCALING = [ False, False, True, #True,
+				False, True]
 BUCKETS = \
 	{
-	'BMPKI':15,
-	'IPC':	15,
-	'CMPKI':15,
-	'temp':	15,
-	'power':15,
+	'BMPKI':10,
+	'IPC':	10,
+	'CMPKI':10,
+	'temp':	10,
+	'power':10,
 	}
 # Min and max limits are in linear scale
 MINS = \
 	{
 	# Note 1s to avoid domain error on log scaled stats:
-	'BMPKI':1,
-	'IPC':1,
-	'CMPKI':1,
-	'temp':35,
-	'power':0
+	'BMPKI':0.1,
+	'IPC':0.01,
+	'CMPKI':0.01,
+	'temp':30,
+	'power':0.1
 	}
 MAXS = \
 	{
-	'BMPKI':50,
-	'IPC':5,
-	'CMPKI':50,
+	'BMPKI':30,
+	'IPC':4,
+	'CMPKI':30,
 	'temp':80,
-	'power':5
+	'power':2
 	}
 
 #big cluster frequencies
@@ -76,9 +76,9 @@ HIST_LIM = 10
 # Update period in seconds
 PERIOD = 0.200
 # Limit in celsius
-THERMAL_LIMIT = 60
-RHO = 5
-THETA = 0.0
+THERMAL_LIMIT = 50
+RHO = 500
+THETA = 0
 
 # Defined names for state space indices:
 c4bm = 0 
