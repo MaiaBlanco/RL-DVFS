@@ -7,7 +7,7 @@ import os
 FNULL = open(os.devnull, 'w')
 
 bench_prob = 0.4
-period_max = 60
+period_max = 300
 bench_processes = []
 other_processes = []
 path = "/home/odroid/hw1_files/parsec_files/"
@@ -44,5 +44,7 @@ while True:
 					cmd_bm_args]))#, stdout=FNULL ))
 		except:
 			continue
-	time.sleep(random.randint(0, period_max))
+	wait_time = random.randint(0, period_max)
+	print("Waiting for {} minutes.".format(wait_time/60.0))
+	time.sleep(wait_time)
 
