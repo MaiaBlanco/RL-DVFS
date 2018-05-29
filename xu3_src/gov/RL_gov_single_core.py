@@ -13,13 +13,13 @@ import devfreq_utils_xu3 as dvfs
 from state_space_params_xu3_single_core import *
 from state_space_params_xu3_single_core import freq_to_bucket
 
-num_buckets = np.array([BUCKETS[k] for k in LABELS])
 # TODO: resolve redundant frequency in action and state space
 # Idea: make action space only five choices: go up 1 or 2 or go down 1 or 2?
+num_buckets = [BUCKETS[k] for k in LABELS]
 dims = [FREQS] + list(num_buckets) + [FREQS]
 print(dims)
 Q = np.zeros( dims ) 
-C = np.zeros( dims, dtype=np.uint32)
+C = np.zeros( dims )
 
 def checkpoint_statespace():
 	global Q, C
@@ -43,15 +43,6 @@ def load_statespace():
 def get_power():
 	# Just return big cluster power:
 	return dvfs.getPowerComponents()[0]
-
-def reward1(raw_state):
-	# Return sum of IPC minus sum of thermal violations:
-	total_ipc = raw_state[1] 
-	thermal_v = raw_state[4] - THERMAL_LIMIT
-	thermal_v = np.maximum(thermal_v, 0.0)
-	#thermal_t = np.sum(thermal_v)
-	reward = total_ipc - (thermal_v * RHO)
-	return reward
 
 def init():
 	# Make sure perf counter module is loaded:
@@ -77,7 +68,6 @@ def set_period(p):
 	with open("/sys/kernel/performance_counters/cpu{}/sample_period_ms".format(cpu_num), 
 				'w') as f:
 		f.write("{}\n".format(p))
-
 
 '''
 Returns state figures, non-quantized.
@@ -117,10 +107,10 @@ def get_raw_state():
 		diffs[0,0]/diffs[0,2], # Branch misses per kiloinstructions
 		diffs[0,2]/diffs[0,1], # IPC
 		diffs[0,3]/diffs[0,2], # L2 Miss per kiloInstructions
-	#	diffs[0,4]/diffs[0,2], # Data mem access per kInst
 		T[0], P, cpu_freq]	   # Core temp, Cluster Power, Freq
 	IPC_p = diffs[0,2] / total_possible_cycles
-	return raw_state, IPC_p
+	IPS = diffs[0,2] / PERIOD
+	return raw_state, IPC_p, IPS
 
 
 '''
@@ -150,56 +140,28 @@ def bucket_state(raw):
 	return [int(x) for x in state]
 
 
-# Given a history of states, actions taken at that state, and the subsequent reward,
-# Update the value estimate for SA pairs.
-# The update method here will perform a composite update with steps ranging from 
-# 1 to n, where for a given state s, n is the number of steps following s in the history.
-def update_QC(SAR_hist):
-	global Q, C
-	# Update each s,a pair in the history:
-	for index, val in enumerate(SAR_hist):
-		last_state, last_action, _ = val
-		# Compute the number of steps taken after the s,a pair being updated.
-		# Goes down to a minimum slack of 1 for the last item.
-		# Note that the last s,a pair in the history will not be updated.
-		slack = len(SAR_hist) - index
-		if slack <= 1:
-			continue
-		# Set s,a return initially to 0.
-		total_return = 0.0
-		comp_weight = 1.0
-		# Go through 1..n lookaheads (from current s,a pair to target s,a pair).
-		for lookahead in range(1, slack):
-			target_state, target_action, _ = SAR_hist[index+lookahead]
-			target_val = Q[target_action, target_state[0], target_state[1], target_state[2], \
-								target_state[3], target_state[4], target_state[5]]
-			# Get rewards from state at index up to but not including the target:
-			rewards = [x[-1] for x in SAR_hist[index:index+lookahead]]
-			# Compute DISCOUNTED return up to target:
-			# This loop gets the original indices of each reward but iterates in reverse:
-			for i, r in reversed(list(enumerate(rewards))):
-				pretarget_return += r
-				if i > 0:
-					pretarget_return *= GAMMA 
-			# Update composite step return.
-			# Note: last item in history is at lookahead = slack-1; this one gets special treatment.
-			if lookahead < slack-1:
-				total_return += (1 - LAMBDA) * comp_weight * (pretarget_return + target_val)
-			else:
-				# Omit (1-LAMBDA) factor if this is the last return in the composite series:
-				total_return += comp_weight * (pretarget_return + target_val)
-			# Compound composite weight for next lookahead on the same s,a pair.
-			comp_weight *= LAMBDA
 
-		# Use composite return, old_value, and count to update Q value estimate:
-		old_value = Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
-								last_state[4], last_state[5] ]
-		count = C[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
-								last_state[4], last_state[5] ]
-		Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
-								last_state[4], last_state[5] ] = \
-								old_value + (total_return - old_value) / count
 
+# (Greedy Q-Learning)
+# Given previous and last state, action and reward between them (one-step), update
+# based on greedy policy.
+def update_QC_off_policy(last_state, last_action, reward, state):
+	# Follow greedy policy at new state to determine best action:
+	best_action = np.argmax(Q[:,state[0], state[1], state[2], state[3], \
+									state[4], state[5] ] )
+	# From best action and current state compute best return from that state:
+	best_next_return = Q[best_action, state[0], state[1], state[2], state[3], \
+							state[4], state[5] ]
+	# Total return:
+	total_return = reward + GAMMA*best_next_return
+	# Update last_state estimate:
+	old_value = Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
+							last_state[4], last_state[5] ]
+	count = C[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
+							last_state[4], last_state[5] ]
+	Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
+							last_state[4], last_state[5] ] = \
+							old_value + (total_return - old_value) / count
 
 '''
 Q-learning driver function. Uses global state space LUTs (Q, C) to hold
@@ -219,7 +181,7 @@ def Q_learning():
 		print("Could not load statespace; continue with fresh.")
 	atexit.register(checkpoint_statespace)
 	# Init runtime vars:
-	sa_history = deque(maxlen=HIST_LIM)
+	# sa_history = deque(maxlen=HIST_LIM)
 	last_action = None
 	last_state = None
 	reward = None
@@ -228,14 +190,15 @@ def Q_learning():
 		start = time.time()
 		
 		# get current state and reward from last iteration:
-		raw_state, IPC_p = get_raw_state()
+		raw_state, IPC_p, IPS = get_raw_state()
 		state = bucket_state(raw_state)
-		reward = reward1(raw_state)	
+		reward = reward(IPS, raw_state[3], raw_state[4])	
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
-			sa_history.append((last_state, last_action, reward))
-			update_QC(list(sa_history))
+			# sa_history.append((last_state, last_action, reward))
+			update_QC_off_policy(last_state, last_action, reward, state)
+			print(last_state,  last_action, reward)
 
 		# Compute epsilon for next round of action: 
 		N_st = np.sum(C[:,state[0], state[1], state[2], state[3], \
@@ -249,22 +212,28 @@ def Q_learning():
 		else:
 			best_action = np.argmax(Q[:,state[0], state[1], state[2], state[3], \
 									state[4], state[5] ] )
-		print(last_action, reward)
-
-		# Save current state:
-		last_state = state
-		last_action = best_action
 
 		# Take action and increment count for this state-action pair
 		# (note big_freqs is lookup table from state_space module):
 		dvfs.setClusterFreq(4, big_freqs[best_action])
 		C[best_action, state[0], state[1], state[2], state[3], state[4], state[5] ] += 1
 		
+		# Save state and action:
+		last_state = state
+		last_action = best_action
+
 		# Wait for next period. Note that reward cannot be evaluated 
 		# at least until the period has expired.
 		elapsed = time.time() - start
 		time.sleep(max(0, PERIOD - elapsed))
 
+
+def reward(IPS, temp, watts):
+	global RHO, THETA # <-- From state space params module.
+	# Return throughput minus thermal violation:
+	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
+	reward = IPS - (RHO * thermal_v) - (THETA * watts)
+	return reward
 
 def profile_statespace():
 	ms_period = int(PERIOD*1000)
@@ -274,7 +243,7 @@ def profile_statespace():
 		min_state = np.load('min_state_{}ms_single_core.npy'.format(ms_period))
 		print("Loaded previously checkpointed states.")
 	except:
-		max_state, _ = get_raw_state()
+		max_state, _, _ = get_raw_state()
 		min_state = max_state
 		print("No previous data. Starting anew.")
 	i = 0
@@ -282,7 +251,7 @@ def profile_statespace():
 	stat_counts = np.zeros((VARS, num_buckets), dtype=np.uint64)
 	while True:
 		start = time.time()
-		raw, IPC_p = get_raw_state()
+		raw, IPC_p, _ = get_raw_state()
 		raw_history.append(list(raw)+[IPC_p])
 		max_state = np.maximum.reduce([max_state, raw])
 		min_state = np.minimum.reduce([min_state, raw])
@@ -327,3 +296,57 @@ if __name__ == "__main__":
 		profile_statespace()
 	else:
 		Q_learning()
+
+
+
+# DEPRECATED CODE:
+# Given a history of states, actions taken at that state, and the subsequent reward,
+# Update the value estimate for SA pairs.
+# The update method here will perform a composite update with steps ranging from 
+# 1 to n, where for a given state s, n is the number of steps following s in the history.
+# (SARSA)
+def update_QC_on_policy(SAR_hist):
+	global Q, C
+	# Update each s,a pair in the history:
+	for index, val in enumerate(SAR_hist):
+		last_state, last_action, _ = val
+		# Compute the number of steps taken after the s,a pair being updated.
+		# Goes down to a minimum slack of 1 for the last item.
+		# Note that the last s,a pair in the history will not be updated.
+		slack = len(SAR_hist) - index
+		if slack <= 1:
+			continue
+		# Set s,a return initially to 0.
+		total_return = 0.0
+		comp_weight = 1.0
+		# Go through 1..n lookaheads (from current s,a pair to target s,a pair).
+		for lookahead in range(1, slack):
+			target_state, target_action, _ = SAR_hist[index+lookahead]
+			target_val = Q[target_action, target_state[0], target_state[1], target_state[2], \
+								target_state[3], target_state[4], target_state[5]]
+			# Get rewards from state at index up to but not including the target:
+			rewards = [x[-1] for x in SAR_hist[index:index+lookahead]]
+			# Compute DISCOUNTED return up to target:
+			# This loop gets the original indices of each reward but iterates in reverse:
+			for i, r in reversed(list(enumerate(rewards))):
+				pretarget_return += r
+				if i > 0:
+					pretarget_return *= GAMMA 
+			# Update composite step return.
+			# Note: last item in history is at lookahead = slack-1; this one gets special treatment.
+			if lookahead < slack-1:
+				total_return += (1 - LAMBDA) * comp_weight * (pretarget_return + target_val)
+			else:
+				# Omit (1-LAMBDA) factor if this is the last return in the composite series:
+				total_return += comp_weight * (pretarget_return + target_val)
+			# Compound composite weight for next lookahead on the same s,a pair.
+			comp_weight *= LAMBDA
+
+		# Use composite return, old_value, and count to update Q value estimate:
+		old_value = Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
+								last_state[4], last_state[5] ]
+		count = C[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
+								last_state[4], last_state[5] ]
+		Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
+								last_state[4], last_state[5] ] = \
+								old_value + (total_return - old_value) / count

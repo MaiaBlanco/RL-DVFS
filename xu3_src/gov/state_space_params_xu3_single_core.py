@@ -33,12 +33,11 @@ SCALING = [True, True, True, #True,
 				False, False]
 BUCKETS = \
 	{
-	'BMPKI':10,
-	'IPC':10,
-	'CMPKI':10,
-#	'DAPKI':10,
-	'temp':10,
-	'power':10,
+	'BMPKI':15,
+	'IPC':	15,
+	'CMPKI':15,
+	'temp':	15,
+	'power':15,
 	}
 # Min and max limits are in linear scale
 MINS = \
@@ -47,16 +46,14 @@ MINS = \
 	'BMPKI':1,
 	'IPC':1,
 	'CMPKI':1,
-#	'DAPKI':1,
 	'temp':35,
 	'power':0
 	}
 MAXS = \
 	{
 	'BMPKI':50,
-	'IPC':4,
+	'IPC':5,
 	'CMPKI':50,
-#	'DAPKI':10000,
 	'temp':80,
 	'power':5
 	}
@@ -69,21 +66,19 @@ def freq_to_bucket(freq):
 	return big_freqs.index(int(freq))
 
 # N0 for epsilon calculation
-N0= 1000
+N0= 100.0
 # Discounting factor:
 GAMMA = 0.9
-# Lambda for Q-learning updates:
+# Lambda for multistep Q-learning updates:
 LAMBDA = 0.6
 # History length limit:
 HIST_LIM = 10
 # Update period in seconds
 PERIOD = 0.200
-BASE_PERIOD = 0.05
-SCALER = PERIOD/BASE_PERIOD
-MAXS = {k:v*SCALER for k,v in MAXS.items()}
 # Limit in celsius
-THERMAL_LIMIT = 68
-RHO = 0.0
+THERMAL_LIMIT = 60
+RHO = 5
+THETA = 0.0
 
 # Defined names for state space indices:
 c4bm = 0 
