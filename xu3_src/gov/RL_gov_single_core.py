@@ -63,6 +63,7 @@ def init():
 		process = subprocess.Popen(['sudo', 'insmod', 'perfmod.ko'])
 		output, err = process.communicate()
 	ms_period = int(PERIOD*1000)
+	print("Running with period: {} ms".format(ms_period))
 	set_period(ms_period)
 
 def get_counter_value(cpu_num, attr_name):
@@ -93,8 +94,9 @@ def get_raw_state():
 	cpu = 4
 		
 	cpu_freq = dvfs.getClusterFreq(cpu)
-	# Convert cpu freq from kHz to Hz and then multiply by period;
-	#total_possible_cycles = int(cpu_freq * 1000 * PERIOD)
+	# Convert cpu freq from kHz to Hz and then multiply by period to get total
+	# possible cpu cycles.
+	total_possible_cycles = int(cpu_freq * 1000 * PERIOD)
 	cycles_used = get_counter_value(cpu, "cycles")
 	
 	diffs[cpu-4, 0] = get_counter_value(cpu, "branch_mispredictions")
@@ -117,7 +119,8 @@ def get_raw_state():
 		diffs[0,3]/diffs[0,2], # L2 Miss per kiloInstructions
 	#	diffs[0,4]/diffs[0,2], # Data mem access per kInst
 		T[0], P, cpu_freq]	   # Core temp, Cluster Power, Freq
-	return raw_state
+	IPC_p = diffs[0,2] / total_possible_cycles
+	return raw_state, IPC_p
 
 
 '''
@@ -225,7 +228,7 @@ def Q_learning():
 		start = time.time()
 		
 		# get current state and reward from last iteration:
-		raw_state = get_raw_state()
+		raw_state, IPC_p = get_raw_state()
 		state = bucket_state(raw_state)
 		reward = reward1(raw_state)	
 		
@@ -271,7 +274,7 @@ def profile_statespace():
 		min_state = np.load('min_state_{}ms_single_core.npy'.format(ms_period))
 		print("Loaded previously checkpointed states.")
 	except:
-		max_state = get_raw_state()
+		max_state, _ = get_raw_state()
 		min_state = max_state
 		print("No previous data. Starting anew.")
 	i = 0
@@ -279,8 +282,8 @@ def profile_statespace():
 	stat_counts = np.zeros((VARS, num_buckets), dtype=np.uint64)
 	while True:
 		start = time.time()
-		raw = get_raw_state()
-		raw_history.append(raw)
+		raw, IPC_p = get_raw_state()
+		raw_history.append(list(raw)+[IPC_p])
 		max_state = np.maximum.reduce([max_state, raw])
 		min_state = np.minimum.reduce([min_state, raw])
 		bucketed = bucket_state(raw)
