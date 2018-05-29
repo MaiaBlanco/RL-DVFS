@@ -112,86 +112,110 @@ def get_raw_state():
 	# Compute state params from that:
 	# bmiss/Kinst, IPC, L2misses/Kinst, dmem_accesses/Kinst, temp, power
 	raw_state = [ \
-		diffs[0,0]/diffs[0,2], 
-		diffs[0,2]/diffs[0,1], 
-		diffs[0,3]/diffs[0,2], 
-	#	diffs[0,4]/diffs[0,2], 
-		T[0], P, cpu_freq]
+		diffs[0,0]/diffs[0,2], # Branch misses per kiloinstructions
+		diffs[0,2]/diffs[0,1], # IPC
+		diffs[0,3]/diffs[0,2], # L2 Miss per kiloInstructions
+	#	diffs[0,4]/diffs[0,2], # Data mem access per kInst
+		T[0], P, cpu_freq]	   # Core temp, Cluster Power, Freq
 	return raw_state
 
 
 '''
-Place state in 'bucket' given min/max values and number of buckets for each value
+Place state in 'bucket' given min/max values and number of buckets for each value.
+Use bucket width to determine index of each raw state value after scaling values on linear or log scale.
 '''
 def bucket_state(raw):
 	global num_buckets
 	raw_no_freq = raw[:-1]
-	# Use bucket width to determine index of each raw state value:
 	all_mins = np.array([MINS[k] for k in LABELS])
 	all_maxs = np.array([MAXS[k] for k in LABELS])
 	# Bound raw values to min and max from params:
 	raw_no_freq = np.minimum.reduce([all_maxs, raw_no_freq])
 	raw_no_freq = np.maximum.reduce([all_mins, raw_no_freq])
-	# Apply log scaling where specified:
-	raw_no_freq[SCALING] = np.log(raw_no_freq[SCALING]) #np.array([np.log(x) if s else x for x,s in zip(raw_no_freq, SCALING)])
+	# Apply log scaling where specified (otherwise linear):
+	raw_no_freq[SCALING] = np.log(raw_no_freq[SCALING])
 	# Floor values for proper bucketing:
 	scaled_bounds = [(np.log(x), np.log(y)) if s else (x,y) for x,y,s in zip(all_mins, all_maxs, SCALING)]
 	scaled_mins, scaled_maxs = zip(*scaled_bounds)
 	scaled_widths = np.divide( np.array(scaled_maxs) - np.array(scaled_mins), num_buckets)
 	raw_floored = raw_no_freq - scaled_mins
 	state = np.divide(raw_floored, scaled_widths)
+	state = np.minimum.reduce([num_buckets-1, state])
+	# Add frequency index to end of state:
 	state = np.append(state, [freq_to_bucket(raw[-1])])
-	state[:-1] = np.minimum.reduce([num_buckets-1, state[:-1]])
+	# Convert floats to integer bucket indices and return:
 	return [int(x) for x in state]
 
 
+# Given a history of states, actions taken at that state, and the subsequent reward,
+# Update the value estimate for SA pairs.
+# The update method here will perform a composite update with steps ranging from 
+# 1 to n, where for a given state s, n is the number of steps following s in the history.
 def update_QC(SAR_hist):
 	global Q, C
+	# Update each s,a pair in the history:
 	for index, val in enumerate(SAR_hist):
-		last_state, last_action, last_reward = val
-		slack = max( 0, len(SAR_hist) - index )
-		if slack == 0:
+		last_state, last_action, _ = val
+		# Compute the number of steps taken after the s,a pair being updated.
+		# Goes down to a minimum slack of 1 for the last item.
+		# Note that the last s,a pair in the history will not be updated.
+		slack = len(SAR_hist) - index
+		if slack <= 1:
 			continue
-		else:
-			total_return = 0.0
-			for lookahead in range(1, slack):
-				state, target_action, _ = SAR_hist[index+lookahead]
-				target_val = Q[target_action,state[0], state[1], state[2], state[3], \
-									state[4], state[5]]
-				# Get rewards from state at index up to but not including the target:
-				rewards = [x[-1] for x in SAR_hist[index:index+lookahead]]
-				# Compute DISCOUNTED return up to target:
-				pretarget_return = np.sum([x * GAMMA**i for i,x in enumerate(rewards)])
-				# Update composite step return:
-				if lookahead < slack-1:
-					total_return += (1 - LAMBDA) * (LAMBDA**(lookahead-1)) * (pretarget_return + target_val)
-				else:
-					# Omit (1-LAMBDA) factor if this is the last return in the composite series:
-					total_return += (LAMBDA**(lookahead-1)) * (pretarget_return + target_val)
+		# Set s,a return initially to 0.
+		total_return = 0.0
+		comp_weight = 1.0
+		# Go through 1..n lookaheads (from current s,a pair to target s,a pair).
+		for lookahead in range(1, slack):
+			target_state, target_action, _ = SAR_hist[index+lookahead]
+			target_val = Q[target_action, target_state[0], target_state[1], target_state[2], \
+								target_state[3], target_state[4], target_state[5]]
+			# Get rewards from state at index up to but not including the target:
+			rewards = [x[-1] for x in SAR_hist[index:index+lookahead]]
+			# Compute DISCOUNTED return up to target:
+			# This loop gets the original indices of each reward but iterates in reverse:
+			for i, r in reversed(list(enumerate(rewards))):
+				pretarget_return += r
+				if i > 0:
+					pretarget_return *= GAMMA 
+			# Update composite step return.
+			# Note: last item in history is at lookahead = slack-1; this one gets special treatment.
+			if lookahead < slack-1:
+				total_return += (1 - LAMBDA) * comp_weight * (pretarget_return + target_val)
+			else:
+				# Omit (1-LAMBDA) factor if this is the last return in the composite series:
+				total_return += comp_weight * (pretarget_return + target_val)
+			# Compound composite weight for next lookahead on the same s,a pair.
+			comp_weight *= LAMBDA
 
-			# Use composite returns over 1..n steps, old_value, and count to update Q value:
-			old_value = Q[last_action,last_state[0], last_state[1], last_state[2], last_state[3], \
-									last_state[4], last_state[5] ]
-			count = C[last_action,last_state[0], last_state[1], last_state[2], last_state[3], \
-									last_state[4], last_state[5] ]
-			Q[last_action,last_state[0], last_state[1], last_state[2], last_state[3], \
-									last_state[4], last_state[5] ] = \
-									old_value + (total_return - old_value) / count
+		# Use composite return, old_value, and count to update Q value estimate:
+		old_value = Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
+								last_state[4], last_state[5] ]
+		count = C[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
+								last_state[4], last_state[5] ]
+		Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
+								last_state[4], last_state[5] ] = \
+								old_value + (total_return - old_value) / count
 
 
-
-
+'''
+Q-learning driver function. Uses global state space LUTs (Q, C) to hold
+state-action value estimates and state-action counts. 
+On call tries to load previous state space value estimates and counts; 
+if unsuccessful starts from all 0s.
+'''
 def Q_learning():
+	global num_buckets
+	global big_freqs
+	global Q,C
+	# Take care of statespace checkpoints:
 	try:
 		load_statespace()
 		print("Loaded statespace")
 	except:
 		print("Could not load statespace; continue with fresh.")
 	atexit.register(checkpoint_statespace)
-	# Array of state-action values. Dimensions are:
-	global num_buckets
-	global big_freqs
-	global Q,C
+	# Init runtime vars:
 	sa_history = deque(maxlen=HIST_LIM)
 	last_action = None
 	last_state = None
@@ -200,7 +224,7 @@ def Q_learning():
 	while True:
 		start = time.time()
 		
-		# get current state:
+		# get current state and reward from last iteration:
 		raw_state = get_raw_state()
 		state = bucket_state(raw_state)
 		reward = reward1(raw_state)	
@@ -215,9 +239,10 @@ def Q_learning():
 								state[4], state[5] ]) 
 		epsilon = N0/(N0+N_st)
 
-		# Apply epsilon randomness:
+		# Apply epsilon randomness to select a random frequency:
 		if random.random() < epsilon:
 			best_action = random.randint(1,FREQS-1)
+		# Or greedily select the best frequency to use given past experience:
 		else:
 			best_action = np.argmax(Q[:,state[0], state[1], state[2], state[3], \
 									state[4], state[5] ] )
@@ -227,11 +252,13 @@ def Q_learning():
 		last_state = state
 		last_action = best_action
 
-		# Take action:
+		# Take action and increment count for this state-action pair
+		# (note big_freqs is lookup table from state_space module):
 		dvfs.setClusterFreq(4, big_freqs[best_action])
-		C[best_action,state[0], state[1], state[2], state[3], state[4], state[5] ] += 1
+		C[best_action, state[0], state[1], state[2], state[3], state[4], state[5] ] += 1
 		
-		# Wait for next period:
+		# Wait for next period. Note that reward cannot be evaluated 
+		# at least until the period has expired.
 		elapsed = time.time() - start
 		time.sleep(max(0, PERIOD - elapsed))
 
