@@ -76,8 +76,8 @@ HIST_LIM = 10
 # Update period in seconds
 PERIOD = 0.200
 # Limit in celsius
-THERMAL_LIMIT = 60
-RHO = 500
+THERMAL_LIMIT = 55
+RHO = 100
 THETA = 10
 
 # Defined names for state space indices:

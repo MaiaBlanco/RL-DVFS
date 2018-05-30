@@ -15,14 +15,14 @@ from state_space_params_xu3_single_core import freq_to_bucket
 
 # TODO: resolve redundant frequency in action and state space
 # Idea: make action space only five choices: go up 1 or 2 or go down 1 or 2?
-num_buckets = np.array([BUCKETS[k] for k in LABELS])
-dims = [FREQS] + list(num_buckets) + [FREQS]
+num_buckets = np.array([BUCKETS[k] for k in LABELS], dtype=np.double)
+dims = [FREQS] + [int(b) for b in num_buckets] + [FREQS]
 print(dims)
 Q = np.zeros( dims ) 
 C = np.zeros( dims )
 # For bucketing stats:
-all_mins = np.array([MINS[k] for k in LABELS])
-all_maxs = np.array([MAXS[k] for k in LABELS])
+all_mins = np.array([MINS[k] for k in LABELS], dtype=np.double)
+all_maxs = np.array([MAXS[k] for k in LABELS], dtype=np.double)
 scaled_bounds = [(np.log(x), np.log(y)) if s else (x,y) for x,y,s in zip(all_mins, all_maxs, SCALING)]
 scaled_mins, scaled_maxs = zip(*scaled_bounds)
 scaled_widths = np.divide( np.array(scaled_maxs) - np.array(scaled_mins), num_buckets)
@@ -133,8 +133,7 @@ def bucket_state(raw):
 	
 	raw_no_freq = raw[:-1]
 	# Bound raw values to min and max from params:
-	raw_no_freq = np.minimum.reduce([all_maxs, raw_no_freq])
-	raw_no_freq = np.maximum.reduce([all_mins, raw_no_freq])
+	raw_no_freq = np.clip(raw_no_freq, all_mins, all_maxs)
 	# Apply log scaling where specified (otherwise linear):
 	raw_no_freq[SCALING] = np.log(raw_no_freq[SCALING])
 	# Floor values for proper bucketing:
@@ -241,7 +240,7 @@ def reward_func(IPS, temp, watts):
 	global RHO, THETA # <-- From state space params module.
 	# Return throughput minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
-	reward = IPS/100 - (RHO * thermal_v) - (THETA * watts)
+	reward = IPS/1000.0 - (RHO * thermal_v) - (THETA * watts)
 	return reward
 
 def profile_statespace():
