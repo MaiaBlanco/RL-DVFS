@@ -22,6 +22,8 @@ else:
 	dims = [int(b) for b in num_buckets] + [ACTIONS]
 print(dims)
 Q = np.zeros( dims ) 
+# Note: C is no longer used to keep track of exact counts, but if a state action has been seen ever.
+C = np.zeros( dims ) 
 # For bucketing stats:
 all_mins = np.array([MINS[k] for k in LABELS], dtype=np.double)
 all_maxs = np.array([MAXS[k] for k in LABELS], dtype=np.double)
@@ -191,6 +193,8 @@ def Q_learning():
 	last_action = None
 	last_state = None
 	reward = None
+	bounded_freq_index=0
+	cur_freq_index=0
 	# Learn forever:
 	while True:
 		start = time.time()
@@ -199,6 +203,10 @@ def Q_learning():
 		stats = get_raw_state()
 		state = bucket_state(stats)
 		reward = reward_func(stats)	
+
+		# Penalize trying to go out of bounds, since there is no utility in doing so.
+		if ACTIONS != FREQS and bounded_freq_index != cur_freq_index:
+			reward = reward - 1000
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
@@ -208,10 +216,14 @@ def Q_learning():
 
 		# Apply EPSILON randomness to select a random frequency:
 		if random.random() < EPSILON:
-			best_action = random.randint(1, ACTIONS-1)
+			best_action = random.randint(0, ACTIONS-1)
 		# Or greedily select the best frequency to use given past experience:
 		else:
+			# Note: numpy's argmax sensibly returns the lowest value if all have the same
+			# value. Therefore, when we have all the same, behavior should really be random.
 			best_action = np.argmax(Q[ tuple(state) ])
+			if C[ tuple(state + [best_action]) ] == 0:
+				best_action = random.randint(0, ACTIONS-1)
 
 		# Take action.
 		# (note big_freqs is lookup table from state_space module).
@@ -222,13 +234,14 @@ def Q_learning():
 			stay = ACTIONS // 2
 			cur_freq_index = freq_to_bucket( stats['freq'] )
 			cur_freq_index += (best_action - stay)
-			cur_freq_index = max( 0, min( cur_freq_index, FREQS-1))
-			dvfs.setClusterFreq(4, big_freqs[cur_freq_index])
+			bounded_freq_index = max( 0, min( cur_freq_index, FREQS-1))
+			dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
 		
 		# Save state and action:
 		last_state = state
 		last_action = best_action
 		print([stats[k] for k in LABELS])
+		C[ tuple(state + [best_action]) ] += 1 
 
 		# Wait for next period. Note that reward cannot be evaluated 
 		# at least until the period has expired.
@@ -243,7 +256,9 @@ def reward_func(stats):
 	temp = stats['temp']
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
-	reward = IPS/1000000.0 - (RHO * thermal_v) - (THETA * watts)
+	instructions = IPS * PERIOD
+	print(watts*1000000/instructions)
+	reward = IPS/1000000.0 - (RHO * thermal_v) - (THETA * watts/instructions)
 	return reward
 
 

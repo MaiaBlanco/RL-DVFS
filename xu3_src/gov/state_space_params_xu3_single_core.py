@@ -1,23 +1,23 @@
 # Dimensions of state space:
-ACTIONS = 3
+ACTIONS = 5
 FREQS = 19
 FREQ_IN_STATE=1
 LABELS = [ 	\
 		#'BMPKI', 
 		#'IPC_u', 
 		'usage',
-		#'IPC_p', 
+		'IPC_p', 
 		'MPKI', 
 		#'DAPKI',
 		'temp', 
-		'power'
+		#'power'
 		]
 
 # +1 for frequency added on the end.
 VARS = len(LABELS) + FREQ_IN_STATE
 
 # Array of bools sets log scale if true:
-SCALING = [ False, True, False, False ]
+SCALING = [ False ] * len(LABELS)
 BUCKETS = \
 	{
 	#'BMPKI':10,
@@ -44,9 +44,9 @@ MAXS = \
 	{
 	#'BMPKI':80,
 	'usage':2,
-	'IPC_u':4,
-	'IPC_p':4,
-	'MPKI':20,
+	'IPC_u':3,
+	'IPC_p':3,
+	'MPKI':10,
 	'temp':75,
 	'power':4
 	}
@@ -59,7 +59,7 @@ def freq_to_bucket(freq):
 	return big_freqs.index(int(freq))
 
 # N0 for epsilon calculation
-EPSILON = 0.15
+EPSILON = 0.25
 # Discounting factor:
 GAMMA = 0.9
 # Lambda for multistep Q-learning updates:
@@ -68,11 +68,11 @@ ALPHA = 0.1
 # History length limit:
 #HIST_LIM = 10
 # Update period in seconds
-PERIOD = 0.050
+PERIOD = 0.100
 # Limit in celsius
 THERMAL_LIMIT = 50
 # Thermal limit coefficient
 RHO = 10
 # Power penalty coefficient
-THETA = 100
+THETA = 05
 
