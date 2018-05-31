@@ -44,6 +44,11 @@ while True:
 					cmd_bm_args]))#, stdout=FNULL ))
 		except:
 			continue
+	else:
+		if len(bench_processes) > 0:
+			# Kill the process and idle:
+			bench_processes[0].kill()
+			del bench_processes[0]
 	wait_time = random.randint(0, period_max)
 	print("Waiting for {} minutes.".format(wait_time/60.0))
 	time.sleep(wait_time)

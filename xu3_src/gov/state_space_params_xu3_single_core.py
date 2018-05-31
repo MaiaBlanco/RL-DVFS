@@ -1,61 +1,54 @@
-'''
-# State space:
-Core 4 branch misses per instruction
-Core 4 instructions per cycle
-Core 4 L2 misses per instruction
-Core 4 temperature
-Core 5 branch misses per instruction
-Core 5 instructions per cycle
-Core 5 L2 misses per instruction
-Core 5 temperature
-Core 6 branch misses per instruction
-Core 6 instructions per cycle
-Core 6 L2 misses per instruction
-Core 6 temperature
-Core 7 branch misses per instruction
-Core 7 instructions per cycle
-Core 7 L2 misses per instruction
-Core 7 temperature
-Big cluster power
-Estimated big cluster leakage power
-'''
-
 # Dimensions of state space:
+ACTIONS = 3
 FREQS = 19
-LABELS = ['BMPKI', 'IPC', 'CMPKI', #'DAPKI',
-						'temp', 'power']
+FREQ_IN_STATE=1
+LABELS = [ 	\
+		#'BMPKI', 
+		#'IPC_u', 
+		'usage',
+		#'IPC_p', 
+		'MPKI', 
+		#'DAPKI',
+		'temp', 
+		'power'
+		]
 
 # +1 for frequency added on the end.
-VARS = len(LABELS) + 1
+VARS = len(LABELS) + FREQ_IN_STATE
 
 # Array of bools sets log scale if true:
-SCALING = [ True, False, True, #True,
-				False, True]
+SCALING = [ False, True, False, False ]
 BUCKETS = \
 	{
-	'BMPKI':10,
-	'IPC':	10,
-	'CMPKI':10,
-	'temp':	10,
-	'power':10,
+	#'BMPKI':10,
+	#'IPC_u':10,
+	'usage':10,
+	'IPC_p':10,
+	'MPKI' :15,
+	'temp' :20,
+	'power':15,
 	}
 # Min and max limits are in linear scale
 MINS = \
 	{
-	# Note 1s to avoid domain error on log scaled stats:
-	'BMPKI':0.1,
-	'IPC':0.01,
-	'CMPKI':0.01,
+	# Note 0..1s to avoid domain error on log scaled stats:
+	#'BMPKI':0.1,a
+	'usage':0.01,
+	'IPC_u':0.01,
+	'IPC_p':0.01,
+	'MPKI':0.01,
 	'temp':30,
 	'power':0.1
 	}
 MAXS = \
 	{
-	'BMPKI':80,
-	'IPC':4,
-	'CMPKI':80,
-	'temp':80,
-	'power':2
+	#'BMPKI':80,
+	'usage':2,
+	'IPC_u':4,
+	'IPC_p':4,
+	'MPKI':20,
+	'temp':75,
+	'power':4
 	}
 
 #big cluster frequencies
@@ -66,36 +59,20 @@ def freq_to_bucket(freq):
 	return big_freqs.index(int(freq))
 
 # N0 for epsilon calculation
-N0= 100.0
+EPSILON = 0.15
 # Discounting factor:
 GAMMA = 0.9
 # Lambda for multistep Q-learning updates:
-LAMBDA = 0.6
+#LAMBDA = 0.6
+ALPHA = 0.1
 # History length limit:
-HIST_LIM = 10
+#HIST_LIM = 10
 # Update period in seconds
-PERIOD = 0.200
+PERIOD = 0.050
 # Limit in celsius
-THERMAL_LIMIT = 55
-RHO = 100
-THETA = 10
+THERMAL_LIMIT = 50
+# Thermal limit coefficient
+RHO = 10
+# Power penalty coefficient
+THETA = 100
 
-# Defined names for state space indices:
-c4bm = 0 
-c4ipc = 1
-c4mpi = 2
-c4dmemapi = 3
-# c5bm = 4 
-# c5ipc = 5
-# c5mpi = 6
-# c5dmemapi = 7
-# c6bm = 8 
-# c6ipc = 9
-# c6mpi = 10
-# c6dmemapi = 11
-# c7bm = 12 
-# c7ipc = 13
-# c7mpi = 14
-# c7dmemapi = 15
-# pwr = 16
-# lkpwr = 17

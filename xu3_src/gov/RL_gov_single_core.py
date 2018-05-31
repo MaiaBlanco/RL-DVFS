@@ -16,10 +16,12 @@ from state_space_params_xu3_single_core import freq_to_bucket
 # TODO: resolve redundant frequency in action and state space
 # Idea: make action space only five choices: go up 1 or 2 or go down 1 or 2?
 num_buckets = np.array([BUCKETS[k] for k in LABELS], dtype=np.double)
-dims = [FREQS] + [int(b) for b in num_buckets] + [FREQS]
+if FREQ_IN_STATE:
+	dims = [int(b) for b in num_buckets] + [FREQS] + [ACTIONS]  
+else:
+	dims = [int(b) for b in num_buckets] + [ACTIONS]
 print(dims)
 Q = np.zeros( dims ) 
-C = np.zeros( dims )
 # For bucketing stats:
 all_mins = np.array([MINS[k] for k in LABELS], dtype=np.double)
 all_maxs = np.array([MAXS[k] for k in LABELS], dtype=np.double)
@@ -28,7 +30,7 @@ scaled_mins, scaled_maxs = zip(*scaled_bounds)
 scaled_widths = np.divide( np.array(scaled_maxs) - np.array(scaled_mins), num_buckets)
 
 def checkpoint_statespace():
-	global Q, C
+	global Q
 	yn = str(raw_input("Save statespace? (y/n)") ).lower()
 	while yn != 'y' and yn != 'n':
 		yn = str(raw_input("Enter y/n: ")).lower()
@@ -36,19 +38,19 @@ def checkpoint_statespace():
 		return
 	ms_period = int(PERIOD*1000)
 	np.save("Q_{}ms.npy".format(ms_period), Q)
-	np.save("C_{}ms.npy".format(ms_period), C)
+	#np.save("C_{}ms.npy".format(ms_period), C)
 
 def load_statespace():
 	global Q, C
 	ms_period = int(PERIOD*1000)
 	try:
 		Q_t = np.load("Q_{}ms.npy".format(ms_period))
-		C_t = np.load("C_{}ms.npy".format(ms_period))
+		#C_t = np.load("C_{}ms.npy".format(ms_period))
 	except:
 		raise Exception("Could not read previous statespace")
 		return
 	Q = Q_t
-	C = C_t
+	#C = C_t
 
 # XU3 has built-in sensors, so use them:
 def get_power():
@@ -90,38 +92,40 @@ TODO: add thermal predictions?
 '''
 def get_raw_state():	
 	# Get the change in counter values:
-	diffs = np.zeros((1,5))
-	P = get_power()
 	cpu = 4
 		
 	cpu_freq = dvfs.getClusterFreq(cpu)
-	# Convert cpu freq from kHz to Hz and then multiply by period to get total
+	# Multiply by period and frequency by 1000 to get total
 	# possible cpu cycles.
-	total_possible_cycles = int(cpu_freq * 1000 * PERIOD)
+	cycles_possible = int(cpu_freq * 1000 *  PERIOD)
 	cycles_used = get_counter_value(cpu, "cycles")
-	
-	diffs[cpu-4, 0] = get_counter_value(cpu, "branch_mispredictions")
-	diffs[cpu-4, 1] = cycles_used #total_possible_cycles
-	diffs[cpu-4, 2] = get_counter_value(cpu, "instructions_retired")
-	diffs[cpu-4, 3] = get_counter_value(cpu, "l2_data_refills")
-	#diffs[cpu-4, 4] = get_counter_value(cpu, "data_memory_accesses")
-
+	bmisses = get_counter_value(cpu, "branch_mispredictions")
+	instructions = get_counter_value(cpu, "instructions_retired")
+	l2misses = get_counter_value(cpu, "l2_data_refills")
+	dmemaccesses = get_counter_value(cpu, "data_memory_accesses")
 	T = [float(x) for x in dvfs.getTemps()]
-
-	# Convert instructions to kiloInstructions:
-	diffs[:,2] /= 1000.0
-	# Convert cycles to kiloCycles to make IPC computation make sense:
-	diffs[:,1] /= 1000.0
-	# Compute state params from that:
-	# bmiss/Kinst, IPC, L2misses/Kinst, dmem_accesses/Kinst, temp, power
-	raw_state = [ \
-		diffs[0,0]/diffs[0,2], # Branch misses per kiloinstructions
-		diffs[0,2]/diffs[0,1], # IPC
-		diffs[0,3]/diffs[0,2], # L2 Miss per kiloInstructions
-		T[0], P, cpu_freq]	   # Core temp, Cluster Power, Freq
-	IPC_p = diffs[0,2] / total_possible_cycles
-	IPS = diffs[0,2] / PERIOD
-	return raw_state, IPC_p, IPS
+	P = get_power()
+	# Throughput stats:
+	IPC_u = instructions / cycles_used
+	IPC_p = instructions / cycles_possible
+	IPS   =	instructions / PERIOD
+	MPKI  = l2misses / (instructions / 1000.0)
+	BMPKI = bmisses / (instructions / 1000.0)
+	DAPKI = dmemaccesses / (instructions / 1000.0)
+	# Collect all possible state:
+	all_stats = {
+		'BMPKI':BMPKI, 
+		'IPC_u':IPC_u, 
+		'IPC_p':IPC_p, 
+		'MPKI' :MPKI, 
+		'DAPKI':DAPKI,
+		'temp' :T[4], 
+		'power':P,
+		'freq' :cpu_freq,
+		'usage':cycles_used/cycles_possible,
+		'IPS'  :IPS
+		}
+	return all_stats
 
 '''
 Place state in 'bucket' given min/max values and number of buckets for each value.
@@ -130,8 +134,9 @@ Use bucket width to determine index of each raw state value after scaling values
 def bucket_state(raw):
 	global num_buckets, all_maxs, all_mins
 	global scaled_bounds, scaled_mins, scaled_maxs, scaled_widths
-	
-	raw_no_freq = raw[:-1]
+	global labels	
+
+	raw_no_freq = [raw[k] for k in LABELS] 
 	# Bound raw values to min and max from params:
 	raw_no_freq = np.clip(raw_no_freq, all_mins, all_maxs)
 	# Apply log scaling where specified (otherwise linear):
@@ -140,8 +145,9 @@ def bucket_state(raw):
 	raw_floored = raw_no_freq - scaled_mins
 	state = np.divide(raw_floored, scaled_widths)
 	state = np.minimum.reduce([num_buckets-1, state])
-	# Add frequency index to end of state:
-	state = np.append(state, [freq_to_bucket(raw[-1])])
+	if FREQ_IN_STATE:
+		# Add frequency index to end of state:
+		state = np.append(state, [freq_to_bucket(raw['freq'])])
 	# Convert floats to integer bucket indices and return:
 	return [int(x) for x in state]
 
@@ -151,23 +157,15 @@ def bucket_state(raw):
 # (Greedy Q-Learning)
 # Given previous and last state, action and reward between them (one-step), update
 # based on greedy policy.
-def update_QC_off_policy(last_state, last_action, reward, state):
+def update_Q_off_policy(last_state, last_action, reward, state):
+	global Q, GAMMA, ALPHA
 	# Follow greedy policy at new state to determine best action:
-	best_action = np.argmax(Q[:,state[0], state[1], state[2], state[3], \
-									state[4], state[5] ] )
-	# From best action and current state compute best return from that state:
-	best_next_return = Q[best_action, state[0], state[1], state[2], state[3], \
-							state[4], state[5] ]
+	best_next_return = np.max(Q[ tuple(state) ] )
 	# Total return:
 	total_return = reward + GAMMA*best_next_return
 	# Update last_state estimate:
-	old_value = Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
-							last_state[4], last_state[5] ]
-	count = C[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
-							last_state[4], last_state[5] ]
-	Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
-							last_state[4], last_state[5] ] = \
-							old_value + (total_return - old_value) / count
+	old_value = Q[ tuple(last_state + [last_action] ) ]
+	Q[ tuple(last_state + [last_action] ) ] = old_value + ALPHA*(total_return - old_value) 
 
 '''
 Q-learning driver function. Uses global state space LUTs (Q, C) to hold
@@ -178,7 +176,7 @@ if unsuccessful starts from all 0s.
 def Q_learning():
 	global num_buckets
 	global big_freqs
-	global Q,C
+	global Q, EPSILON
 	
 	# Take care of statespace checkpoints:
 	try:
@@ -198,37 +196,39 @@ def Q_learning():
 		start = time.time()
 		
 		# get current state and reward from last iteration:
-		raw_state, IPC_p, IPS = get_raw_state()
-		state = bucket_state(raw_state)
-		reward = reward_func(IPS, raw_state[3], raw_state[4])	
+		stats = get_raw_state()
+		state = bucket_state(stats)
+		reward = reward_func(stats)	
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
 			# sa_history.append((last_state, last_action, reward))
-			update_QC_off_policy(last_state, last_action, reward, state)
-			print(last_state,  last_action, reward)
+			update_Q_off_policy(last_state, last_action, reward, state)
+			print(last_state, last_action, reward)
 
-		# Compute epsilon for next round of action: 
-		N_st = np.sum(C[:,state[0], state[1], state[2], state[3], \
-								state[4], state[5] ]) 
-		epsilon = N0/(N0+N_st)
-
-		# Apply epsilon randomness to select a random frequency:
-		if random.random() < epsilon:
-			best_action = random.randint(1,FREQS-1)
+		# Apply EPSILON randomness to select a random frequency:
+		if random.random() < EPSILON:
+			best_action = random.randint(1, ACTIONS-1)
 		# Or greedily select the best frequency to use given past experience:
 		else:
-			best_action = np.argmax(Q[:,state[0], state[1], state[2], state[3], \
-									state[4], state[5] ] )
+			best_action = np.argmax(Q[ tuple(state) ])
 
-		# Take action and increment count for this state-action pair
-		# (note big_freqs is lookup table from state_space module):
-		dvfs.setClusterFreq(4, big_freqs[best_action])
-		C[best_action, state[0], state[1], state[2], state[3], state[4], state[5] ] += 1
+		# Take action.
+		# (note big_freqs is lookup table from state_space module).
+		# Also counter increment is performed in Q off policy update function.
+		if ACTIONS == FREQS:
+			dvfs.setClusterFreq(4, big_freqs[best_action])
+		else:
+			stay = ACTIONS // 2
+			cur_freq_index = freq_to_bucket( stats['freq'] )
+			cur_freq_index += (best_action - stay)
+			cur_freq_index = max( 0, min( cur_freq_index, FREQS-1))
+			dvfs.setClusterFreq(4, big_freqs[cur_freq_index])
 		
 		# Save state and action:
 		last_state = state
 		last_action = best_action
+		print([stats[k] for k in LABELS])
 
 		# Wait for next period. Note that reward cannot be evaluated 
 		# at least until the period has expired.
@@ -236,14 +236,46 @@ def Q_learning():
 		time.sleep(max(0, PERIOD - elapsed))
 
 
-def reward_func(IPS, temp, watts):
+def reward_func(stats):
 	global RHO, THETA # <-- From state space params module.
-	# Return throughput minus thermal violation:
+	IPS = stats['IPS']
+	watts = stats['power']
+	temp = stats['temp']
+	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
-	reward = IPS/1000.0 - (RHO * thermal_v) - (THETA * watts)
+	reward = IPS/1000000.0 - (RHO * thermal_v) - (THETA * watts)
 	return reward
 
+
+
+if __name__ == "__main__":
+#	if len(sys.argv) > 2:
+#		print("USAGE: {} <benchmark_to_profile (optional)>".format(sys.argv[0]))
+#		sys.exit()
+	init()
+	Q_learning()
+#	if len(sys.argv) == 2:
+#		benchmark=sys.argv[1]
+#		try:
+#			os.mkdir(benchmark)
+#		except:
+#			print("Folder {} already exists. Continue? (y/n)".format(benchmark))
+#			cont = str(raw_input('> ')).lower()
+#			while cont != 'y' and cont != 'n':
+#				cont = str(raw_input('Enter y/n: ')).lower()
+#			if cont == 'n':
+#				sys.exit()
+#		os.chdir(benchmark)
+#		profile_statespace()
+#	else:
+
+
+
+# DEPRECATED CODE:
+'''
+
 def profile_statespace():
+	global num_buckets
 	ms_period = int(PERIOD*1000)
 	raw_history = []
 	try:
@@ -255,7 +287,6 @@ def profile_statespace():
 		min_state = max_state
 		print("No previous data. Starting anew.")
 	i = 0
-	num_buckets = np.max([v for v in BUCKETS.values()] + [FREQS])
 	stat_counts = np.zeros((VARS, num_buckets), dtype=np.uint64)
 	while True:
 		start = time.time()
@@ -282,37 +313,15 @@ def profile_statespace():
 		if elapsed > PERIOD:
 			print("WARN: elapsed > period ({} > {})".format(elapsed, PERIOD))
 		time.sleep(max(0, PERIOD - elapsed))
+'''
 
 
-if __name__ == "__main__":
-	if len(sys.argv) > 2:
-		print("USAGE: {} <benchmark_to_profile (optional)>".format(sys.argv[0]))
-		sys.exit()
-	init()
-	if len(sys.argv) == 2:
-		benchmark=sys.argv[1]
-		try:
-			os.mkdir(benchmark)
-		except:
-			print("Folder {} already exists. Continue? (y/n)".format(benchmark))
-			cont = str(raw_input('> ')).lower()
-			while cont != 'y' and cont != 'n':
-				cont = str(raw_input('Enter y/n: ')).lower()
-			if cont == 'n':
-				sys.exit()
-		os.chdir(benchmark)
-		profile_statespace()
-	else:
-		Q_learning()
-
-
-
-# DEPRECATED CODE:
 # Given a history of states, actions taken at that state, and the subsequent reward,
 # Update the value estimate for SA pairs.
 # The update method here will perform a composite update with steps ranging from 
 # 1 to n, where for a given state s, n is the number of steps following s in the history.
 # (SARSA)
+'''
 def update_QC_on_policy(SAR_hist):
 	global Q, C
 	# Update each s,a pair in the history:
@@ -358,3 +367,5 @@ def update_QC_on_policy(SAR_hist):
 		Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
 								last_state[4], last_state[5] ] = \
 								old_value + (total_return - old_value) / count
+
+'''
