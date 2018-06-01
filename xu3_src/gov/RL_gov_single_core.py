@@ -11,10 +11,7 @@ from collections import deque
 import sysfs_paths_xu3 as sfs
 import devfreq_utils_xu3 as dvfs
 from state_space_params_xu3_single_core import *
-from state_space_params_xu3_single_core import freq_to_bucket
 
-# TODO: resolve redundant frequency in action and state space
-# Idea: make action space only five choices: go up 1 or 2 or go down 1 or 2?
 num_buckets = np.array([BUCKETS[k] for k in LABELS], dtype=np.double)
 if FREQ_IN_STATE:
 	dims = [int(b) for b in num_buckets] + [FREQS] + [ACTIONS]  
@@ -99,7 +96,7 @@ def get_raw_state():
 	cpu_freq = dvfs.getClusterFreq(cpu)
 	# Multiply by period and frequency by 1000 to get total
 	# possible cpu cycles.
-	cycles_possible = int(cpu_freq * 1000 *  PERIOD)
+	cycles_possible = float(cpu_freq * 1000 *  PERIOD)
 	cycles_used = get_counter_value(cpu, "cycles")
 	bmisses = get_counter_value(cpu, "branch_mispredictions")
 	instructions = get_counter_value(cpu, "instructions_retired")
@@ -149,7 +146,7 @@ def bucket_state(raw):
 	state = np.minimum.reduce([num_buckets-1, state])
 	if FREQ_IN_STATE:
 		# Add frequency index to end of state:
-		state = np.append(state, [freq_to_bucket(raw['freq'])])
+		state = np.append(state, [ freq_to_bucket[ raw['freq'] ] ])
 	# Convert floats to integer bucket indices and return:
 	return [int(x) for x in state]
 
@@ -168,6 +165,7 @@ def update_Q_off_policy(last_state, last_action, reward, state):
 	# Update last_state estimate:
 	old_value = Q[ tuple(last_state + [last_action] ) ]
 	Q[ tuple(last_state + [last_action] ) ] = old_value + ALPHA*(total_return - old_value) 
+	return Q[ tuple(last_state + [last_action] ) ]
 
 '''
 Q-learning driver function. Uses global state space LUTs (Q, C) to hold
@@ -206,13 +204,13 @@ def Q_learning():
 
 		# Penalize trying to go out of bounds, since there is no utility in doing so.
 		if ACTIONS != FREQS and bounded_freq_index != cur_freq_index:
-			reward = reward - 1000
+			reward = -1000
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
 			# sa_history.append((last_state, last_action, reward))
-			update_Q_off_policy(last_state, last_action, reward, state)
-			print(last_state, last_action, reward)
+			v = update_Q_off_policy(last_state, last_action, reward, state)
+			print(last_state, last_action, reward, v)
 
 		# Apply EPSILON randomness to select a random frequency:
 		if random.random() < EPSILON:
@@ -232,7 +230,7 @@ def Q_learning():
 			dvfs.setClusterFreq(4, big_freqs[best_action])
 		else:
 			stay = ACTIONS // 2
-			cur_freq_index = freq_to_bucket( stats['freq'] )
+			cur_freq_index = freq_to_bucket[ stats['freq'] ]
 			cur_freq_index += (best_action - stay)
 			bounded_freq_index = max( 0, min( cur_freq_index, FREQS-1))
 			dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
@@ -257,8 +255,9 @@ def reward_func(stats):
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
-	print(watts*1000000/instructions)
-	reward = IPS/1000000.0 - (RHO * thermal_v) - (THETA * watts/instructions)
+	pwrterm = (np.exp(watts)-1)/(instructions/1000000.0)
+	print(pwrterm)
+	reward = IPS/1000000.0  - (THETA * pwrterm)#- (RHO * thermal_v)
 	return reward
 
 

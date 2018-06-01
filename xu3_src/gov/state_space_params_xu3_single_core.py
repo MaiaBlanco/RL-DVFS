@@ -4,12 +4,12 @@ FREQS = 19
 FREQ_IN_STATE=1
 LABELS = [ 	\
 		#'BMPKI', 
-		#'IPC_u', 
-		'usage',
-		'IPC_p', 
+		'IPC_u', 
+		#'usage',
+		#'IPC_p', 
 		'MPKI', 
 		#'DAPKI',
-		'temp', 
+		#'temp', 
 		#'power'
 		]
 
@@ -17,16 +17,26 @@ LABELS = [ 	\
 VARS = len(LABELS) + FREQ_IN_STATE
 
 # Array of bools sets log scale if true:
-SCALING = [ False ] * len(LABELS)
+SCALING_DICT = \
+{
+	'BMPKI':False,
+	'IPC_u':False,
+	'usage':False,
+	'IPC_p':False,
+	'MPKI' :True,
+	'temp' :False,
+	'power':False,
+}
+SCALING = [SCALING_DICT[k] for k in LABELS]
 BUCKETS = \
 	{
-	#'BMPKI':10,
-	#'IPC_u':10,
+	'BMPKI':10,
+	'IPC_u':10,
 	'usage':10,
 	'IPC_p':10,
-	'MPKI' :15,
-	'temp' :20,
-	'power':15,
+	'MPKI' :10,
+	'temp' :10,
+	'power':10,
 	}
 # Min and max limits are in linear scale
 MINS = \
@@ -36,27 +46,25 @@ MINS = \
 	'usage':0.01,
 	'IPC_u':0.01,
 	'IPC_p':0.01,
-	'MPKI':0.01,
-	'temp':30,
+	'MPKI':0.05,
+	'temp':40,
 	'power':0.1
 	}
 MAXS = \
 	{
 	#'BMPKI':80,
-	'usage':2,
+	'usage':1.2,
 	'IPC_u':3,
 	'IPC_p':3,
-	'MPKI':10,
-	'temp':75,
+	'MPKI':4,
+	'temp':65,
 	'power':4
 	}
 
 #big cluster frequencies
 big_freqs = [200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1100000, 1200000, 1300000, 1400000, 1500000, 1600000, 1700000, 1800000, 1900000, 2000000]
-# Function to bin frequencies:
-def freq_to_bucket(freq):
-	global big_freqs
-	return big_freqs.index(int(freq))
+# freq to bin indices:
+freq_to_bucket = {big_freqs[i]:i for i in range(len(big_freqs))}
 
 # N0 for epsilon calculation
 EPSILON = 0.25
@@ -74,5 +82,5 @@ THERMAL_LIMIT = 50
 # Thermal limit coefficient
 RHO = 10
 # Power penalty coefficient
-THETA = 05
+THETA = 400
 
