@@ -27,6 +27,8 @@ all_maxs = np.array([MAXS[k] for k in LABELS], dtype=np.double)
 scaled_bounds = [(np.log(x), np.log(y)) if s else (x,y) for x,y,s in zip(all_mins, all_maxs, SCALING)]
 scaled_mins, scaled_maxs = zip(*scaled_bounds)
 scaled_widths = np.divide( np.array(scaled_maxs) - np.array(scaled_mins), num_buckets)
+print("Widths:")
+
 
 def checkpoint_statespace():
 	global Q
@@ -48,8 +50,13 @@ def load_statespace():
 	except:
 		raise Exception("Could not read previous statespace")
 		return
-	Q = Q_t
-	#C = C_t
+	if Q_t.shape != Q.shape:
+		if Q.ndim == Q_t.ndim and Q_t.shape[-1] == ACTIONS:
+			print("Warning: extending loaded Q to match state space dimensions!")
+		else:
+			raise Exception("Completely mismatched loaded state space to desired statespace.")
+	else:
+		Q = Q_t
 
 # XU3 has built-in sensors, so use them:
 def get_power():
@@ -143,7 +150,7 @@ def bucket_state(raw):
 	# Floor values for proper bucketing:
 	raw_floored = raw_no_freq - scaled_mins
 	state = np.divide(raw_floored, scaled_widths)
-	state = np.minimum.reduce([num_buckets-1, state])
+	state = np.clip(state, 0, num_buckets-1)
 	if FREQ_IN_STATE:
 		# Add frequency index to end of state:
 		state = np.append(state, [ freq_to_bucket[ raw['freq'] ] ])
@@ -204,7 +211,7 @@ def Q_learning():
 
 		# Penalize trying to go out of bounds, since there is no utility in doing so.
 		if ACTIONS != FREQS and bounded_freq_index != cur_freq_index:
-			reward = -1000
+			reward -= 5000
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
@@ -255,9 +262,9 @@ def reward_func(stats):
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
-	pwrterm = (np.exp(watts)-1)/(instructions/1000000.0)
+	pwrterm = (np.exp(watts**2)-1)/(instructions/1000000.0)
 	print(pwrterm)
-	reward = IPS/1000000.0  - (THETA * pwrterm)#- (RHO * thermal_v)
+	reward = IPS/1000000.0  - (THETA * pwrterm)- (RHO * thermal_v)
 	return reward
 
 
@@ -268,118 +275,3 @@ if __name__ == "__main__":
 #		sys.exit()
 	init()
 	Q_learning()
-#	if len(sys.argv) == 2:
-#		benchmark=sys.argv[1]
-#		try:
-#			os.mkdir(benchmark)
-#		except:
-#			print("Folder {} already exists. Continue? (y/n)".format(benchmark))
-#			cont = str(raw_input('> ')).lower()
-#			while cont != 'y' and cont != 'n':
-#				cont = str(raw_input('Enter y/n: ')).lower()
-#			if cont == 'n':
-#				sys.exit()
-#		os.chdir(benchmark)
-#		profile_statespace()
-#	else:
-
-
-
-# DEPRECATED CODE:
-'''
-
-def profile_statespace():
-	global num_buckets
-	ms_period = int(PERIOD*1000)
-	raw_history = []
-	try:
-		max_state = np.load('max_state_{}ms_single_core.npy'.format(ms_period))
-		min_state = np.load('min_state_{}ms_single_core.npy'.format(ms_period))
-		print("Loaded previously checkpointed states.")
-	except:
-		max_state, _, _ = get_raw_state()
-		min_state = max_state
-		print("No previous data. Starting anew.")
-	i = 0
-	stat_counts = np.zeros((VARS, num_buckets), dtype=np.uint64)
-	while True:
-		start = time.time()
-		raw, IPC_p, _ = get_raw_state()
-		raw_history.append(list(raw)+[IPC_p])
-		max_state = np.maximum.reduce([max_state, raw])
-		min_state = np.minimum.reduce([min_state, raw])
-		bucketed = bucket_state(raw)
-		for stat_index, loc in enumerate(bucketed):
-			stat_counts[stat_index, loc] += 1
-		
-		i += 1
-		if i % 1000 == 0:
-			np.save('max_state_{}ms_single_core.npy'.format(ms_period), max_state)
-			np.save('min_state_{}ms_single_core.npy'.format(ms_period), min_state)
-			np.save('bucket_counts_{}ms_single_core.npy'.format(ms_period), stat_counts)
-			np.save('raw.npy', raw_history)
-			print("{}: Checkpointed raw state max and min.".format(i))
-			print(raw)
-			print(bucketed)
-		
-		end = time.time()
-		elapsed = end-start
-		if elapsed > PERIOD:
-			print("WARN: elapsed > period ({} > {})".format(elapsed, PERIOD))
-		time.sleep(max(0, PERIOD - elapsed))
-'''
-
-
-# Given a history of states, actions taken at that state, and the subsequent reward,
-# Update the value estimate for SA pairs.
-# The update method here will perform a composite update with steps ranging from 
-# 1 to n, where for a given state s, n is the number of steps following s in the history.
-# (SARSA)
-'''
-def update_QC_on_policy(SAR_hist):
-	global Q, C
-	# Update each s,a pair in the history:
-	for index, val in enumerate(SAR_hist):
-		last_state, last_action, _ = val
-		# Compute the number of steps taken after the s,a pair being updated.
-		# Goes down to a minimum slack of 1 for the last item.
-		# Note that the last s,a pair in the history will not be updated.
-		slack = len(SAR_hist) - index
-		if slack <= 1:
-			continue
-		# Set s,a return initially to 0.
-		total_return = 0.0
-		comp_weight = 1.0
-		# Go through 1..n lookaheads (from current s,a pair to target s,a pair).
-		for lookahead in range(1, slack):
-			target_state, target_action, _ = SAR_hist[index+lookahead]
-			target_val = Q[target_action, target_state[0], target_state[1], target_state[2], \
-								target_state[3], target_state[4], target_state[5]]
-			# Get rewards from state at index up to but not including the target:
-			rewards = [x[-1] for x in SAR_hist[index:index+lookahead]]
-			# Compute DISCOUNTED return up to target:
-			# This loop gets the original indices of each reward but iterates in reverse:
-			for i, r in reversed(list(enumerate(rewards))):
-				pretarget_return += r
-				if i > 0:
-					pretarget_return *= GAMMA 
-			# Update composite step return.
-			# Note: last item in history is at lookahead = slack-1; this one gets special treatment.
-			if lookahead < slack-1:
-				total_return += (1 - LAMBDA) * comp_weight * (pretarget_return + target_val)
-			else:
-				# Omit (1-LAMBDA) factor if this is the last return in the composite series:
-				total_return += comp_weight * (pretarget_return + target_val)
-			# Compound composite weight for next lookahead on the same s,a pair.
-			comp_weight *= LAMBDA
-
-		# Use composite return, old_value, and count to update Q value estimate:
-		old_value = Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
-								last_state[4], last_state[5] ]
-		count = C[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
-								last_state[4], last_state[5] ]
-		Q[last_action, last_state[0], last_state[1], last_state[2], last_state[3], \
-								last_state[4], last_state[5] ] = \
-								old_value + (total_return - old_value) / count
-
-'''

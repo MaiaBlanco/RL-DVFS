@@ -4,12 +4,12 @@ FREQS = 19
 FREQ_IN_STATE=1
 LABELS = [ 	\
 		#'BMPKI', 
-		'IPC_u', 
+		#'IPC_u', 
 		#'usage',
-		#'IPC_p', 
+		'IPC_p', 
 		'MPKI', 
 		#'DAPKI',
-		#'temp', 
+		'temp', 
 		#'power'
 		]
 
@@ -23,7 +23,7 @@ SCALING_DICT = \
 	'IPC_u':False,
 	'usage':False,
 	'IPC_p':False,
-	'MPKI' :True,
+	'MPKI' :False,
 	'temp' :False,
 	'power':False,
 }
@@ -31,11 +31,11 @@ SCALING = [SCALING_DICT[k] for k in LABELS]
 BUCKETS = \
 	{
 	'BMPKI':10,
-	'IPC_u':10,
+	'IPC_u':15,
 	'usage':10,
-	'IPC_p':10,
-	'MPKI' :10,
-	'temp' :10,
+	'IPC_p':15,
+	'MPKI' :15,
+	'temp' :20,
 	'power':10,
 	}
 # Min and max limits are in linear scale
@@ -56,8 +56,8 @@ MAXS = \
 	'usage':1.2,
 	'IPC_u':3,
 	'IPC_p':3,
-	'MPKI':4,
-	'temp':65,
+	'MPKI':3,
+	'temp':60,
 	'power':4
 	}
 
@@ -66,21 +66,18 @@ big_freqs = [200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 100
 # freq to bin indices:
 freq_to_bucket = {big_freqs[i]:i for i in range(len(big_freqs))}
 
-# N0 for epsilon calculation
-EPSILON = 0.25
+EPSILON = 0.15
 # Discounting factor:
-GAMMA = 0.9
+GAMMA = 0.95
 # Lambda for multistep Q-learning updates:
 #LAMBDA = 0.6
 ALPHA = 0.1
-# History length limit:
-#HIST_LIM = 10
 # Update period in seconds
 PERIOD = 0.100
 # Limit in celsius
 THERMAL_LIMIT = 50
 # Thermal limit coefficient
-RHO = 10
+RHO = 100
 # Power penalty coefficient
-THETA = 400
+THETA = 500
 
