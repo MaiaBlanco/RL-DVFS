@@ -132,7 +132,7 @@ def get_raw_state():
 		'temp' :T[4], 
 		'power':P,
 		'freq' :cpu_freq,
-		'volt' :tm.big_f_to_v_MC1[cpu_freq]
+		'volt' :tm.big_f_to_v_MC1[float(cpu_freq) / 1000000],
 		'usage':cycles_used/cycles_possible,
 		'IPS'  :IPS
 		}
