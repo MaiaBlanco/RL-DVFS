@@ -361,5 +361,5 @@ if __name__ == "__main__":
 			usage()
 	else:
 		print("No args given; defaulting to training in 5 seconds.")
-		sleep(5)
+		time.sleep(5)
 		Q_learning()
