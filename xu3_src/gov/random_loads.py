@@ -6,7 +6,7 @@ import os
 
 FNULL = open(os.devnull, 'w')
 
-bench_prob = 0.8 #0.3
+bench_prob = 0.2 #0.3
 period_max = 60
 bench_processes = []
 other_processes = []
@@ -29,7 +29,7 @@ while True:
 				print("starting new run")
 				# launch a new benchmark
 				affinity_l = 0#random.randint(0, 15)
-				affinity_b = random.randint(1, 1) #15)
+				affinity_b = 14 #random.randint(2, 2) #15)
 				affinity = affinity_l | (affinity_b << 4)
 				affinity_string = hex(affinity)
 				num_threads = bin(affinity).count("1")#random.randint(1, bin(affinity).count("1"))
@@ -46,12 +46,15 @@ while True:
 			except:
 				continue
 	else:
+		continue
+		'''
 		if len(bench_processes) > 0:
 			# Kill the process and idle:
 			print("Killing process")
 			os.killpg(os.getpgid(bench_processes[0].pid), signal.SIGTERM)
 			#bench_processes[0].kill()
 			del bench_processes[0]
+		'''	
 	wait_time = random.randint(0, period_max)
 	print("Waiting for {} minutes.".format(wait_time/60.0))
 	time.sleep(wait_time)
