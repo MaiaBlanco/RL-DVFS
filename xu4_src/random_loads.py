@@ -6,8 +6,8 @@ import os
 
 FNULL = open(os.devnull, 'w')
 
-bench_prob = 0.2 #0.3
-period_max = 60
+bench_prob = 0.5 #0.3
+period_max = 600
 bench_processes = []
 other_processes = []
 path = "/home/odroid/hw1_files/parsec_files/"
@@ -46,15 +46,12 @@ while True:
 			except:
 				continue
 	else:
-		continue
-		'''
 		if len(bench_processes) > 0:
 			# Kill the process and idle:
 			print("Killing process")
 			os.killpg(os.getpgid(bench_processes[0].pid), signal.SIGTERM)
 			#bench_processes[0].kill()
 			del bench_processes[0]
-		'''	
 	wait_time = random.randint(0, period_max)
 	print("Waiting for {} minutes.".format(wait_time/60.0))
 	time.sleep(wait_time)
