@@ -8,15 +8,17 @@ import time
 import devfreq_utils as dvfs
 
 # power used by ethernet and wifiusb when active (assuming they are active)
-board_power = 1.71
-peripheral_power = 0.072 + 0.472 + board_power
+#board_power = 1.71
+peripheral_power = 2 #0.072 + 0.472 + board_power
 SP2_tel = tel.Telnet("192.168.4.1")
+last_power = 0.0
 
 # leakage power for a given resource (specified by the input model parameters)
 def leakagePower(c1, c2, igate, v, t):
 	return v*(c1 * math.pow(t, 2) * math.exp(c2/t) + igate)
 
 def get_dyn_power(t):
+		global last_power
 		# Set temperatures for each (small, big, gpu, mem) (big cluster and GPU are exact; 
 		# small and mem are approx)
 		# mem die is on top of big core, so they should have approx the same max temp
@@ -59,6 +61,5 @@ def get_dyn_power(t):
 			total_power = float(ln[-1])
 			total_dynamic_power = total_power - total_leakage_power - peripheral_power
 			print("Dyn:",total_dynamic_power)
-			return max(total_dynamic_power, 0.0)	
-		else:
-			return 0.0
+			last_power = max(0, total_dynamic_power)
+		return last_power
