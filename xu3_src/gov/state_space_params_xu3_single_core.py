@@ -1,5 +1,5 @@
 # Dimensions of state space:
-ACTIONS = 5
+ACTIONS = 19
 FREQS = 19
 FREQ_IN_STATE=1
 LABELS = [ 	\
