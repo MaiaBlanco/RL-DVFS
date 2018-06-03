@@ -11,7 +11,8 @@ from collections import deque
 import sysfs_paths as sfs
 import devfreq_utils as dvfs
 from state_space_params_xu3_single_core import *
-from power_model import get_dyn_power
+#from power_model import get_dyn_power
+imoprt therm_params as tm
 
 num_buckets = np.array([BUCKETS[k] for k in LABELS], dtype=np.double)
 if FREQ_IN_STATE:
@@ -63,7 +64,7 @@ def load_statespace():
 def get_power(temps):
 	# Just return big cluster power:
 	#return dvfs.getPowerComponents()[0]
-	return get_dyn_power(temps)
+	return 0.0 #get_dyn_power(temps)
 
 def init():
 	# Make sure perf counter module is loaded:
@@ -131,6 +132,7 @@ def get_raw_state():
 		'temp' :T[4], 
 		'power':P,
 		'freq' :cpu_freq,
+		'volt' :tm.big_f_to_v_MC1[cpu_freq]
 		'usage':cycles_used/cycles_possible,
 		'IPS'  :IPS
 		}
@@ -258,16 +260,16 @@ def Q_learning():
 
 
 def reward_func(stats):
-	global RHO, THETA # <-- From state space params module.
+	global RHO # <-- From state space params module.
 	IPS = stats['IPS']
-	watts = stats['power']
 	temp = stats['temp']
+	freq = stats['freq']
+	volts = stats['volt']
+	vvf = (volts ** 2) * float(freq)
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
-	pwrterm = (np.exp(watts**2)-1)/(instructions/1000000.0)
-	print(pwrterm)
-	reward = IPS/1000000.0  - (THETA * pwrterm)- (RHO * thermal_v)
+	reward = IPS/vvf  -  (RHO * thermal_v)
 	return reward
 
 

@@ -66,9 +66,9 @@ big_freqs = [200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 100
 # freq to bin indices:
 freq_to_bucket = {big_freqs[i]:i for i in range(len(big_freqs))}
 
-EPSILON = 0.15
+EPSILON = 0.20
 # Discounting factor:
-GAMMA = 0.95
+GAMMA = 0.90
 # Lambda for multistep Q-learning updates:
 #LAMBDA = 0.6
 ALPHA = 0.1
@@ -78,6 +78,3 @@ PERIOD = 0.100
 THERMAL_LIMIT = 50
 # Thermal limit coefficient
 RHO = 500
-# Power penalty coefficient
-THETA = 500
-
