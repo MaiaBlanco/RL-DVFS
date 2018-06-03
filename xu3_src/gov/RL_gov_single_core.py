@@ -179,16 +179,18 @@ def update_Q_batch_penalty(last_state, last_action, reward, state):
 	s2b = state[1] # MKPI
 	s2c = state[2] # thermal
 	s2d = state[3] # frequency
-	if reward < 0:
-		# Follow greedy policy at new state to determine best action:
+	if True: #reward < 0:
+'''		# Follow greedy policy at new state to determine best action:
 		# Note for best returns: because 2nd dimension is fixed, axis=3
-		best_returns = np.amax(Q[s2a:,s2b,s2c:,s2d:,:], axis=3, keepdims=False)
+		best_returns = np.amax(Q[s2a:,s2b,s2c:,s2d:,:], axis=3, keepdims=False)'''
+
+		best_return = np.max(Q[s2a,s2b,s2c,s2d,:])
 		# Total return:
-		total_returns = reward + GAMMA*best_returns
+		total_return = reward + GAMMA*best_return
 		# Update last_state estimates in a batch:
 		# This line does an n-dimensional matrix slice, selecting indices above or equal to 
 		# indices for the last state and action. The optimal returns were selected similarly.
-		Q[s1a:,s1b,s1c:,s1d:,s1e] += ALPHA * (reward + GAMMA*best_returns - Q[s1a:,s1b,s1c:,s1d:,s1e])
+		Q[s1a:,s1b,s1c:,s1d:,s1e] += ALPHA * (reward + GAMMA*best_return - Q[s1a:,s1b,s1c:,s1d:,s1e])
 	else:
 		best_return = np.max(Q[s2a,s2b,s2c,s2d,:])
 		# Total return:
