@@ -164,7 +164,10 @@ def bucket_state(raw):
 # (Greedy Q-Learning)
 # Given previous and last state, action and reward between them (one-step), update
 # based on greedy policy.
-def update_Q_off_policy(last_state, last_action, reward, state):
+# Per the strategy in Zhuo Chen's RL DVFS paper, penalize all states for the same
+# action with the following conditions: (ipc, thermal, and frequency) higher and 
+# mkpi equal.
+def update_Q_batch_penalty(last_state, last_action, reward, state):
 	global Q, GAMMA, ALPHA
 	# Follow greedy policy at new state to determine best action:
 	best_next_return = np.max(Q[ tuple(state) ] )
@@ -173,7 +176,14 @@ def update_Q_off_policy(last_state, last_action, reward, state):
 	# Update last_state estimate:
 	old_value = Q[ tuple(last_state + [last_action] ) ]
 	Q[ tuple(last_state + [last_action] ) ] = old_value + ALPHA*(total_return - old_value) 
-	return Q[ tuple(last_state + [last_action] ) ]
+	a = state[0] # IPC
+	b = state[1] # MKPI
+	c = state[2] # thermal
+	d = state[3] # frequency
+	e = last_action
+	Q[a:,b,c:,d:,e] += ALPHA * (np.max(Q[a:,b,c:,d:,:], axis=4) - Q[a:,b,c:,d:,e])
+
+
 
 '''
 Q-learning driver function. Uses global state space LUTs (Q, C) to hold
@@ -208,17 +218,18 @@ def Q_learning():
 		# get current state and reward from last iteration:
 		stats = get_raw_state()
 		state = bucket_state(stats)
-		reward = reward_func(stats)	
+		throughtput_reward, power_penalty, thermal_penalty = reward_func(stats)	
+		reward = throughtput_reward + power_penalty + thermal_penalty
 
 		# Penalize trying to go out of bounds, since there is no utility in doing so.
 		if ACTIONS != FREQS and bounded_freq_index != cur_freq_index:
-			reward -= 5000
+			reward[0] -= 5000
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
 			# sa_history.append((last_state, last_action, reward))
-			v = update_Q_off_policy(last_state, last_action, reward, state)
-			print(last_state, last_action, reward, v)
+			update_Q_batch_penalty(last_state, last_action, reward, state)
+			print(last_state, last_action, reward)
 
 		# Apply EPSILON randomness to select a random frequency:
 		if random.random() < EPSILON:
@@ -265,8 +276,10 @@ def reward_func(stats):
 	instructions = IPS * PERIOD
 	pwrterm = (np.exp(watts**2)-1)/(instructions/1000000.0)
 	print(pwrterm)
-	reward = IPS/1000000.0  - (THETA * pwrterm)- (RHO * thermal_v)
-	return reward
+	throughput_reward = IPS/1000000.0
+	power_penalty = - (THETA * pwrterm)
+	thermal_penalty = - (RHO * thermal_v)
+	return throughtput_reward, power_penalty, thermal_penalty
 
 
 
