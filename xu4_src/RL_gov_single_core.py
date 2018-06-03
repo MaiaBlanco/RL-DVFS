@@ -77,6 +77,7 @@ def init():
 	ms_period = int(PERIOD*1000)
 	print("Running with period: {} ms".format(ms_period))
 	set_period(ms_period)
+	dvfs.setUserSpace(4)
 
 def get_counter_value(cpu_num, attr_name):
 	with open("/sys/kernel/performance_counters/cpu{}/{}".format(cpu_num, attr_name), 

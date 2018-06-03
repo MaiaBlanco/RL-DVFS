@@ -28,7 +28,7 @@ def getAvailFreqs(cpu_num):
 # As with note at top of this file, clusters should be selected using CORE numbers.
 def setUserSpace(clusters=None):
 	global prev_govs
-	print("WARNING: Running on XU3; therefore setting performance and limiting max freq.")
+	print("Setting userspace")
 	if clusters is None:
 		clusters = [0, 4]
 	elif type(clusters) is int:
@@ -38,31 +38,20 @@ def setUserSpace(clusters=None):
 		sys.exit(1)
 	else:
 		clusters = [x//4 for x in clusters]
-	#print("Using CPUs {}".format(clusters))
-	if prev_govs is None:
-		prev_govs = {x:'performance' for x in clusters}
-	else:
-		for x in clusters:
-			if x not in prev_govs.keys():
-				prev_govs[x] = 'performance'
-
-	for c in clusters:
-		if c != 0 and c != 4:
-			print("ERROR: {} is not a valid cluster number! Integers 0 and 4 are valid.".format(c))
+	prev_govs = ['powersave'] * (sorted(clusters)[-1] + 1)
+	for i in clusters:
+		if i != 0 and i != 4:
+			print("ERROR: {} is not a valid cluster number! Integers 0 and 4 are valid.".format(i))
 			sys.exit(1)
-		with open(sysfs.fn_cpu_governor.format(c), 'r+') as f:
-			# Record previous governor setting for cluster c
-			prev_govs[c] = f.readlines()[0].strip()
-			f.seek(0)
-			# Set userspace governor setting for cluster c
-			f.write('performance')
+		with open(sysfs.fn_cluster_gov.format(i), 'r') as f:
+			prev_govs[i] = f.readline().strip()
+		with open(sysfs.fn_cluster_gov.format(i), 'w') as f:
+			f.write('userspace')
 			f.flush()
-
 
 # As with note at top of this file, clusters should be selected using CORE numbers.
 def unsetUserSpace(clusters=None):
 	global prev_govs
-	print("WARNING: Running on XU3; therefore unsetting performance and removing max freq limit.")
 	if clusters is None:
 		clusters = [0, 4]
 	elif type(clusters) is int:
@@ -72,62 +61,33 @@ def unsetUserSpace(clusters=None):
 		sys.exit(1)
 	else:
 		clusters = [x//4 for x in clusters]
-	if prev_govs is None:
-		prev_govs = {x:'performance' for x in clusters}
-	else:
-		for x in clusters:
-			if x not in prev_govs.keys():
-				prev_govs[x] = 'performance'
-	#print("Using CPUs {}".format(clusters))
-	for c in clusters:
-		if c != 0 and c != 4:
-			print("ERROR: {} is not a valid cluster number! Integers 0 and 4 are valid.".format(c))
+	for i in clusters:
+		if i != 0 and i != 4:
+			print("ERROR: {} is not a valid cluster number! Integers 0 and 4 are valid.".format(i))
 			sys.exit(1)
-		with open(sysfs.fn_cpu_governor.format(c), 'w') as f:
-			f.write(prev_govs[c])
-		# Note: set cluster function sets the max frequency on XU3.
-		# This is because the userspace governor is not actually available;
-		# hence the workaround is to set to performance and change the max freq.
-		setClusterFreq(c, getAvailFreqs(c)[-1] )
-	
+		with open(sysfs.fn_cluster_gov.format(i), 'w') as f:
+			f.write(prev_govs[i])
 
 # As with note at top of this file, clusters should be selected using CORE numbers.
 def getClusterFreq(cpu_num):
-	#print("using cpu {}".format(cpu_num))
 	with open(sysfs.fn_cpu_freq_read.format(cpu_num), 'r') as f:
 		return int(f.read().strip())
 	
 # Accepts frequency in khz as int or string
 # As with note at top of this file, clusters should be selected using CORE numbers.
 def setClusterFreq(cpu_num, frequency):
-	cpu_num = cpu_num // 4
-	# Note: set cluster function sets the max frequency on XU3.
-	# This is because the userspace governor is not actually available;
-	# hence the workaround is to set to performance and change the max freq.
-	if cpu_num == 0:
-		cluster_max_freq = sysfs.little_cluster_max
-		a_freqs = getAvailFreqs(0)
-	elif cpu_num == 1:
-		cluster_max_freq = sysfs.big_cluster_max
-		a_freqs = getAvailFreqs(4)
-	else:
-		print("ERROR: invalid cluster number!")
-		return None
-	with open(cluster_max_freq, 'w') as f:
-		if int(frequency) > a_freqs[-1]:
-			frequency = a_freqs[-1]
-		elif int(frequency) < a_freqs[0]:
-			frequency = a_freqs[0]
+	with open(sysfs.fn_cpu_freq_set.format(cpu_num), 'w') as f:
 		f.write(str(frequency))	
-		f.flush()
+	
 
 def getGPUFreq():
 	with open(sysfs.gpu_freq, 'r') as f:
 		return int(f.read().strip()) * 1000 
 
 def getMemFreq():
-	with open(sysfs.mem_freq, 'r') as f:
-		return int(f.read().strip()) 
+	#with open(sysfs.mem_freq, 'r') as f:
+	#return int(f.read().strip()) 
+	return int(750000)
 
 def getTemps():
 	templ = []

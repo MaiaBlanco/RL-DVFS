@@ -77,7 +77,7 @@ PERIOD = 0.100
 # Limit in celsius
 THERMAL_LIMIT = 50
 # Thermal limit coefficient
-RHO = 100
+RHO = 500
 # Power penalty coefficient
 THETA = 500
 

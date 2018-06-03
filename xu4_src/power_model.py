@@ -50,10 +50,15 @@ def get_dyn_power(t):
 		Pl[2] = leakagePower(tp.c1, tp.c2, tp.Igate, V[2], T[2])
 		Pl[3] = leakagePower(tp.c1, tp.c2, tp.Igate, V[3], T[3])
 		total_leakage_power = sum(Pl)
-		tel_dat = str(SP2_tel.read_until('\r', timeout=0.05))
+		tel_dat = str(SP2_tel.read_until('\r', timeout=0.07))
 		# find latest power measurement in the data
 		findex = tel_dat[0:len(tel_dat)].find('\n')
 		ln = tel_dat[findex:].strip().split(',')
-		total_power = float(ln[-2])
-		total_dynamic_power = total_power - total_leakage_power - peripheral_power
-		return total_dynamic_power	
+		print(ln)
+		if len(ln) >= 1 and len(ln[-1]) > 1:
+			total_power = float(ln[-1])
+			total_dynamic_power = total_power - total_leakage_power - peripheral_power
+			print("Dyn:",total_dynamic_power)
+			return max(total_dynamic_power, 0.0)	
+		else:
+			return 0.0
