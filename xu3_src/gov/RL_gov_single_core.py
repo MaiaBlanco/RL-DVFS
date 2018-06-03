@@ -128,6 +128,7 @@ def get_raw_state():
 		'temp' :T[4], 
 		'power':P,
 		'freq' :cpu_freq,
+		'volt' :dvfs.cpuVoltage(cpu),
 		'usage':cycles_used/cycles_possible,
 		'IPS'  :IPS
 		}
@@ -198,6 +199,8 @@ def reward_func(stats):
 	IPS = stats['IPS']
 	watts = stats['power']
 	temp = stats['temp']
+	freq = stats['freq']
+	volts = stats['volt']
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
@@ -205,7 +208,8 @@ def reward_func(stats):
 	print(pwrterm)
 	throughput_reward = IPS/1000000.0
 	power_penalty = - (THETA * pwrterm)
-	thermal_penalty = - (RHO * thermal_v)
+	thermal_penalty = - (RHO * thermal_v * freq * volts ** 2)
+	print(thermal_penalty)
 	return throughput_reward, power_penalty, thermal_penalty
 
 '''
