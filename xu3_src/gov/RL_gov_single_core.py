@@ -166,7 +166,7 @@ def bucket_state(raw):
 # Per the strategy in Zhuo Chen's RL DVFS paper, penalize all states for the same
 # action with the following conditions: (ipc, thermal, and frequency) higher and 
 # mkpi equal.
-def update_Q_batch_penalty(last_state, last_action, reward, state):
+def update_Q_batch_penalty(last_state, last_action, reward, state, collective=True):
 	global Q, GAMMA, ALPHA
 	# Temp vars for indexing readability:
 	s1a = last_state[0] # IPC
@@ -182,10 +182,10 @@ def update_Q_batch_penalty(last_state, last_action, reward, state):
 	best_return = np.max(Q[s2a,s2b,s2c,s2d,:])
 	# Total return:
 	total_return = reward + GAMMA*best_return
-	if True: #reward < 0:
+	if collective:
 		# Update last_state estimates in a batch:
 		# This line does an n-dimensional matrix slice, selecting indices above or equal to 
-		# indices for the last state and action. The optimal returns were selected similarly.
+		# indices for the last state and action.
 		Q[s1a:,s1b,s1c:,s1d:,s1e] += ALPHA * (reward + GAMMA*best_return - Q[s1a:,s1b,s1c:,s1d:,s1e])
 	else:
 		# Update just the actual source state (original implementation)
@@ -249,7 +249,8 @@ def Q_learning():
 		# Update state-action-reward trace:
 		if last_action is not None:
 			# sa_history.append((last_state, last_action, reward))
-			update_Q_batch_penalty(last_state, last_action, reward, state)
+			shared_penalty = (thermal_penalty != 0)
+			update_Q_batch_penalty(last_state, last_action, reward, state, collective=shared_penalty)
 			print(last_state, last_action, reward)
 
 		# Apply EPSILON randomness to select a random frequency:
