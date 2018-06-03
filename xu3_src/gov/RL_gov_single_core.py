@@ -52,6 +52,7 @@ def load_statespace():
 		return
 	if Q_t.shape != Q.shape:
 		if Q.ndim == Q_t.ndim and Q_t.shape[-1] == ACTIONS:
+			raise("Exception: State space expansion is not supported yet!")
 			print("Warning: extending loaded Q to match state space dimensions!")
 		else:
 			raise Exception("Completely mismatched loaded state space to desired statespace.")
