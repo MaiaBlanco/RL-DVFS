@@ -180,7 +180,8 @@ def update_Q_batch_penalty(last_state, last_action, reward, state):
 	s2c = state[2] # thermal
 	s2d = state[3] # frequency
 	if True: #reward < 0:
-'''		# Follow greedy policy at new state to determine best action:
+		'''
+		# Follow greedy policy at new state to determine best action:
 		# Note for best returns: because 2nd dimension is fixed, axis=3
 		best_returns = np.amax(Q[s2a:,s2b,s2c:,s2d:,:], axis=3, keepdims=False)'''
 
