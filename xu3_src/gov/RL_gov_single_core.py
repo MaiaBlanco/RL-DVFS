@@ -266,6 +266,8 @@ def Q_learning():
 		# at least until the period has expired.
 		elapsed = time.time() - start
 		print("Elapsed:", elapsed)
+		if elapsed > PERIOD:
+			print("OVERTIME!")
 		time.sleep(max(0, PERIOD - elapsed))
 
 
