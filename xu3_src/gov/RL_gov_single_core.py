@@ -169,19 +169,23 @@ def bucket_state(raw):
 # mkpi equal.
 def update_Q_batch_penalty(last_state, last_action, reward, state):
 	global Q, GAMMA, ALPHA
-	# Follow greedy policy at new state to determine best action:
-	best_next_return = np.max(Q[ tuple(state) ] )
-	# Total return:
-	total_return = reward + GAMMA*best_next_return
-	# Update last_state estimate:
-	old_value = Q[ tuple(last_state + [last_action] ) ]
-	Q[ tuple(last_state + [last_action] ) ] = old_value + ALPHA*(total_return - old_value) 
+	# Temp vars for indexing readability:
 	a = state[0] # IPC
 	b = state[1] # MKPI
 	c = state[2] # thermal
 	d = state[3] # frequency
 	e = last_action
-	Q[a:,b,c:,d:,e] += ALPHA * (np.max(Q[a:,b,c:,d:,:], axis=4) - Q[a:,b,c:,d:,e])
+	# Follow greedy policy at new state to determine best action:
+	# Note for best returns: because 2nd dimension is fixed, axis=3
+	best_returns = np.amax(Q[a:,b,c:,d:,:], axis=3, keepdims=False)
+	print(best_returns.shape)
+	print(Q[a:,b,c:,d:,e].shape)
+	# Total return:
+	total_returns = reward + GAMMA*best_returns
+	# Update last_state estimates in a batch:
+	# This line does an n-dimensional matrix slice, selecting indices above or equal to 
+	# indices for the last state and action. The optimal returns were selected similarly.
+	Q[a:,b,c:,d:,e] += ALPHA * (reward + GAMMA*best_returns - Q[a:,b,c:,d:,e])
 
 
 
@@ -279,7 +283,7 @@ def reward_func(stats):
 	throughput_reward = IPS/1000000.0
 	power_penalty = - (THETA * pwrterm)
 	thermal_penalty = - (RHO * thermal_v)
-	return throughtput_reward, power_penalty, thermal_penalty
+	return throughput_reward, power_penalty, thermal_penalty
 
 
 
