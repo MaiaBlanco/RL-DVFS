@@ -33,9 +33,9 @@ BUCKETS = \
 	'BMPKI':10,
 	'IPC_u':15,
 	'usage':10,
-	'IPC_p':15,
-	'MPKI' :15,
-	'temp' :20,
+	'IPC_p':12,
+	'MPKI' :12,
+	'temp' :15,
 	'power':10,
 	}
 # Min and max limits are in linear scale
@@ -47,15 +47,15 @@ MINS = \
 	'IPC_u':0.01,
 	'IPC_p':0.01,
 	'MPKI':0.05,
-	'temp':40,
+	'temp':45,
 	'power':0.1
 	}
 MAXS = \
 	{
 	#'BMPKI':80,
 	'usage':1.2,
-	'IPC_u':3,
-	'IPC_p':3,
+	'IPC_u':2.5,
+	'IPC_p':2.5,
 	'MPKI':3,
 	'temp':60,
 	'power':4

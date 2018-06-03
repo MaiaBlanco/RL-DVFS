@@ -202,6 +202,7 @@ def reward_func(stats):
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
 	pwrterm = (np.exp(watts**2)-1)/(instructions/1000000.0)
+	print(pwrterm)
 	throughput_reward = IPS/1000000.0
 	power_penalty = - (THETA * pwrterm)
 	thermal_penalty = - (RHO * thermal_v)
@@ -359,4 +360,6 @@ if __name__ == "__main__":
 		else:
 			usage()
 	else:
-		print("No args given; defaulting to training.")
+		print("No args given; defaulting to training in 5 seconds.")
+		sleep(5)
+		Q_learning()
