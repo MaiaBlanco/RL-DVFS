@@ -76,6 +76,7 @@ def init():
 	ms_period = int(PERIOD*1000)
 	print("Running with period: {} ms".format(ms_period))
 	set_period(ms_period)
+	dvfs.setUserSpace()
 
 def get_counter_value(cpu_num, attr_name):
 	with open("/sys/kernel/performance_counters/cpu{}/{}".format(cpu_num, attr_name), 
@@ -94,8 +95,6 @@ Returns state figures, non-quantized.
 Includes branch misses per Kinstruction, IPC, and l2miss, data memory accesses 
 per Kinstruction for each core, plus core temp and big cluster power. 
 (BMPKI, IPC, CMPKI, DAPKI, celsius, watts, frequency)
-TODO: add leakage power?
-TODO: add thermal predictions?
 '''
 def get_raw_state():	
 	# Get the change in counter values:
@@ -179,31 +178,37 @@ def update_Q_batch_penalty(last_state, last_action, reward, state):
 	s2b = state[1] # MKPI
 	s2c = state[2] # thermal
 	s2d = state[3] # frequency
+	# Follow greedy policy at new state to determine best action:
+	best_return = np.max(Q[s2a,s2b,s2c,s2d,:])
+	# Total return:
+	total_return = reward + GAMMA*best_return
 	if True: #reward < 0:
-		'''
-		# Follow greedy policy at new state to determine best action:
-		# Note for best returns: because 2nd dimension is fixed, axis=3
-		best_returns = np.amax(Q[s2a:,s2b,s2c:,s2d:,:], axis=3, keepdims=False)'''
-
-		best_return = np.max(Q[s2a,s2b,s2c,s2d,:])
-		# Total return:
-		total_return = reward + GAMMA*best_return
 		# Update last_state estimates in a batch:
 		# This line does an n-dimensional matrix slice, selecting indices above or equal to 
 		# indices for the last state and action. The optimal returns were selected similarly.
 		Q[s1a:,s1b,s1c:,s1d:,s1e] += ALPHA * (reward + GAMMA*best_return - Q[s1a:,s1b,s1c:,s1d:,s1e])
 	else:
-		best_return = np.max(Q[s2a,s2b,s2c,s2d,:])
-		# Total return:
-		total_return = reward + GAMMA*best_return
-		# Update last_state estimates in a batch:
-		# This line does an n-dimensional matrix slice, selecting indices above or equal to 
-		# indices for the last state and action. The optimal returns were selected similarly.
+		# Update just the actual source state (original implementation)
 		Q[s1a,s1b,s1c,s1d,s1e] += ALPHA * (reward + GAMMA*best_return - Q[s1a,s1b,s1c,s1d,s1e])
 
 
+''' Reward function used in Q learning driver: '''
+def reward_func(stats):
+	global RHO, THETA # <-- From state space params module.
+	IPS = stats['IPS']
+	watts = stats['power']
+	temp = stats['temp']
+	# Return throughput (MIPS) minus thermal violation:
+	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
+	instructions = IPS * PERIOD
+	pwrterm = (np.exp(watts**2)-1)/(instructions/1000000.0)
+	throughput_reward = IPS/1000000.0
+	power_penalty = - (THETA * pwrterm)
+	thermal_penalty = - (RHO * thermal_v)
+	return throughput_reward, power_penalty, thermal_penalty
+
 '''
-Q-learning driver function. Uses global state space LUTs (Q, C) to hold
+Q-learning driver function. Uses global state space LUTs (Q) to hold
 state-action value estimates and state-action counts. 
 On call tries to load previous state space value estimates and counts; 
 if unsuccessful starts from all 0s.
@@ -222,7 +227,6 @@ def Q_learning():
 	atexit.register(checkpoint_statespace)
 	
 	# Init runtime vars:
-	# sa_history = deque(maxlen=HIST_LIM)
 	last_action = None
 	last_state = None
 	reward = None
@@ -281,30 +285,77 @@ def Q_learning():
 		# at least until the period has expired.
 		elapsed = time.time() - start
 		print("Elapsed:", elapsed)
-		if elapsed > PERIOD:
-			print("OVERTIME!")
 		time.sleep(max(0, PERIOD - elapsed))
 
+'''
+Use global lookup table (LUT) Q to select best action based on quantized state.
+This implementation applies learned Q 'function' to core 4 only.
+'''
+def run_offline():
+	global Q
+	global big_freqs
+	# load state-action space values from Q file: 
+	try:
+		load_statespace()
+		print("Loaded statespace")
+	except:
+		print("Could not load statespace. State space Q must be trained with Q learning function.")
+		sys.exit(1)
+	# Run offline greedy policy:
+	while True:
+		start = time.time()
+		
+		# get current state:
+		stats = get_raw_state()
+		state = bucket_state(stats)
 
-def reward_func(stats):
-	global RHO, THETA # <-- From state space params module.
-	IPS = stats['IPS']
-	watts = stats['power']
-	temp = stats['temp']
-	# Return throughput (MIPS) minus thermal violation:
-	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
-	instructions = IPS * PERIOD
-	pwrterm = (np.exp(watts**2)-1)/(instructions/1000000.0)
-	throughput_reward = IPS/1000000.0
-	power_penalty = - (THETA * pwrterm)
-	thermal_penalty = - (RHO * thermal_v)
-	return throughput_reward, power_penalty, thermal_penalty
+		# Greedily select the best frequency to use given past experience:
+		best_action = np.argmax(Q[ tuple(state) ])
+
+		# Take action.
+		# (note big_freqs is lookup table from state_space module).
+		if ACTIONS == FREQS:
+			dvfs.setClusterFreq(4, big_freqs[best_action])
+		else:
+			stay = ACTIONS // 2
+			cur_freq_index = freq_to_bucket[ stats['freq'] ]
+			cur_freq_index += (best_action - stay)
+			bounded_freq_index = max( 0, min( cur_freq_index, FREQS-1))
+			dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
+		
+		# Print state and action:
+		print([stats[k] for k in LABELS])
+		print(state, best_action)
+
+		# Wait for next period. 
+		elapsed = time.time() - start
+		print("Elapsed:", elapsed)
+		time.sleep(max(0, PERIOD - elapsed))
+	
+
+
+'''
+Use global lookup table (LUT) Q to select best action based on quantized state.
+This implementation applies learned Q 'function' from core 4 to all big cores.
+'''
+def run_offline_multicore():
+	global Q	
+	return 0
+
+def usage():
+		print("USAGE: {} <train|run>".format(sys.argv[0]))
+		sys.exit(0)
 
 
 
 if __name__ == "__main__":
-#	if len(sys.argv) > 2:
-#		print("USAGE: {} <benchmark_to_profile (optional)>".format(sys.argv[0]))
-#		sys.exit()
 	init()
-	Q_learning()
+	if len(sys.argv) > 1:
+		if sys.argv[1] == "run":
+			run_offline()
+		elif sys.argv[1] == "train":
+			Q_learning()
+		else:
+			usage()
+	else:
+		print("No args given; defaulting to training.")
