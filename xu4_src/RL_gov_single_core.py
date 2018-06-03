@@ -12,7 +12,7 @@ import sysfs_paths as sfs
 import devfreq_utils as dvfs
 from state_space_params_xu3_single_core import *
 #from power_model import get_dyn_power
-imoprt therm_params as tm
+import therm_params as tm
 
 num_buckets = np.array([BUCKETS[k] for k in LABELS], dtype=np.double)
 if FREQ_IN_STATE:
