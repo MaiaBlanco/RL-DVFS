@@ -178,8 +178,6 @@ def update_Q_batch_penalty(last_state, last_action, reward, state):
 	# Follow greedy policy at new state to determine best action:
 	# Note for best returns: because 2nd dimension is fixed, axis=3
 	best_returns = np.amax(Q[a:,b,c:,d:,:], axis=3, keepdims=False)
-	print(best_returns.shape)
-	print(Q[a:,b,c:,d:,e].shape)
 	# Total return:
 	total_returns = reward + GAMMA*best_returns
 	# Update last_state estimates in a batch:
@@ -227,7 +225,7 @@ def Q_learning():
 
 		# Penalize trying to go out of bounds, since there is no utility in doing so.
 		if ACTIONS != FREQS and bounded_freq_index != cur_freq_index:
-			reward[0] -= 5000
+			reward -= 5000
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
@@ -267,6 +265,7 @@ def Q_learning():
 		# Wait for next period. Note that reward cannot be evaluated 
 		# at least until the period has expired.
 		elapsed = time.time() - start
+		print("Elapsed:", elapsed)
 		time.sleep(max(0, PERIOD - elapsed))
 
 
@@ -279,7 +278,6 @@ def reward_func(stats):
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
 	pwrterm = (np.exp(watts**2)-1)/(instructions/1000000.0)
-	print(pwrterm)
 	throughput_reward = IPS/1000000.0
 	power_penalty = - (THETA * pwrterm)
 	thermal_penalty = - (RHO * thermal_v)
