@@ -170,21 +170,33 @@ def bucket_state(raw):
 def update_Q_batch_penalty(last_state, last_action, reward, state):
 	global Q, GAMMA, ALPHA
 	# Temp vars for indexing readability:
-	a = state[0] # IPC
-	b = state[1] # MKPI
-	c = state[2] # thermal
-	d = state[3] # frequency
-	e = last_action
-	# Follow greedy policy at new state to determine best action:
-	# Note for best returns: because 2nd dimension is fixed, axis=3
-	best_returns = np.amax(Q[a:,b,c:,d:,:], axis=3, keepdims=False)
-	# Total return:
-	total_returns = reward + GAMMA*best_returns
-	# Update last_state estimates in a batch:
-	# This line does an n-dimensional matrix slice, selecting indices above or equal to 
-	# indices for the last state and action. The optimal returns were selected similarly.
-	Q[a:,b,c:,d:,e] += ALPHA * (reward + GAMMA*best_returns - Q[a:,b,c:,d:,e])
-
+	s1a = last_state[0] # IPC
+	s1b = last_state[1] # MKPI
+	s1c = last_state[2] # thermal
+	s1d = last_state[3] # frequency
+	s1e = last_action
+	s2a = state[0] # IPC
+	s2b = state[1] # MKPI
+	s2c = state[2] # thermal
+	s2d = state[3] # frequency
+	if reward < 0:
+		# Follow greedy policy at new state to determine best action:
+		# Note for best returns: because 2nd dimension is fixed, axis=3
+		best_returns = np.amax(Q[s2a:,s2b,s2c:,s2d:,:], axis=3, keepdims=False)
+		# Total return:
+		total_returns = reward + GAMMA*best_returns
+		# Update last_state estimates in a batch:
+		# This line does an n-dimensional matrix slice, selecting indices above or equal to 
+		# indices for the last state and action. The optimal returns were selected similarly.
+		Q[s1a:,s1b,s1c:,s1d:,s1e] += ALPHA * (reward + GAMMA*best_returns - Q[s1a:,s1b,s1c:,s1d:,s1e])
+	else:
+		best_return = np.max(Q[s2a,s2b,s2c,s2d,:])
+		# Total return:
+		total_return = reward + GAMMA*best_return
+		# Update last_state estimates in a batch:
+		# This line does an n-dimensional matrix slice, selecting indices above or equal to 
+		# indices for the last state and action. The optimal returns were selected similarly.
+		Q[s1a,s1b,s1c,s1d,s1e] += ALPHA * (reward + GAMMA*best_return - Q[s1a,s1b,s1c,s1d,s1e])
 
 
 '''
