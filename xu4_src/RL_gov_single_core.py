@@ -215,14 +215,15 @@ def Q_learning():
 		reward = reward_func(stats)	
 
 		# Penalize trying to go out of bounds, since there is no utility in doing so.
-		if ACTIONS != FREQS and bounded_freq_index != cur_freq_index:
-			reward -= 5000
+		#if ACTIONS != FREQS and bounded_freq_index != cur_freq_index:
+		#	reward -= 5000
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
 			# sa_history.append((last_state, last_action, reward))
 			v = update_Q_off_policy(last_state, last_action, reward, state)
 			print(last_state, last_action, reward, v)
+			print([last_stats[k] for k in LABELS])
 
 		# Apply EPSILON randomness to select a random frequency:
 		if random.random() < EPSILON:
@@ -250,7 +251,7 @@ def Q_learning():
 		# Save state and action:
 		last_state = state
 		last_action = best_action
-		print([stats[k] for k in LABELS])
+		last_stats = stats
 		C[ tuple(state + [best_action]) ] += 1 
 
 		# Wait for next period. Note that reward cannot be evaluated 
@@ -269,7 +270,11 @@ def reward_func(stats):
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
-	reward = IPS/vvf  -  (RHO * thermal_v)
+	throughput_term = IPS/((volts ** 2)*1000000.0) 
+	thermal_term = (RHO * thermal_v * vvf / 1000000.0)
+	print("Throughput term", throughput_term)
+	print("Thermal term", thermal_term)
+	reward = throughput_term - thermal_term
 	return reward
 
 '''

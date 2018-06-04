@@ -1,13 +1,13 @@
 # Dimensions of state space:
-ACTIONS = 5
+ACTIONS = 19
 FREQS = 19
 FREQ_IN_STATE=1
 LABELS = [ 	\
 		#'BMPKI', 
 		#'IPC_u', 
-		#'usage',
-		'IPC_p', 
-		'MPKI', 
+		#'IPC_p', 
+		'usage',
+		#'MPKI', 
 		#'DAPKI',
 		'temp', 
 		#'power'
@@ -30,30 +30,29 @@ SCALING_DICT = \
 SCALING = [SCALING_DICT[k] for k in LABELS]
 BUCKETS = \
 	{
-	'BMPKI':10,
-	'IPC_u':15,
-	'usage':10,
-	'IPC_p':15,
-	'MPKI' :15,
-	'temp' :20,
-	'power':10,
+	'BMPKI':4,
+	'IPC_u':4,
+	'usage':5,
+	'IPC_p':4,
+	'MPKI' :5,
+	'temp' :4,
+	'power':4,
 	}
 # Min and max limits are in linear scale
 MINS = \
 	{
-	# Note 0..1s to avoid domain error on log scaled stats:
-	#'BMPKI':0.1,a
-	'usage':0.01,
-	'IPC_u':0.01,
-	'IPC_p':0.01,
-	'MPKI':0.05,
+	#'BMPKI':0.1,
+	'usage':0,
+	'IPC_u':0,
+	'IPC_p':0,
+	'MPKI':0,
 	'temp':40,
-	'power':0.1
+	'power':0
 	}
 MAXS = \
 	{
 	#'BMPKI':80,
-	'usage':1.2,
+	'usage':2.5,
 	'IPC_u':3,
 	'IPC_p':3,
 	'MPKI':3,
@@ -77,4 +76,4 @@ PERIOD = 0.100
 # Limit in celsius
 THERMAL_LIMIT = 50
 # Thermal limit coefficient
-RHO = 500
+RHO = 1000
