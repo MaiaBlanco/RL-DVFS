@@ -6,8 +6,8 @@ import os
 
 FNULL = open(os.devnull, 'w')
 
-bench_prob = 0.2 #0.3
-period_max = 60
+bench_prob = 0.5 #0.3
+period_max = 600
 bench_processes = []
 other_processes = []
 path = "/home/odroid/hw1_files/parsec_files/"
