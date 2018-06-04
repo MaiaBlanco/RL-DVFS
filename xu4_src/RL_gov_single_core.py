@@ -272,11 +272,77 @@ def reward_func(stats):
 	reward = IPS/vvf  -  (RHO * thermal_v)
 	return reward
 
+'''
+Use global lookup table (LUT) Q to select best action based on quantized state.
+This implementation applies learned Q 'function' to core 4 only.
+'''
+def run_offline():
+	global Q
+	global big_freqs
+	# load state-action space values from Q file: 
+	try:
+		load_statespace()
+		print("Loaded statespace")
+	except:
+		print("Could not load statespace. State space Q must be trained with Q learning function.")
+		sys.exit(1)
+	# Run offline greedy policy:
+	while True:
+		start = time.time()
+		
+		# get current state:
+		stats = get_raw_state()
+		state = bucket_state(stats)
+
+		# Greedily select the best frequency to use given past experience:
+		best_action = np.argmax(Q[ tuple(state) ])
+
+		# Take action.
+		# (note big_freqs is lookup table from state_space module).
+		if ACTIONS == FREQS:
+			dvfs.setClusterFreq(4, big_freqs[best_action])
+		else:
+			stay = ACTIONS // 2
+			cur_freq_index = freq_to_bucket[ stats['freq'] ]
+			cur_freq_index += (best_action - stay)
+			bounded_freq_index = max( 0, min( cur_freq_index, FREQS-1))
+			dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
+		
+		# Print state and action:
+		print([stats[k] for k in LABELS])
+		print(state, best_action)
+
+		# Wait for next period. 
+		elapsed = time.time() - start
+		print("Elapsed:", elapsed)
+		time.sleep(max(0, PERIOD - elapsed))
+	
+
+
+'''
+Use global lookup table (LUT) Q to select best action based on quantized state.
+This implementation applies learned Q 'function' from core 4 to all big cores.
+'''
+def run_offline_multicore():
+	global Q	
+	return 0
+
+def usage():
+		print("USAGE: {} <train|run>".format(sys.argv[0]))
+		sys.exit(0)
+
 
 
 if __name__ == "__main__":
-#	if len(sys.argv) > 2:
-#		print("USAGE: {} <benchmark_to_profile (optional)>".format(sys.argv[0]))
-#		sys.exit()
 	init()
-	Q_learning()
+	if len(sys.argv) > 1:
+		if sys.argv[1] == "run":
+			run_offline()
+		elif sys.argv[1] == "train":
+			Q_learning()
+		else:
+			usage()
+	else:
+		print("No args given; defaulting to training in 5 seconds.")
+		time.sleep(5)
+		Q_learning()
