@@ -224,7 +224,8 @@ def reward_func(stats):
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
-	reward = IPS/vvf  -  (RHO * thermal_v)
+	# Got rid of volts ** 2 term under IPS, seemed too strong and freq was stuck at 0...
+	reward = IPS/float(freq)  -  (RHO * thermal_v)
 	return reward
 
 

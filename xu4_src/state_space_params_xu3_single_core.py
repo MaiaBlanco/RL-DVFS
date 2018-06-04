@@ -1,5 +1,5 @@
 # Dimensions of state space:
-ACTIONS = 5
+ACTIONS = 19
 FREQS = 19
 FREQ_IN_STATE=1
 LABELS = [ 	\
@@ -66,7 +66,7 @@ big_freqs = [200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 100
 # freq to bin indices:
 freq_to_bucket = {big_freqs[i]:i for i in range(len(big_freqs))}
 
-EPSILON = 0.20
+EPSILON = 0.35
 # Discounting factor:
 GAMMA = 0.90
 # Lambda for multistep Q-learning updates:
