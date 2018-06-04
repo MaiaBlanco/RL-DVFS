@@ -5,9 +5,9 @@ FREQ_IN_STATE=1
 LABELS = [ 	\
 		#'BMPKI', 
 		#'IPC_u', 
-		#'usage',
 		'IPC_p', 
-		'MPKI', 
+		#'MPKI', 
+		'usage',
 		#'DAPKI',
 		'temp', 
 		#'power'

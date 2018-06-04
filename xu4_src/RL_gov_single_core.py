@@ -225,7 +225,7 @@ def reward_func(stats):
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
 	# Got rid of volts ** 2 term under IPS, seemed too strong and freq was stuck at 0...
-	reward = IPS/float(freq)  -  (RHO * thermal_v)
+	reward = IPS/((volts**2)*1000000.0)  -  (RHO * thermal_v) * (float(freq)/1000000.0)
 	return reward
 
 
