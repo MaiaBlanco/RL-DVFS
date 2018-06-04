@@ -6,6 +6,7 @@ import time
 import random
 import atexit
 from collections import deque
+import pickle as pkl
 
 # Local imports:
 import sysfs_paths as sfs
@@ -13,7 +14,7 @@ import devfreq_utils as dvfs
 from state_space_params_xu3_single_core import *
 #from power_model import get_dyn_power
 import therm_params as tm
-import Q_approximator.QApproximator as Qaf 
+from Q_approximator import QApproximator as Qaf 
 
 Q = Qaf(VARS, ACTIONS) 
 
@@ -25,18 +26,18 @@ def checkpoint_statespace():
 	if yn == 'n':
 		return
 	ms_period = int(PERIOD*1000)
-	p = Q.getParams()
-	np.save("Qaf_{}ms.npy".format(ms_period), p)
+	#p = Q.getParams()
+	with open("Qaf_{}ms.pkl".format(ms_period), 'w') as f:
+		pkl.dump(Q, f, protocol=2)
 
 def load_statespace():
 	global Q
 	ms_period = int(PERIOD*1000)
 	try:
-		p = np.load("Qaf_{}ms.npy".format(ms_period))
+		with open("Qaf_{}ms.pkl".format(ms_period), 'r') as f:
+			Q = pkl.load(f)
 	except:
 		raise Exception("Could not read previous statespace")
-		return
-	Q.setParams(p)
 
 # XU4 does not have built-in sensors...
 def get_power(temps):
@@ -75,8 +76,6 @@ Returns state figures, non-quantized.
 Includes branch misses per Kinstruction, IPC, and l2miss, data memory accesses 
 per Kinstruction for each core, plus core temp and big cluster power. 
 (BMPKI, IPC, CMPKI, DAPKI, celsius, watts, frequency)
-TODO: add leakage power?
-TODO: add thermal predictions?
 '''
 def get_raw_state():	
 	# Get the change in counter values:
@@ -124,7 +123,7 @@ def extract_state_from_raw(raw):
 	state = [raw[k] for k in LABELS] 
 	if FREQ_IN_STATE:
 		# Add frequency in GHz to end of state:
-		state = state + float(raw['freq'])/1000000.0
+		state = state + [float(raw['freq'])/1000000.0]
 	return [float(x) for x in state]
 
 # (Greedy Q-Learning)
@@ -158,7 +157,7 @@ def Q_learning():
 		load_statespace()
 		print("Loaded statespace")
 	except:
-		print("Could not load statespace; continue with fresh.")
+		print("Starting with fresh estimator parameters; could not load.")
 	atexit.register(checkpoint_statespace)
 	
 	# Init runtime vars:
@@ -206,11 +205,12 @@ def Q_learning():
 			dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
 		
 		# Print state and action:
-		print(state, best_action)
+		print(state, best_action, reward)
 
 		# Wait for next period. Note that reward cannot be evaluated 
 		# at least until the period has expired.
 		elapsed = time.time() - start
+		print("elapsed:", elapsed)
 		time.sleep(max(0, PERIOD - elapsed))
 
 
