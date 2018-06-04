@@ -248,13 +248,13 @@ def Q_learning():
 		reward = throughtput_reward + power_penalty + thermal_penalty
 
 		# Penalize trying to go out of bounds, since there is no utility in doing so.
-		if ACTIONS != FREQS and bounded_freq_index != cur_freq_index:
-			reward -= 5000
+		#if ACTIONS != FREQS and bounded_freq_index != cur_freq_index:
+		#	reward -= 5000
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
 			# sa_history.append((last_state, last_action, reward))
-			shared_penalty = (thermal_penalty != 0)
+			shared_penalty = False #(thermal_penalty != 0)
 			update_Q_batch_penalty(last_state, last_action, reward, state, collective=shared_penalty)
 			print(last_state, last_action, reward)
 
