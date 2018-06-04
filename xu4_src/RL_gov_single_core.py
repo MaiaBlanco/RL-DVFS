@@ -268,8 +268,7 @@ def run_offline():
 			dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
 		
 		# Print state and action:
-		print([stats[k] for k in LABELS])
-		print(state, best_action)
+		print([stats[k] for k in LABELS], values, best_action)
 
 		# Wait for next period. 
 		elapsed = time.time() - start
