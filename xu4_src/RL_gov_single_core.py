@@ -8,9 +8,11 @@ import atexit
 from collections import deque
 
 # Local imports:
-import sysfs_paths_xu3 as sfs
-import devfreq_utils_xu3 as dvfs
+import sysfs_paths as sfs
+import devfreq_utils as dvfs
 from state_space_params_xu3_single_core import *
+#from power_model import get_dyn_power
+import therm_params as tm
 
 num_buckets = np.array([BUCKETS[k] for k in LABELS], dtype=np.double)
 if FREQ_IN_STATE:
@@ -52,17 +54,17 @@ def load_statespace():
 		return
 	if Q_t.shape != Q.shape:
 		if Q.ndim == Q_t.ndim and Q_t.shape[-1] == ACTIONS:
-			raise("Exception: State space expansion is not supported yet!")
 			print("Warning: extending loaded Q to match state space dimensions!")
 		else:
 			raise Exception("Completely mismatched loaded state space to desired statespace.")
 	else:
 		Q = Q_t
 
-# XU3 has built-in sensors, so use them:
-def get_power():
+# XU4 does not have built-in sensors...
+def get_power(temps):
 	# Just return big cluster power:
-	return dvfs.getPowerComponents()[0]
+	#return dvfs.getPowerComponents()[0]
+	return 0.0 #get_dyn_power(temps)
 
 def init():
 	# Make sure perf counter module is loaded:
@@ -76,6 +78,7 @@ def init():
 	ms_period = int(PERIOD*1000)
 	print("Running with period: {} ms".format(ms_period))
 	set_period(ms_period)
+	dvfs.setUserSpace(4)
 
 def get_counter_value(cpu_num, attr_name):
 	with open("/sys/kernel/performance_counters/cpu{}/{}".format(cpu_num, attr_name), 
@@ -111,7 +114,7 @@ def get_raw_state():
 	l2misses = get_counter_value(cpu, "l2_data_refills")
 	dmemaccesses = get_counter_value(cpu, "data_memory_accesses")
 	T = [float(x) for x in dvfs.getTemps()]
-	P = get_power()
+	P = get_power(T)
 	# Throughput stats:
 	IPC_u = instructions / cycles_used
 	IPC_p = instructions / cycles_possible
@@ -129,6 +132,7 @@ def get_raw_state():
 		'temp' :T[4], 
 		'power':P,
 		'freq' :cpu_freq,
+		'volt' :tm.big_f_to_v_MC1[float(cpu_freq) / 1000000],
 		'usage':cycles_used/cycles_possible,
 		'IPS'  :IPS
 		}
@@ -256,16 +260,16 @@ def Q_learning():
 
 
 def reward_func(stats):
-	global RHO, THETA # <-- From state space params module.
+	global RHO # <-- From state space params module.
 	IPS = stats['IPS']
-	watts = stats['power']
 	temp = stats['temp']
+	freq = stats['freq']
+	volts = stats['volt']
+	vvf = (volts ** 2) * float(freq)
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
-	pwrterm = (np.exp(watts**2)-1)/(instructions/1000000.0)
-	print(pwrterm)
-	reward = IPS/1000000.0  - (THETA * pwrterm)- (RHO * thermal_v)
+	reward = IPS/vvf  -  (RHO * thermal_v)
 	return reward
 
 
