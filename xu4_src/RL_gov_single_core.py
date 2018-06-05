@@ -27,7 +27,7 @@ C = np.zeros( dims )
 all_mins = np.array([MINS[k] for k in LABELS], dtype=np.double)
 all_maxs = np.array([MAXS[k] for k in LABELS], dtype=np.double)
 scaled_bounds = [(np.log(x), np.log(y)) if s else (x,y) for x,y,s in zip(all_mins, all_maxs, SCALING)]
-scaled_mins, scaled_maxs = zip(*scaled_bounds)
+scaled_mins, scaled_maxs = (all_mins, all_maxs) #zip(*scaled_bounds)
 scaled_widths = np.divide( np.array(scaled_maxs) - np.array(scaled_mins), num_buckets)
 print("Widths:")
 
@@ -151,9 +151,11 @@ def bucket_state(raw):
 	# Bound raw values to min and max from params:
 	raw_no_freq = np.clip(raw_no_freq, all_mins, all_maxs)
 	# Apply log scaling where specified (otherwise linear):
-	raw_no_freq[SCALING] = np.log(raw_no_freq[SCALING])
+	#raw_no_freq[SCALING] = np.log(raw_no_freq[SCALING])
 	# Floor values for proper bucketing:
 	raw_floored = raw_no_freq - scaled_mins
+	print("\t",raw_floored)
+	print("\t",scaled_mins)
 	state = np.divide(raw_floored, scaled_widths)
 	state = np.clip(state, 0, num_buckets-1)
 	if FREQ_IN_STATE:
