@@ -151,6 +151,7 @@ if unsuccessful starts from all 0s.
 def Q_learning():
 	global big_freqs
 	global Q, EPSILON
+	global ALPHA, GAMMA
 	
 	# Take care of statespace checkpoints:
 	try:
@@ -166,6 +167,8 @@ def Q_learning():
 	reward = None
 	bounded_freq_index=0
 	cur_freq_index=0
+	iter_count = 0
+	Q.clearExperience()
 	# Learn forever:
 	while True:
 		start = time.time()
@@ -181,16 +184,27 @@ def Q_learning():
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
+			if iter_count % 1000 == 0:
+				print("Replaying previous experiences!")
+				Q.replayExperiences(GAMMA, ALPHA, batch_size=32)
 			update_Q_off_policy(last_state, last_action, reward, state)
+			Q.storeExperience(last_state, last_action, reward, state)
 			print(last_state, last_action, reward)
+			print(iter_count)
+			iter_count += 1
 
 		# Apply EPSILON randomness to select a random frequency:
 		if random.random() < EPSILON:
 			best_action = random.randint(0, ACTIONS-1)
+			values="RANDOM SELECTION"
 		# Or greedily select the best frequency to use given past experience:
 		else:
 			values = np.array(Q.estimate(state))
 			best_action = np.argmax( values )
+		if EPSILON > EPSILON_MIN:
+			EPSILON *= EPSILON_DECAY
+		else:
+			print("Epsilon bottomed out:", EPSILON)
 
 		# Take action.
 		# (note big_freqs is lookup table from state_space module).
@@ -206,6 +220,7 @@ def Q_learning():
 		
 		# Print state and action:
 		print(state, best_action, reward)
+		print(values)
 
 		# Wait for next period. Note that reward cannot be evaluated 
 		# at least until the period has expired.
@@ -223,9 +238,12 @@ def reward_func(stats):
 	vvf = (volts ** 2) * float(freq)
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
+	thermal_penalty = (RHO * thermal_v) * (float(freq)/1000.0)
 	instructions = IPS * PERIOD
-	# Got rid of volts ** 2 term under IPS, seemed too strong and freq was stuck at 0...
-	reward = IPS/((volts**2)*1000000.0)  -  (RHO * thermal_v) * (float(freq)/1000000.0)
+	IPSW = (1-RHO) * IPS/(vvf)
+	print("Thermal penalty:",thermal_penalty)
+	print("Power normed throughput:", IPSW)
+	reward = IPSW  - thermal_penalty 
 	return reward
 
 

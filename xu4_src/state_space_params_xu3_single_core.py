@@ -66,15 +66,17 @@ big_freqs = [200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 100
 # freq to bin indices:
 freq_to_bucket = {big_freqs[i]:i for i in range(len(big_freqs))}
 
-EPSILON = 0.35
+EPSILON = 1.0
+# At this decay rate it will take a under a day at a 100 ms period to reach epsilon min.
+EPSILON_DECAY = 0.9999973
+EPSILON_MIN = 0.1
 # Discounting factor:
 GAMMA = 0.90
-# Lambda for multistep Q-learning updates:
-#LAMBDA = 0.6
-ALPHA = 0.1
+#Update factor:
+ALPHA = 0.5
 # Update period in seconds
 PERIOD = 0.100
 # Limit in celsius
 THERMAL_LIMIT = 50
 # Thermal limit coefficient
-RHO = 500
+RHO = 0.5
