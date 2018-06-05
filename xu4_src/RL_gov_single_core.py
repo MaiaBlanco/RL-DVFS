@@ -269,7 +269,11 @@ def reward_func(stats):
 	# Return throughput (MIPS) minus thermal violation:
 	thermal_v = max(temp - THERMAL_LIMIT, 0.0)
 	instructions = IPS * PERIOD
-	reward = IPS/vvf  -  (RHO * thermal_v)
+	thermal_penalty = (RHO * thermal_v)
+	throughput_term = IPS/vvf
+	print("Thoughput term", throughput_term)
+	print("Thermal penalty:", thermal_penalty)
+	reward = throughput_term - thermal_penalty
 	return reward
 
 '''
