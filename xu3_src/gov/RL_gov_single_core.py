@@ -24,10 +24,7 @@ C = np.zeros( dims )
 # For bucketing stats:
 all_mins = np.array([MINS[k] for k in LABELS], dtype=np.double)
 all_maxs = np.array([MAXS[k] for k in LABELS], dtype=np.double)
-scaled_bounds = [(np.log(x), np.log(y)) if s else (x,y) for x,y,s in zip(all_mins, all_maxs, SCALING)]
-scaled_mins, scaled_maxs = zip(*scaled_bounds)
-scaled_widths = np.divide( np.array(scaled_maxs) - np.array(scaled_mins), num_buckets)
-print("Widths:")
+widths = np.divide( np.array(all_maxs) - np.array(all_mins), num_buckets)
 
 
 def checkpoint_statespace():
@@ -138,18 +135,15 @@ Place state in 'bucket' given min/max values and number of buckets for each valu
 Use bucket width to determine index of each raw state value after scaling values on linear or log scale.
 '''
 def bucket_state(raw):
-	global num_buckets, all_maxs, all_mins
-	global scaled_bounds, scaled_mins, scaled_maxs, scaled_widths
+	global num_buckets, all_maxs, all_mins, widths
 	global labels	
 
 	raw_no_freq = [raw[k] for k in LABELS] 
 	# Bound raw values to min and max from params:
 	raw_no_freq = np.clip(raw_no_freq, all_mins, all_maxs)
-	# Apply log scaling where specified (otherwise linear):
-	raw_no_freq[SCALING] = np.log(raw_no_freq[SCALING])
 	# Floor values for proper bucketing:
-	raw_floored = raw_no_freq - scaled_mins
-	state = np.divide(raw_floored, scaled_widths)
+	raw_floored = raw_no_freq - all_mins
+	state = np.divide(raw_floored, widths)
 	state = np.clip(state, 0, num_buckets-1)
 	if FREQ_IN_STATE:
 		# Add frequency index to end of state:
