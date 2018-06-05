@@ -1,6 +1,6 @@
 import numpy as np
 # import multiprocessing as mp
-# import subprocess, os, sys
+import subprocess, os, sys
 import ctypes
 import time
 import random
@@ -30,13 +30,13 @@ all_maxs = np.array([MAXS[k] for k in LABELS], dtype=np.double)
 widths = np.divide( np.array(all_maxs) - np.array(all_mins), num_buckets)
 # VVF values and max IPS for reward_func:
 # Note in this dict the freqs are in GHz, but elsewhere in this code they are KHz.
-fslist = [1000000.0 * f for f in vvf_dict.keys()]
+fslist = [f for f in vvf_dict.keys()]
 fslist.sort()
 vvfs = [f*1000000.0 * (vvf_dict[f]**2) for f in fslist]
 VVF_max = vvfs[-1]
 VVF_min = vvfs[0]
 IPC_max = 4
-IPS_max = fslist[-1] * 1000.0 * MAX_ipc
+IPS_max = fslist[-1] * 1000000000.0 * IPC_max
 
 ###########################################################################
 # State-Action value space checkpointing and system initialization:
@@ -107,9 +107,9 @@ Basically barrier on the counter update being performed by the kernel module.
 '''
 def synch_to_counter_update(cpu_num):
 	val = 0
-	with open("sys/kernel/performance_counters/cpu{}/cycles".format(cpu_num), 'r') as f:
+	with open("/sys/kernel/performance_counters/cpu{}/cycles".format(cpu_num), 'r') as f:
 		val = float(f.readline().strip())
-	with open("sys/kernel/performance_counters/cpu{}/cycles".format(cpu_num),'r') as f:
+	with open("/sys/kernel/performance_counters/cpu{}/cycles".format(cpu_num),'r') as f:
 		while int(f.readline().strip() == val):
 			continue
 
@@ -183,15 +183,15 @@ def bucket_state(raw):
 ''' 
 Reward function: Performance, Power, and Thermal-aware.
 '''
-def reward_func(stats):
+def reward_func(stats, new_freq):
 	global RHO, LAMBDA # <-- From state space params module.
-	global IPS_max, VVF_min, VVF_max
+	global IPS_max, VVF_min, VVF_max, vvf_dict
 	global THERMAL_LIMIT
-
+	
 	IPS = stats['IPS']
 	temp = stats['temp']
-	freq = stats['freq']
-	volts = stats['volt']
+	freq = stats['freq'] #new_freq
+	volts = stats['volt'] #vvf_dict[new_freq / 1000000.0] 
 	# VVF and power:
 	vvf = (volts ** 2) * float(freq)
 	vvf_n = ( vvf - VVF_min) / VVF_min
@@ -259,12 +259,19 @@ def Q_learning(cpu=4):
 		# get current state and reward from last iteration:
 		stats = get_raw_state(cpu)
 		state = bucket_state(stats)
-		reward = reward_func(stats) 
 		
 		# Update state-action-reward trace:
 		if last_action is not None:
-			v = update_Q_off_policy(last_state, last_action, reward, state)
-			print(last_state, last_action, reward, v)
+			print("Prev state and action taken:")
+			print([last_stats[k] for k in LABELS] + [last_stats['freq']])
+			print(last_state, last_action)
+			reward = reward_func(stats, big_freqs[last_action]) 
+			print("Results (Reward):",reward)
+			update_Q_off_policy(last_state, last_action, reward, state)
+			print()
+		else:
+			reward = reward_func(stats, big_freqs[0]) 
+
 
 		# Apply EPSILON randomness to select a random frequency:
 		if random.random() < EPSILON:
@@ -272,17 +279,18 @@ def Q_learning(cpu=4):
 		# Or greedily select the best frequency to use given past experience:
 		else:
 			best_action = np.argmax(Q[ tuple(state) ])
-'''
+			'''
 			# Note: numpy's argmax sensibly returns the lowest value if all have the same
 			# value. Therefore, when we have all the same, behavior should really be random.
 			if C[ tuple(state + [best_action]) ] == 0:
 				best_action = random.randint(0, ACTIONS-1)
-'''
+			'''
 		# Take action.
 		# (note big_freqs is lookup table from state_space module).
 		# Also counter increment is performed in Q off policy update function.
 		dvfs.setClusterFreq(cpu, big_freqs[best_action])
-'''     if ACTIONS == FREQS:
+		'''     
+		if ACTIONS == FREQS:
 			dvfs.setClusterFreq(4, big_freqs[best_action])
 		else:
 			stay = ACTIONS // 2
@@ -290,14 +298,14 @@ def Q_learning(cpu=4):
 			cur_freq_index += (best_action - stay)
 			bounded_freq_index = max( 0, min( cur_freq_index, FREQS-1))
 			dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
-'''     
+		'''     
 		# Save state and action:
 		last_state = state
 		last_action = best_action
-		print([stats[k] for k in LABELS])
-'''
+		last_stats = stats
+		'''
 		C[ tuple(state + [best_action]) ] += 1 
-'''
+		'''
 
 		# Wait for next period. Note that reward cannot be evaluated 
 		# at least until the period has expired.
@@ -342,7 +350,7 @@ def run_offline(cpu=4):
 		# Take action.
 		# (note big_freqs is lookup table from state_space module).
 		dvfs.setClusterFreq(cpu, big_freqs[best_action])
-''' 
+		''' 
 		if ACTIONS == FREQS:
 			dvfs.setClusterFreq(4, big_freqs[best_action])
 		else:
@@ -351,7 +359,7 @@ def run_offline(cpu=4):
 			cur_freq_index += (best_action - stay)
 			bounded_freq_index = max( 0, min( cur_freq_index, FREQS-1))
 			dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
-'''     
+		'''     
 		# Print state and action:
 		print([stats[k] for k in LABELS])
 		print(state, best_action)
