@@ -72,4 +72,4 @@ THERMAL_LIMIT = 50
 # Thermal limit coefficient
 RHO = 5
 # Power coefficient:
-LAMBDA = 0.1
+LAMBDA = 0.0001
