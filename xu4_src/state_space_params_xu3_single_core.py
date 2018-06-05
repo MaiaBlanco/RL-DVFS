@@ -52,7 +52,7 @@ MINS = \
 MAXS = \
 	{
 	#'BMPKI':80,
-	'usage':2.5,
+	'usage':1.5,
 	'IPC_u':3,
 	'IPC_p':3,
 	'MPKI':3,
