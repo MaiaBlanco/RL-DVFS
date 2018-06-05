@@ -5,8 +5,7 @@ import ctypes
 import time
 import random
 import atexit
-# from collections import deque
-# import pyinotify # Requires linux kernel >= ~v2.6
+import select
 
 # Local imports:
 import sysfs_paths as sfs
@@ -14,6 +13,10 @@ import devfreq_utils as dvfs
 from state_space_params import *
 import therm_params as tm
 from therm_params import big_f_to_v_MC1 as vvf_dict
+
+# Filesystem monitoring:
+watchers = [None] * 4
+watcher_files = [None] * 4
 
 num_buckets = np.array([BUCKETS[k] for k in LABELS], dtype=np.double)
 if FREQ_IN_STATE:
@@ -33,10 +36,12 @@ widths = np.divide( np.array(all_maxs) - np.array(all_mins), num_buckets)
 fslist = [f for f in vvf_dict.keys()]
 fslist.sort()
 vvfs = [f*1000000.0 * (vvf_dict[f]**2) for f in fslist]
+print(vvfs)
 VVF_max = vvfs[-1]
 VVF_min = vvfs[0]
 IPC_max = 4
 IPS_max = fslist[-1] * 1000000000.0 * IPC_max
+print(IPS_max)
 
 ###########################################################################
 # State-Action value space checkpointing and system initialization:
@@ -135,7 +140,7 @@ def get_raw_state(cpu=4):
 	bmisses = get_counter_value(cpu, "branch_mispredictions")
 	instructions = get_counter_value(cpu, "instructions_retired")
 	l2misses = get_counter_value(cpu, "l2_data_refills")
-	dmemaccesses = get_counter_value(cpu, "data_memory_accesses")
+	dmemaccesses = 0.0 #get_counter_value(cpu, "data_memory_accesses")
 	T = [float(x) for x in dvfs.getTemps()]
 	# Throughput stats:
 	IPC_u = instructions / cycles_used
@@ -242,7 +247,7 @@ def Q_learning(cpu=4):
 		print("Loaded statespace")
 	except:
 		print("Could not load statespace; continue with fresh.")
-	atexit.register(checkpoint_statespace)
+	atexit.register(cleanup, checkpoint=True)
 	
 	# Init runtime vars:
 	last_action = None
@@ -251,7 +256,11 @@ def Q_learning(cpu=4):
 	bounded_freq_index=0
 	cur_freq_index=0
 	# Synchronize to kernel sampler:
-	synch_to_counter_update(cpu)
+	#synch_to_counter_update(cpu)
+	# Register inotify event with linux kernel:
+	watchers[cpu-4] = select.poll()
+	watcher_files[cpu-4] = open("/sys/kernel/performance_counters/cpu{}/data_memory_accesses".format(cpu), 'r')
+	watchers[cpu-4].register(watcher_files[cpu-4], select.POLLPRI | select.POLLERR )
 	# Learn forever:
 	while True:
 		start = time.time()
@@ -311,7 +320,12 @@ def Q_learning(cpu=4):
 		# at least until the period has expired.
 		elapsed = time.time() - start
 		print("Elapsed:",elapsed)
-		time.sleep(max(0, PERIOD - elapsed))
+		#time.sleep(max(0, PERIOD - elapsed))
+		watcher_files[cpu-4].read()
+		watcher_files[cpu-4].seek(0)
+		res = watchers[cpu-4].poll()
+		end = time.time()
+		print("Total:",end-start)
 
 
 ###########################################################################
@@ -335,7 +349,11 @@ def run_offline(cpu=4):
 		print("Could not load statespace. State space Q must be trained with Q learning function.")
 		sys.exit(1)
 	# Synchronize to kernel sampler:
-	synch_to_counter_update(cpu)
+	#synch_to_counter_update(cpu)
+	# Register inotify event with linux kernel:
+	watchers[cpu-4] = select.poll()
+	watcher_files[cpu-4] = open("/sys/kernel/performance_counters/cpu{}/data_memory_accesses".format(cpu), 'r')
+	watchers[cpu-4].register(watcher_files[cpu-4], select.POLLPRI | select.POLLERR )
 	# Run offline greedy policy:
 	while True:
 		start = time.time()
@@ -367,7 +385,12 @@ def run_offline(cpu=4):
 		# Wait for next period. 
 		elapsed = time.time() - start
 		print("Elapsed:", elapsed)
-		time.sleep(max(0, PERIOD - elapsed))
+		#time.sleep(max(0, PERIOD - elapsed))
+		watcher_files[cpu-4].read()
+		watcher_files[cpu-4].seek(0)
+		res = watchers[cpu-4].poll()
+		end = time.time()
+		print("Total:", end-start)
 	
 
 
@@ -389,7 +412,14 @@ def usage():
 	print("USAGE: {} <train|run>".format(sys.argv[0]))
 	sys.exit(0)
 
-
+def cleanup(checkpoint=False):
+	global watchers
+	if checkpoint:
+		checkpoint_statespace()
+	for w, f in zip(watchers, watcher_files):
+		if w is not None:
+			w.unregister(f)
+			f.close()
 
 if __name__ == "__main__":
 	init()
