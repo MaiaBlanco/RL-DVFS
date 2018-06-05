@@ -73,7 +73,7 @@ EPSILON_MIN = 0.1
 # Discounting factor:
 GAMMA = 0.90
 #Update factor:
-ALPHA = 0.5
+ALPHA = 0.2
 # Update period in seconds
 PERIOD = 0.100
 # Limit in celsius
