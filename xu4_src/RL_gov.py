@@ -378,7 +378,7 @@ def run_offline(cpu, proc_args=None):
         #if lock is not None:
         #   lock.acquire()
         requested_freqs[cpu-4] = [big_freqs[best_action], stats['temp']]
-        print("Updated frquency "cpu)
+        print("Updated frquency ",cpu)
         #    lock.release()
         #else:
         #    dvfs.setClusterFreq(cpu, big_freqs[best_action])
