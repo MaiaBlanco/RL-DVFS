@@ -1,11 +1,12 @@
 import numpy as np
-# import multiprocessing as mp
+from multiprocessing import Manager, Process
 import subprocess, os, sys
 import ctypes
 import time
 import random
 import atexit
 import select
+import copy
 
 # Local imports:
 import sysfs_paths as sfs
@@ -15,8 +16,12 @@ import therm_params as tm
 from therm_params import big_f_to_v_MC1 as vvf_dict
 
 # Filesystem monitoring:
-watchers = [None] * 4
-watcher_files = [None] * 4
+watchers = Manager().list( [None] * 4 )
+watcher_files = Manager().list( [None] * 4 )
+# Multicore policy requested frequencies:
+requested_freqs = Manager().list( [[200000, 40]] * 4 )
+runners = Manager().list( [None]*4 )
+lock = Manager().Lock()
 
 num_buckets = np.array([BUCKETS[k] for k in LABELS], dtype=np.double)
 if FREQ_IN_STATE:
@@ -102,10 +107,10 @@ def get_counter_value(cpu_num, attr_name):
 
 
 def set_period(p):
-	cpu_num = 4
-	with open("/sys/kernel/performance_counters/cpu{}/sample_period_ms".format(cpu_num), 
+	for cpu_num in range(4,8):
+	    with open("/sys/kernel/performance_counters/cpu{}/sample_period_ms".format(cpu_num), 
 				'w') as f:
-		f.write("{}\n".format(p))
+	        f.write("{}\n".format(p))
 
 '''
 Basically barrier on the counter update being performed by the kernel module.
@@ -156,7 +161,7 @@ def get_raw_state(cpu=4):
 		'IPC_p':IPC_p, 
 		'MPKI' :MPKI, 
 		'DAPKI':DAPKI,
-		'temp' :T[4], 
+		'temp' :T[cpu], 
 		'freq' :cpu_freq,
 		'volt' :tm.big_f_to_v_MC1[float(cpu_freq) / 1000000],
 		'usage':cycles_used/cycles_possible,
@@ -338,16 +343,12 @@ def Q_learning(cpu=4):
 Use global lookup table (LUT) Q to select best action based on quantized state.
 This implementation applies learned Q 'function' to core 4 only.
 '''
-def run_offline(cpu=4):
+def run_offline(cpu):
+        print("Started offline policy on core", cpu)
 	global Q
 	global big_freqs
-	# load state-action space values from Q file: 
-	try:
-		load_statespace()
-		print("Loaded statespace")
-	except:
-		print("Could not load statespace. State space Q must be trained with Q learning function.")
-		sys.exit(1)
+        global watchers, watcher_files,requested_freqs
+        global lock
 	# Synchronize to kernel sampler:
 	#synch_to_counter_update(cpu)
 	# Register inotify event with linux kernel:
@@ -367,31 +368,70 @@ def run_offline(cpu=4):
 
 		# Take action.
 		# (note big_freqs is lookup table from state_space module).
-		dvfs.setClusterFreq(cpu, big_freqs[best_action])
+		#if lock is not None:
+		#   lock.acquire()
+		requested_freqs[cpu-4] = [big_freqs[best_action], stats['temp']]
+		#    lock.release()
+		#else:
+		#    dvfs.setClusterFreq(cpu, big_freqs[best_action])
 		''' 
 		if ACTIONS == FREQS:
-			dvfs.setClusterFreq(4, big_freqs[best_action])
+			#dvfs.setClusterFreq(4, big_freqs[best_action])
+		        requested_freqs[cpu-4] = (big_freqs[best_action], stats['temp'])
 		else:
 			stay = ACTIONS // 2
 			cur_freq_index = freq_to_bucket[ stats['freq'] ]
 			cur_freq_index += (best_action - stay)
 			bounded_freq_index = max( 0, min( cur_freq_index, FREQS-1))
-			dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
+			#dvfs.setClusterFreq(4, big_freqs[bounded_freq_index])
+		        requested_freqs[cpu-4] = (big_freqs[bounded_freq_index], stats['temp'])
 		'''     
 		# Print state and action:
-		print([stats[k] for k in LABELS])
-		print(state, best_action)
+		#print([stats[k] for k in LABELS])
+		#print(state, best_action)
 
 		# Wait for next period. 
 		elapsed = time.time() - start
-		print("Elapsed:", elapsed)
+		#print("Elapsed:", elapsed)
 		#time.sleep(max(0, PERIOD - elapsed))
 		watcher_files[cpu-4].read()
 		watcher_files[cpu-4].seek(0)
 		res = watchers[cpu-4].poll()
 		end = time.time()
-		print("Total:", end-start)
+		#print("Total:", end-start)
 	
+'''
+Compare two requests:
+Could sort by recency, but the processes will be updating pretty quickly. 
+Instead, sort first by frequency requested (need) and then by temperature (risk)
+'''
+def request_sort(x, y):
+    freq_x = x[0]
+    freq_y = y[0]
+    t_x = x[1]
+    t_y = x[1]
+    if freq_x < freq_y:
+        return -1
+    elif freq_x > freq_y:
+        return 1
+    elif t_x < t_y:
+        return -1
+    elif t_x > t_y:
+        return 1
+    else:
+        return 0
+    
+
+
+def update_freqs(lock):
+    # Sort items by IPC (need) and thermals (risk). Select the frequency selected by the top vote.
+    lock.acquire()
+    local_suggestions = copy.deepcopy(requested_freqs)
+    lock.release()
+    sorted_requests = sorted(local_suggestions, cmp=request_sort)
+    print(sorted_requests)
+    dvfs.setClusterFreq(4, sorted_requests[-1][0])
+
 
 
 '''
@@ -399,8 +439,21 @@ Use global lookup table (LUT) Q to select best action based on quantized state.
 This implementation applies learned Q 'function' from core 4 to all big cores.
 '''
 def run_offline_multicore():
-	global Q    
-	return 0
+    global runners
+    # Launch individual core policies:
+    global lock
+    for core_num in range(4,8):
+        runners[core_num-4] = Process(target=run_offline, args=( core_num, ) )
+        runners[core_num-4].start()
+
+    # Continue to monitor 'suggested' frequencies and update as appropriate:
+    while True:
+        start = time.time()
+        update_freqs(lock)
+        time.sleep(max( 0, PERIOD - (time.time() - start)) )
+
+
+
 
 ###########################################################################
 
@@ -413,19 +466,37 @@ def usage():
 	sys.exit(0)
 
 def cleanup(checkpoint=False):
-	global watchers
+	global watchers, runners, watcher_files
 	if checkpoint:
 		checkpoint_statespace()
 	for w, f in zip(watchers, watcher_files):
 		if w is not None:
 			w.unregister(f)
 			f.close()
+        for r in runners:
+            if r is not None:
+                r.terminate()
+
+def try_load():
+    # load state-action space values from Q file: 
+    try:
+	    load_statespace()
+	    print("Loaded statespace")
+    except:
+	    print("Could not load statespace. State space Q must be trained with Q learning function.")
+	    sys.exit(1)
 
 if __name__ == "__main__":
 	init()
 	if len(sys.argv) > 1:
 		if sys.argv[1] == "run":
-			run_offline(cpu=4)
+		    try_load()
+		    if len(sys.argv) > 2 and sys.argv[2] == 'all':
+		        print("Running on all 4 cores.")
+		        run_offline_multicore()	
+		    else:
+		        run_offline(4)
+		
 		elif sys.argv[1] == "train":
 			Q_learning(cpu=4)
 		else:
