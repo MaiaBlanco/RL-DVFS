@@ -1,5 +1,5 @@
 import numpy as np
-from multiprocessing import Manager, Process
+from multiprocessing import Array, Process
 import subprocess, os, sys
 import ctypes
 import time
@@ -16,13 +16,13 @@ import therm_params as tm
 from therm_params import big_f_to_v_MC1 as vvf_dict
 
 # Filesystem monitoring:
-manager = Manager()
-watchers = manager.list( [None] * 4 )
-watcher_files = manager.list( [None] * 4 )
+watchers = [None] * 4
+watcher_files = [None] * 4
 # Multicore policy requested frequencies:
-requested_freqs = manager.list( [[200000, 40]] * 4 )
-runners = manager.list( [None]*4 )
-lock = manager.Lock()
+requested_freqs =  Array('i', 8, lock=True)
+for i in requested_freqs:
+    i = 200000
+runners =  [None]*4
 
 num_buckets = np.array([BUCKETS[k] for k in LABELS], dtype=np.double)
 if FREQ_IN_STATE:
@@ -136,7 +136,7 @@ Returns state figures, non-quantized.
 Includes branch misses per Kinstruction, IPC, and l2miss, data memory accesses 
 per Kinstruction for each core, plus core temp and big cluster power. 
 '''
-def get_raw_state(cpu=4):    
+def get_raw_state(cpu):    
     # Get the change in counter values:    
     cpu_freq = dvfs.getClusterFreq(cpu)
     # Multiply by period and frequency by 1000 to get total
@@ -162,7 +162,7 @@ def get_raw_state(cpu=4):
         'IPC_p':IPC_p, 
         'MPKI' :MPKI, 
         'DAPKI':DAPKI,
-        'temp' :T[cpu], 
+        'temp' :T[cpu-4], 
         'freq' :cpu_freq,
         'volt' :tm.big_f_to_v_MC1[float(cpu_freq) / 1000000],
         'usage':cycles_used/cycles_possible,
@@ -242,7 +242,7 @@ state-action value estimates and state-action counts.
 On call tries to load previous state space value estimates and counts; 
 if unsuccessful starts from all 0s.
 '''
-def Q_learning(cpu=4):
+def Q_learning(cpu):
     global num_buckets
     global big_freqs
     global Q, EPSILON
@@ -344,18 +344,12 @@ def Q_learning(cpu=4):
 Use global lookup table (LUT) Q to select best action based on quantized state.
 This implementation applies learned Q 'function' to core 4 only.
 '''
-def run_offline(cpu, proc_args=None):
+def run_offline(cpu, requested_freqs_array):
     print("Started offline policy on core", cpu)
     global Q
     global big_freqs
-    if proc_args is None:
-        global watchers, watcher_files,requested_freqs
-        global lock
-    else:
-        watchers = proc_args['watchers']
-        watcher_files = proc_args['watcher_files']
-        requested_freqs = proc_args['requested_freqs']
-        lock = proc_args['lock']
+    global watchers, watcher_files,requested_freqs
+    global lock
     # Synchronize to kernel sampler:
     #synch_to_counter_update(cpu)
     # Register inotify event with linux kernel:
@@ -367,7 +361,7 @@ def run_offline(cpu, proc_args=None):
         start = time.time()
         
         # get current state:
-        stats = get_raw_state()
+        stats = get_raw_state(cpu)
         state = bucket_state(stats)
 
         # Greedily select the best frequency to use given past experience:
@@ -375,13 +369,13 @@ def run_offline(cpu, proc_args=None):
 
         # Take action.
         # (note big_freqs is lookup table from state_space module).
-        #if lock is not None:
-        #   lock.acquire()
-        requested_freqs[cpu-4] = [big_freqs[best_action], stats['temp']]
-        print("Updated frquency ",cpu)
-        #    lock.release()
-        #else:
-        #    dvfs.setClusterFreq(cpu, big_freqs[best_action])
+        if requested_freqs_array is not None:
+            with requested_freqs_array.get_lock():
+                requested_freqs_array[(cpu-4)*2] = int(big_freqs[best_action])
+                requested_freqs_array[(cpu-4)*2+1] = int(stats['temp'])
+            #print("Updated frquency ",cpu, big_freqs[best_action])
+        else:
+            dvfs.setClusterFreq(cpu, big_freqs[best_action])
         ''' 
         if ACTIONS == FREQS:
             #dvfs.setClusterFreq(4, big_freqs[best_action])
@@ -431,14 +425,15 @@ def request_sort(x, y):
     
 
 
-def update_freqs(lock):
-    # Sort items by IPC (need) and thermals (risk). Select the frequency selected by the top vote.
-    lock.acquire()
-    local_suggestions = copy.deepcopy(requested_freqs)
-    lock.release()
-    sorted_requests = sorted(local_suggestions, cmp=request_sort)
-    print(sorted_requests)
+def update_freqs(array):
+    with array.get_lock():
+        local_suggestions = [ x for x in requested_freqs]
+    things = []
+    for i in range(len(local_suggestions)/2):
+        things.append( [local_suggestions[i*2], local_suggestions[i*2+1] ] )
+    sorted_requests = sorted(things, cmp=request_sort)
     dvfs.setClusterFreq(4, sorted_requests[-1][0])
+    print(things, sorted_requests[-1][0])
 
 
 
@@ -449,21 +444,15 @@ This implementation applies learned Q 'function' from core 4 to all big cores.
 def run_offline_multicore():
     global runners
     # Launch individual core policies:
-    global lock
-    foo = {
-        "watchers":watchers,
-        "watcher_files":watcher_files,
-        "requested_freqs":requested_freqs,
-        "lock":lock
-        }
+    global requested_freqs
     for core_num in range(4,8):
-        runners[core_num-4] = Process(target=run_offline, args=( core_num, ), kwargs={'proc_args':foo} )
+        runners[core_num-4] = Process(target=run_offline, args=( core_num, requested_freqs) )
         runners[core_num-4].start()
 
     # Continue to monitor 'suggested' frequencies and update as appropriate:
     while True:
         start = time.time()
-        update_freqs(lock)
+        update_freqs(requested_freqs)
         time.sleep(max( 0, PERIOD - (time.time() - start)) )
 
 
@@ -509,15 +498,15 @@ if __name__ == "__main__":
                 print("Running on all 4 cores.")
                 run_offline_multicore() 
             else:
-                run_offline(4)
+                run_offline(4, None)
         
         elif sys.argv[1] == "train":
-            Q_learning(cpu=4)
+            Q_learning(4)
         else:
             usage()
     else:
         print("No args given; defaulting to training in 5 seconds.")
         time.sleep(5)
-        Q_learning(cpu=4)
+        Q_learning(4)
 
 ###########################################################################
