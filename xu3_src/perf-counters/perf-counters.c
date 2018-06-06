@@ -111,6 +111,11 @@ int perf_thread(void * data)
 		my_cpu_counter_obj_local->branch_mispredictions = my_perf_data_local->counterVal[1];
 		my_cpu_counter_obj_local->data_memory_accesses = my_perf_data_local->counterVal[2];
 		my_cpu_counter_obj_local->l2_data_refills = my_perf_data_local->counterVal[3];
+		if (coreid == 4)
+		{
+			sysfs_notify(&(my_cpu_counter_obj_local->kobj), NULL, "data_memory_accesses"); 
+									// "/sys/kernel/performance_counters/cpu4/"
+		}
 		
 		
 #if DEBUG

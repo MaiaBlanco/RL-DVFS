@@ -55,7 +55,9 @@ big_freqs = big_freqs_base[0::FREQ_STEP]
 print(big_freqs_base)
 print(big_freqs)
 # freq to bin indices:
-freq_to_bucket = {big_freqs[i]:i for i in range(len(big_freqs))}
+freq_to_bucket = {big_freqs_base[i]:i/FREQ_STEP for i in range(len(big_freqs_base))}
+from pprint import pprint
+pprint(freq_to_bucket)
 
 EPSILON = 0.20
 # Discounting factor:
