@@ -247,7 +247,7 @@ def Q_learning(cpu=4):
 		print("Loaded statespace")
 	except:
 		print("Could not load statespace; continue with fresh.")
-	atexit.register(cleanup)
+	atexit.register(cleanup, checkpoint=True)
 	
 	# Init runtime vars:
 	last_action = None
@@ -412,10 +412,10 @@ def usage():
 	print("USAGE: {} <train|run>".format(sys.argv[0]))
 	sys.exit(0)
 
-def cleanup(checkpoint = False):
+def cleanup(checkpoint=False):
 	global watchers
 	if checkpoint:
-		checkpoint_statespace	
+		checkpoint_statespace()
 	for w, f in zip(watchers, watcher_files):
 		if w is not None:
 			w.unregister(f)
